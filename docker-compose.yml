@@ -1,0 +1,158 @@
+version: '3.9'
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: localreach_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: localreach_db
+      MYSQL_USER: localreach
+      MYSQL_PASSWORD: localreach_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "localreach", "-plocalreach_pass"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - localreach_net
+
+  # Redis
+  redis:
+    image: redis:7-alpine
+    container_name: localreach_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    networks:
+      - localreach_net
+
+  # FastAPI Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: localreach_backend
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    environment:
+      DATABASE_URL: mysql+aiomysql://localreach:localreach_pass@mysql:3306/localreach_db
+      SYNC_DATABASE_URL: mysql+pymysql://localreach:localreach_pass@mysql:3306/localreach_db
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/1
+      CORS_ORIGINS: http://localhost:3000,http://frontend:3000
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    networks:
+      - localreach_net
+
+  # Celery Worker
+  celery:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: localreach_celery
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    environment:
+      DATABASE_URL: mysql+aiomysql://localreach:localreach_pass@mysql:3306/localreach_db
+      SYNC_DATABASE_URL: mysql+pymysql://localreach:localreach_pass@mysql:3306/localreach_db
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/1
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - backend
+      - redis
+      - mysql
+    command: celery -A app.workers.celery_app worker --loglevel=info -Q scraping,outreach,followups --concurrency=4
+    networks:
+      - localreach_net
+
+  # Celery Beat (Scheduler)
+  celery-beat:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: localreach_celery_beat
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    environment:
+      DATABASE_URL: mysql+aiomysql://localreach:localreach_pass@mysql:3306/localreach_db
+      SYNC_DATABASE_URL: mysql+pymysql://localreach:localreach_pass@mysql:3306/localreach_db
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/1
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - celery
+    command: celery -A app.workers.celery_app beat --loglevel=info
+    networks:
+      - localreach_net
+
+  # Flower (Celery monitoring)
+  flower:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: localreach_flower
+    restart: unless-stopped
+    environment:
+      CELERY_BROKER_URL: redis://redis:6379/0
+    ports:
+      - "5555:5555"
+    depends_on:
+      - celery
+    command: celery -A app.workers.celery_app flower --port=5555
+    networks:
+      - localreach_net
+
+  # React Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: localreach_frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - localreach_net
+
+volumes:
+  mysql_data:
+  redis_data:
+
+networks:
+  localreach_net:
+    driver: bridge
