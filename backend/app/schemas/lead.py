@@ -1,5 +1,5 @@
 from pydantic import BaseModel, HttpUrl
-from typing import Optional, List
+from typing import Optional, List, Any
 from datetime import datetime
 
 
@@ -84,6 +84,12 @@ class LeadResponse(BaseModel):
     mobile_friendly: Optional[bool]
     dominio_disponivel: Optional[bool]
     dominio_sugerido: Optional[str]
+    google_maps_link: Optional[str] = None
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    place_id: Optional[str] = None
+    price_range: Optional[str] = None
+    dados_extras: Optional[Any] = None
     lead_score: int
     status: str
     cidade: Optional[str]
