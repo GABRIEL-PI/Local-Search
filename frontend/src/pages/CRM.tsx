@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { leadsApi } from '@/lib/api'
 import { Lead, LeadStatus } from '@/types'
 import KanbanBoard from '@/components/kanban/KanbanBoard'
-import LeadFilters from '@/components/leads/LeadFilters'
+import LeadFilters, { LeadFiltersState } from '@/components/leads/LeadFilters'
 import { useUIStore } from '@/stores/uiStore'
 import { RefreshCw, Kanban } from 'lucide-react'
 import Button from '@/components/ui/Button'
@@ -11,7 +11,7 @@ export default function CRM() {
   const { showSuccess, showError } = useUIStore()
   const [leads, setLeads] = useState<Lead[]>([])
   const [loading, setLoading] = useState(true)
-  const [filters, setFilters] = useState<Record<string, unknown>>({})
+  const [filters, setFilters] = useState<LeadFiltersState>({})
 
   const loadLeads = useCallback(async (filterParams = {}) => {
     setLoading(true)
@@ -29,7 +29,7 @@ export default function CRM() {
     loadLeads()
   }, [loadLeads])
 
-  const handleFilter = (newFilters: Record<string, unknown>) => {
+  const handleFilter = (newFilters: LeadFiltersState) => {
     setFilters(newFilters)
     loadLeads(newFilters)
   }

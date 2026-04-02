@@ -62,6 +62,7 @@ export interface Lead {
   atualizado_em: string
   notas?: Nota[]
   tags?: Tag[]
+  propostas?: Proposal[]
 }
 
 export interface PaginatedLeads {

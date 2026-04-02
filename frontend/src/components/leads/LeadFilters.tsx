@@ -3,7 +3,7 @@ import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import { Search, Filter, X } from 'lucide-react'
 
-interface LeadFiltersState {
+export interface LeadFiltersState {
   search?: string
   cidade?: string
   categoria?: string

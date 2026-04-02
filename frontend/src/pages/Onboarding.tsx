@@ -77,7 +77,7 @@ export default function Onboarding() {
         leadId = leadRes.data.id
 
         // Update to "fechado"
-        await leadsApi.updateStatus(leadId, 'fechado', 'Cliente onboarded')
+        await leadsApi.updateStatus(leadId!, 'fechado', 'Cliente onboarded')
       }
 
       if (form.notes && leadId) {
