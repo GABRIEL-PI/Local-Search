@@ -26,7 +26,7 @@ class User(Base):
 
     # Relationships
     leads: Mapped[List["Lead"]] = relationship("Lead", back_populates="usuario", lazy="select")
-    propostas: Mapped[List["Proposta"]] = relationship("Proposta", back_populates="usuario", lazy="select")
+    propostas: Mapped[List["Proposta"]] = relationship("Proposta", back_populates="usuario", foreign_keys="[Proposta.usuario_id]", lazy="select")
     configuracoes: Mapped[Optional["ConfiguracaoUsuario"]] = relationship(
         "ConfiguracaoUsuario", back_populates="usuario", uselist=False, lazy="select"
     )

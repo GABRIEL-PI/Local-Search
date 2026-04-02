@@ -51,6 +51,12 @@ mysql/data/
 redis/data/
 *.log
 logs/
+gmapsdata/
+webdata/
+
+# Google Maps Scraper binaries (downloaded at build time)
+backend/google-maps-scraper
+backend/google-maps-scraper-rod
 
 # ============================================================
 # Sistema operacional

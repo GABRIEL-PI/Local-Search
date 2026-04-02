@@ -149,9 +149,22 @@ services:
     networks:
       - localreach_net
 
+  # Google Maps Scraper (gosom)
+  scraper:
+    image: gosom/google-maps-scraper:latest
+    container_name: localreach_scraper
+    restart: unless-stopped
+    ports:
+      - "9090:8080"
+    volumes:
+      - scraper_data:/webdata
+    networks:
+      - localreach_net
+
 volumes:
   mysql_data:
   redis_data:
+  scraper_data:
 
 networks:
   localreach_net:

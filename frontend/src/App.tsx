@@ -11,6 +11,7 @@ import ProposalBuilder from '@/pages/ProposalBuilder'
 import Reports from '@/pages/Reports'
 import Settings from '@/pages/Settings'
 import Onboarding from '@/pages/Onboarding'
+import Outreach from '@/pages/Outreach'
 import ToastContainer from '@/components/ui/ToastContainer'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -50,6 +51,7 @@ export default function App() {
           <Route path="crm" element={<CRM />} />
           <Route path="leads/:id" element={<LeadDetail />} />
           <Route path="proposals/:id" element={<ProposalBuilder />} />
+          <Route path="outreach" element={<Outreach />} />
           <Route path="reports" element={<Reports />} />
           <Route path="settings" element={<Settings />} />
           <Route path="onboarding" element={<Onboarding />} />

@@ -11,6 +11,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Zap,
+  Send,
 } from 'lucide-react'
 import { useUIStore } from '@/stores/uiStore'
 import { useAuthStore } from '@/stores/authStore'
@@ -21,6 +22,7 @@ const navItems = [
   { to: '/prospecting', label: 'Prospecção', icon: Search },
   { to: '/queue', label: 'Fila de Aprovação', icon: InboxIcon },
   { to: '/crm', label: 'CRM Kanban', icon: Kanban },
+  { to: '/outreach', label: 'Disparos', icon: Send },
   { to: '/reports', label: 'Relatórios', icon: BarChart3 },
   { to: '/onboarding', label: 'Onboarding', icon: UserCheck },
   { to: '/settings', label: 'Configurações', icon: Settings },
