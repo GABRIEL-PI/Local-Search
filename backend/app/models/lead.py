@@ -1,5 +1,5 @@
 from sqlalchemy import (
-    String, Boolean, DateTime, Enum, Integer, Float, Text,
+    String, Boolean, DateTime, Enum, Integer, Float, Text, JSON,
     ForeignKey, DECIMAL, UniqueConstraint
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -42,6 +42,12 @@ class Lead(Base):
         default="prospectado",
         nullable=False,
     )
+    google_maps_link: Mapped[Optional[str]] = mapped_column(String(1000))
+    latitude: Mapped[Optional[float]] = mapped_column(Float)
+    longitude: Mapped[Optional[float]] = mapped_column(Float)
+    place_id: Mapped[Optional[str]] = mapped_column(String(255))
+    price_range: Mapped[Optional[str]] = mapped_column(String(50))
+    dados_extras: Mapped[Optional[dict]] = mapped_column(JSON)
     cidade: Mapped[Optional[str]] = mapped_column(String(150))
     estado: Mapped[Optional[str]] = mapped_column(String(2))
     data_coleta: Mapped[Optional[datetime]] = mapped_column(DateTime)

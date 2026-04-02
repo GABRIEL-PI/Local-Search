@@ -70,6 +70,12 @@ def scrape_google_maps(self, session_id: int, cidade: str, categoria: str, limit
                 reviews_count=ld.get("reviews_count", 0),
                 tem_site=bool(ld.get("url_site")),
                 url_site=ld.get("url_site"),
+                google_maps_link=ld.get("google_maps_link"),
+                latitude=ld.get("latitude"),
+                longitude=ld.get("longitude"),
+                place_id=ld.get("place_id"),
+                price_range=ld.get("price_range"),
+                dados_extras=ld.get("dados_extras"),
                 dominio_sugerido=domain,
                 cidade=cidade,
                 estado=estado,
@@ -245,6 +251,53 @@ def _scrape_with_gosom(cidade: str, categoria: str, limite: int, estado: Optiona
                 except (json.JSONDecodeError, TypeError):
                     pass
 
+            # Parse extra fields
+            def _safe_json(raw):
+                if not raw:
+                    return None
+                try:
+                    return json.loads(raw)
+                except (json.JSONDecodeError, TypeError):
+                    return None
+
+            lat = None
+            try:
+                lat = float(row.get("latitude", 0)) or None
+            except (ValueError, TypeError):
+                pass
+            lon = None
+            try:
+                lon = float(row.get("longitude", 0)) or None
+            except (ValueError, TypeError):
+                pass
+
+            images_list = _safe_json(row.get("images", "")) or []
+            reviews_list = _safe_json(row.get("user_reviews", "")) or []
+            about_list = _safe_json(row.get("about", "")) or []
+            open_hours = _safe_json(row.get("open_hours", "")) or {}
+            popular_times = _safe_json(row.get("popular_times", ""))
+            owner = _safe_json(row.get("owner", ""))
+            complete_address = _safe_json(row.get("complete_address", ""))
+            reservations = _safe_json(row.get("reservations", ""))
+            order_online = _safe_json(row.get("order_online", ""))
+            reviews_per_rating = _safe_json(row.get("reviews_per_rating", ""))
+
+            dados_extras = {
+                "images": images_list,
+                "user_reviews": reviews_list,
+                "about": about_list,
+                "open_hours": open_hours,
+                "popular_times": popular_times,
+                "owner": owner,
+                "complete_address": complete_address,
+                "reservations": reservations,
+                "order_online": order_online,
+                "reviews_per_rating": reviews_per_rating,
+                "thumbnail": row.get("thumbnail", ""),
+                "description": row.get("descriptions", ""),
+                "cid": row.get("cid", ""),
+            }
+
             title = row.get("title", "").strip()
             if title:
                 results.append({
@@ -257,6 +310,12 @@ def _scrape_with_gosom(cidade: str, categoria: str, limite: int, estado: Optiona
                     "url_site": website,
                     "horario": hours_str,
                     "fotos_count": fotos_count,
+                    "google_maps_link": row.get("link", ""),
+                    "latitude": lat,
+                    "longitude": lon,
+                    "place_id": row.get("place_id", ""),
+                    "price_range": row.get("price_range", ""),
+                    "dados_extras": dados_extras,
                 })
 
     except Exception as e:

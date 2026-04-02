@@ -12,6 +12,22 @@ export interface AuthTokens {
   token_type: string
 }
 
+export interface DadosExtras {
+  images?: Array<{ title: string; image: string }>
+  user_reviews?: Array<{ Name: string; Rating: number; Description: string; When: string; ProfilePicture?: string }>
+  about?: Array<{ id: string; name: string; options: Array<{ name: string; enabled: boolean }> }>
+  open_hours?: Record<string, string[]>
+  popular_times?: Record<string, Record<string, number>>
+  owner?: { id: string; name: string; link: string }
+  complete_address?: { street: string; borough: string; city: string; postal_code: string; state: string; country: string }
+  reservations?: Array<{ link: string; source: string }>
+  order_online?: Array<{ link: string; source: string }>
+  reviews_per_rating?: Record<string, number>
+  thumbnail?: string
+  description?: string
+  cid?: string
+}
+
 export type LeadStatus =
   | 'prospectado'
   | 'proposta_gerada'
@@ -54,6 +70,12 @@ export interface Lead {
   mobile_friendly: boolean | null
   dominio_disponivel: boolean | null
   dominio_sugerido: string | null
+  google_maps_link: string | null
+  latitude: number | null
+  longitude: number | null
+  place_id: string | null
+  price_range: string | null
+  dados_extras: DadosExtras | null
   lead_score: number
   status: LeadStatus
   cidade: string | null
