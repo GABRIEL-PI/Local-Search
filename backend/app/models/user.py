@@ -20,6 +20,8 @@ class User(Base):
         nullable=False,
     )
     ativo: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    aprovado: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    is_admin: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     criado_em: Mapped[datetime] = mapped_column(
         DateTime, server_default=func.now(), nullable=False
     )

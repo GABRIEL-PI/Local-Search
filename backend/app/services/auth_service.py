@@ -19,7 +19,7 @@ class AuthService:
         self.db = db
         self.user_repo = UserRepository(db)
 
-    async def register(self, data: RegisterRequest) -> AuthResponse:
+    async def register(self, data: RegisterRequest) -> dict:
         existing = await self.user_repo.get_by_email(data.email)
         if existing:
             raise HTTPException(
@@ -34,13 +34,14 @@ class AuthService:
             "senha_hash": hashed,
             "plano": "free",
             "ativo": True,
+            "aprovado": False,
+            "is_admin": False,
         })
 
-        tokens = self._generate_tokens(user)
-        return AuthResponse(
-            user={"id": user.id, "nome": user.nome, "email": user.email, "plano": user.plano, "ativo": user.ativo},
-            **tokens,
-        )
+        return {
+            "message": "Solicitação de registro enviada! Aguarde a aprovação do administrador.",
+            "user_id": user.id,
+        }
 
     async def login(self, data: LoginRequest) -> AuthResponse:
         user = await self.user_repo.get_by_email(data.email)
@@ -54,6 +55,12 @@ class AuthService:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Conta desativada",
+            )
+
+        if not user.aprovado:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Sua conta ainda não foi aprovada. Aguarde a aprovação do administrador.",
             )
 
         tokens = self._generate_tokens(user)

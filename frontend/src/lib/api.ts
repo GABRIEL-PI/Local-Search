@@ -105,6 +105,9 @@ export const authApi = {
   refresh: (refresh_token: string) =>
     api.post('/auth/refresh', { refresh_token }),
   logout: () => api.post('/auth/logout'),
+  getPendingUsers: () => api.get('/auth/pending-users'),
+  approveUser: (userId: number) => api.post(`/auth/approve-user/${userId}`),
+  rejectUser: (userId: number) => api.delete(`/auth/reject-user/${userId}`),
 }
 
 // Leads endpoints

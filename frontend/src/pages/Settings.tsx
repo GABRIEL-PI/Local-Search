@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { settingsApi } from '@/lib/api'
+import { settingsApi, authApi } from '@/lib/api'
 import { UserSettings, WhatsAppAccount } from '@/types'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
@@ -8,8 +8,15 @@ import Badge from '@/components/ui/Badge'
 import { useUIStore } from '@/stores/uiStore'
 import {
   Settings as SettingsIcon, MessageCircle, Key, Clock,
-  Plus, Check, RefreshCw, Smartphone
+  Plus, Check, RefreshCw, Smartphone, UserCheck, UserX, Users, Shield
 } from 'lucide-react'
+
+interface PendingUser {
+  id: number
+  nome: string
+  email: string
+  criado_em: string
+}
 
 export default function Settings() {
   const { showSuccess, showError } = useUIStore()
@@ -17,6 +24,8 @@ export default function Settings() {
   const [accounts, setAccounts] = useState<WhatsAppAccount[]>([])
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [pendingUsers, setPendingUsers] = useState<PendingUser[]>([])
+  const [isAdmin, setIsAdmin] = useState(false)
 
   const [form, setForm] = useState({
     limite_disparos_dia: 50,
@@ -51,10 +60,39 @@ export default function Settings() {
         evolution_api_key: '',
       })
       setAccounts(accountsRes.data)
+
+      // Try to load pending users (only works for admins)
+      try {
+        const pendingRes = await authApi.getPendingUsers()
+        setPendingUsers(pendingRes.data)
+        setIsAdmin(true)
+      } catch {
+        setIsAdmin(false)
+      }
     } catch {
-      showError('Erro ao carregar configurações')
+      showError('Erro ao carregar configuracoes')
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleApproveUser = async (userId: number) => {
+    try {
+      await authApi.approveUser(userId)
+      showSuccess('Usuario aprovado!')
+      setPendingUsers((prev) => prev.filter((u) => u.id !== userId))
+    } catch {
+      showError('Erro ao aprovar usuario')
+    }
+  }
+
+  const handleRejectUser = async (userId: number) => {
+    try {
+      await authApi.rejectUser(userId)
+      showSuccess('Solicitacao rejeitada')
+      setPendingUsers((prev) => prev.filter((u) => u.id !== userId))
+    } catch {
+      showError('Erro ao rejeitar')
     }
   }
 
@@ -110,6 +148,62 @@ export default function Settings() {
         <h1 className="text-2xl font-bold text-gray-900">Configurações</h1>
         <p className="text-sm text-gray-500 mt-1">Gerencie as integrações e limites da plataforma</p>
       </div>
+
+      {/* Admin - Pending Users */}
+      {isAdmin && (
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Shield className="w-5 h-5 text-purple-600" />
+                <CardTitle>Aprovacao de Usuarios</CardTitle>
+              </div>
+              {pendingUsers.length > 0 && (
+                <Badge variant="warning" className="text-sm px-3 py-1">
+                  {pendingUsers.length} pendente{pendingUsers.length > 1 ? 's' : ''}
+                </Badge>
+              )}
+            </div>
+          </CardHeader>
+          <CardContent>
+            {pendingUsers.length === 0 ? (
+              <div className="text-center py-8">
+                <Users className="w-10 h-10 text-gray-200 mx-auto mb-2" />
+                <p className="text-sm text-gray-500">Nenhuma solicitacao pendente</p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {pendingUsers.map((user) => (
+                  <div key={user.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                    <div>
+                      <p className="font-medium text-gray-900">{user.nome}</p>
+                      <p className="text-sm text-gray-500">{user.email}</p>
+                      <p className="text-xs text-gray-400 mt-0.5">Solicitado em {new Date(user.criado_em).toLocaleDateString('pt-BR')}</p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="primary"
+                        size="sm"
+                        onClick={() => handleApproveUser(user.id)}
+                      >
+                        <UserCheck className="w-4 h-4" />
+                        Aprovar
+                      </Button>
+                      <Button
+                        variant="danger"
+                        size="sm"
+                        onClick={() => handleRejectUser(user.id)}
+                      >
+                        <UserX className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
 
       {/* WhatsApp Accounts */}
       <Card>
