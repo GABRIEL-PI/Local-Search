@@ -35,21 +35,21 @@ export default function Modal({ open, onClose, title, children, size = 'md' }: M
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/70 backdrop-blur-md"
         onClick={onClose}
       />
       <div
         className={cn(
-          'relative bg-white rounded-xl shadow-xl w-full flex flex-col max-h-[90vh]',
+          'relative bg-[#12121a] rounded-2xl shadow-2xl shadow-black/50 w-full flex flex-col max-h-[90vh] border border-white/[0.06]',
           sizeClasses[size]
         )}
       >
         {title && (
-          <div className="flex items-center justify-between p-6 border-b border-gray-200 flex-shrink-0">
-            <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
+          <div className="flex items-center justify-between p-6 border-b border-white/[0.06] flex-shrink-0">
+            <h2 className="text-lg font-semibold text-gray-100">{title}</h2>
             <button
               onClick={onClose}
-              className="p-1 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors"
+              className="p-1 rounded-lg hover:bg-white/10 text-gray-500 hover:text-gray-300 transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -58,7 +58,7 @@ export default function Modal({ open, onClose, title, children, size = 'md' }: M
         {!title && (
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-1 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors z-10"
+            className="absolute top-4 right-4 p-1 rounded-lg hover:bg-white/10 text-gray-500 hover:text-gray-300 transition-colors z-10"
           >
             <X className="w-5 h-5" />
           </button>

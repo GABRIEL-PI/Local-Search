@@ -26,9 +26,9 @@ export default function AppLayout() {
           if (data.type === 'whatsapp_message') {
             showInfo('Nova mensagem WhatsApp recebida')
           } else if (data.type === 'scraping_complete') {
-            showInfo('Scraping concluído!', `${data.leads_saved} leads salvos`)
+            showInfo('Scraping concluido!', `${data.leads_saved} leads salvos`)
           } else if (data.type === 'proposal_ready') {
-            showInfo('Proposta IA pronta para revisão')
+            showInfo('Proposta IA pronta para revisao')
           }
         } catch {
           // ignore parse errors
@@ -36,7 +36,6 @@ export default function AppLayout() {
       }
 
       wsRef.current.onclose = () => {
-        // Reconnect after 5s
         setTimeout(() => {
           wsRef.current = null
         }, 5000)
@@ -51,7 +50,7 @@ export default function AppLayout() {
   }, [])
 
   return (
-    <div className="flex h-screen bg-gray-50 overflow-hidden">
+    <div className="flex h-screen bg-[#0a0a0f] overflow-hidden">
       <Sidebar />
       <div
         className={`flex flex-col flex-1 overflow-hidden transition-all duration-300 ${

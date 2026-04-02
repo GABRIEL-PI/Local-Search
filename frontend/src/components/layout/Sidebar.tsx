@@ -12,6 +12,7 @@ import {
   ChevronRight,
   Zap,
   Send,
+  LogOut,
 } from 'lucide-react'
 import { useUIStore } from '@/stores/uiStore'
 import { useAuthStore } from '@/stores/authStore'
@@ -19,13 +20,13 @@ import { cn } from '@/lib/utils'
 
 const navItems = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard, exact: true },
-  { to: '/prospecting', label: 'Prospecção', icon: Search },
-  { to: '/queue', label: 'Fila de Aprovação', icon: InboxIcon },
+  { to: '/prospecting', label: 'Prospeccao', icon: Search },
+  { to: '/queue', label: 'Fila de Aprovacao', icon: InboxIcon },
   { to: '/crm', label: 'CRM Kanban', icon: Kanban },
   { to: '/outreach', label: 'Disparos', icon: Send },
-  { to: '/reports', label: 'Relatórios', icon: BarChart3 },
+  { to: '/reports', label: 'Relatorios', icon: BarChart3 },
   { to: '/onboarding', label: 'Onboarding', icon: UserCheck },
-  { to: '/settings', label: 'Configurações', icon: Settings },
+  { to: '/settings', label: 'Configuracoes', icon: Settings },
 ]
 
 export default function Sidebar() {
@@ -41,32 +42,32 @@ export default function Sidebar() {
   return (
     <aside
       className={cn(
-        'fixed left-0 top-0 h-full bg-white border-r border-gray-200 z-30 flex flex-col transition-all duration-300',
+        'fixed left-0 top-0 h-full bg-[#0d0d14] border-r border-white/[0.06] z-30 flex flex-col transition-all duration-300',
         sidebarCollapsed ? 'w-16' : 'w-64'
       )}
     >
       {/* Logo */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-200">
+      <div className="flex items-center justify-between p-4 border-b border-white/[0.06]">
         {!sidebarCollapsed && (
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center shadow-lg shadow-blue-600/20">
               <Zap className="w-5 h-5 text-white" />
             </div>
             <div>
-              <p className="text-sm font-bold text-gray-900">LocalReach</p>
-              <p className="text-xs text-blue-600 font-medium">AI</p>
+              <p className="text-sm font-bold text-gray-100">LocalReach</p>
+              <p className="text-xs text-blue-400 font-medium">AI</p>
             </div>
           </div>
         )}
         {sidebarCollapsed && (
-          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center mx-auto">
+          <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center mx-auto shadow-lg shadow-blue-600/20">
             <Zap className="w-5 h-5 text-white" />
           </div>
         )}
         <button
           onClick={toggleSidebar}
           className={cn(
-            'p-1 rounded-lg hover:bg-gray-100 text-gray-500',
+            'p-1 rounded-lg hover:bg-white/10 text-gray-500',
             sidebarCollapsed && 'hidden'
           )}
         >
@@ -74,11 +75,10 @@ export default function Sidebar() {
         </button>
       </div>
 
-      {/* Toggle when collapsed */}
       {sidebarCollapsed && (
         <button
           onClick={toggleSidebar}
-          className="p-2 mx-auto mt-2 rounded-lg hover:bg-gray-100 text-gray-500"
+          className="p-2 mx-auto mt-2 rounded-lg hover:bg-white/10 text-gray-500"
         >
           <ChevronRight className="w-4 h-4" />
         </button>
@@ -107,12 +107,12 @@ export default function Sidebar() {
       </nav>
 
       {/* User */}
-      <div className="p-3 border-t border-gray-200">
+      <div className="p-3 border-t border-white/[0.06]">
         {!sidebarCollapsed && user && (
           <div className="mb-2 px-3 py-2">
-            <p className="text-sm font-medium text-gray-900 truncate">{user.nome}</p>
+            <p className="text-sm font-medium text-gray-200 truncate">{user.nome}</p>
             <p className="text-xs text-gray-500 truncate">{user.email}</p>
-            <span className="inline-block mt-1 px-2 py-0.5 text-xs bg-blue-100 text-blue-700 rounded-full capitalize">
+            <span className="inline-block mt-1 px-2 py-0.5 text-xs bg-blue-500/15 text-blue-400 rounded-full capitalize">
               {user.plano}
             </span>
           </div>
@@ -120,14 +120,12 @@ export default function Sidebar() {
         <button
           onClick={handleLogout}
           className={cn(
-            'w-full text-left sidebar-item text-red-500 hover:bg-red-50 hover:text-red-600',
+            'w-full text-left sidebar-item text-red-400 hover:bg-red-500/10 hover:text-red-300',
             sidebarCollapsed && 'justify-center px-2'
           )}
           title={sidebarCollapsed ? 'Sair' : undefined}
         >
-          <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-          </svg>
+          <LogOut className="w-5 h-5 flex-shrink-0" />
           {!sidebarCollapsed && <span>Sair</span>}
         </button>
       </div>

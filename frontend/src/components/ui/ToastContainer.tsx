@@ -10,10 +10,10 @@ const icons = {
 }
 
 const styles = {
-  success: 'bg-green-50 border-green-200 text-green-800',
-  error: 'bg-red-50 border-red-200 text-red-800',
-  warning: 'bg-yellow-50 border-yellow-200 text-yellow-800',
-  info: 'bg-blue-50 border-blue-200 text-blue-800',
+  success: 'bg-green-500/10 border-green-500/20 text-green-300',
+  error: 'bg-red-500/10 border-red-500/20 text-red-300',
+  warning: 'bg-yellow-500/10 border-yellow-500/20 text-yellow-300',
+  info: 'bg-blue-500/10 border-blue-500/20 text-blue-300',
 }
 
 const iconStyles = {

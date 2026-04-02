@@ -56,30 +56,29 @@ export default function Navbar() {
   }
 
   return (
-    <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 flex-shrink-0">
+    <header className="h-16 bg-[#0d0d14]/80 backdrop-blur-xl border-b border-white/[0.06] flex items-center justify-between px-6 flex-shrink-0">
       <div className="flex items-center gap-3" ref={searchRef}>
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
           <input
             type="text"
-            placeholder="Buscar leads, propostas..."
+            placeholder="Buscar leads..."
             value={searchTerm}
             onChange={(e) => handleSearch(e.target.value)}
             onFocus={() => results.length > 0 && setShowResults(true)}
-            className="pl-9 pr-8 py-2 text-sm bg-gray-50 border border-gray-200 rounded-lg w-72 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="pl-9 pr-8 py-2 text-sm bg-white/5 border border-white/10 rounded-xl w-72 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-200 placeholder:text-gray-500"
           />
           {searchTerm && (
             <button
               onClick={() => { setSearchTerm(''); setResults([]); setShowResults(false) }}
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300"
             >
               <X className="w-4 h-4" />
             </button>
           )}
 
-          {/* Search Results Dropdown */}
           {showResults && (
-            <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 z-50 max-h-80 overflow-y-auto">
+            <div className="absolute top-full left-0 right-0 mt-1 bg-[#12121a] rounded-xl shadow-2xl border border-white/[0.06] z-50 max-h-80 overflow-y-auto">
               {searching ? (
                 <div className="p-4 text-center text-sm text-gray-500">Buscando...</div>
               ) : results.length === 0 ? (
@@ -89,13 +88,13 @@ export default function Navbar() {
                   <button
                     key={lead.id}
                     onClick={() => goToLead(lead.id)}
-                    className="w-full text-left px-4 py-3 hover:bg-gray-50 border-b border-gray-100 last:border-b-0 transition-colors"
+                    className="w-full text-left px-4 py-3 hover:bg-white/5 border-b border-white/[0.04] last:border-b-0 transition-colors"
                   >
-                    <p className="text-sm font-medium text-gray-900">{lead.nome}</p>
+                    <p className="text-sm font-medium text-gray-200">{lead.nome}</p>
                     <div className="flex items-center gap-2 mt-0.5">
                       {lead.categoria && <span className="text-xs text-gray-500">{lead.categoria}</span>}
-                      {lead.cidade && <span className="text-xs text-gray-400">{lead.cidade}</span>}
-                      <span className="text-xs text-blue-600 font-medium">Score: {lead.lead_score}</span>
+                      {lead.cidade && <span className="text-xs text-gray-600">{lead.cidade}</span>}
+                      <span className="text-xs text-blue-400 font-medium">Score: {lead.lead_score}</span>
                     </div>
                   </button>
                 ))
@@ -106,16 +105,16 @@ export default function Navbar() {
       </div>
 
       <div className="flex items-center gap-4">
-        <button className="relative p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+        <button className="relative p-2 text-gray-500 hover:text-gray-300 hover:bg-white/5 rounded-xl transition-colors">
           <Bell className="w-5 h-5" />
         </button>
 
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
+          <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
             {user?.nome?.charAt(0).toUpperCase() || 'U'}
           </div>
           <div className="hidden sm:block">
-            <p className="text-sm font-medium text-gray-900">{user?.nome}</p>
+            <p className="text-sm font-medium text-gray-200">{user?.nome}</p>
             <p className="text-xs text-gray-500 capitalize">{user?.plano}</p>
           </div>
         </div>
