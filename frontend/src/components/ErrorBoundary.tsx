@@ -2,7 +2,7 @@ import { Component, ReactNode } from 'react'
 
 interface Props {
   children: ReactNode
-  fallback: ReactNode
+  fallback: ReactNode | ((error: Error | null) => ReactNode)
   onError?: (error: Error) => void
 }
 
@@ -18,13 +18,16 @@ export default class ErrorBoundary extends Component<Props, State> {
     return { hasError: true, error }
   }
 
-  componentDidCatch(error: Error) {
-    console.error('[ErrorBoundary]', error)
+  componentDidCatch(error: Error, info: { componentStack: string }) {
+    console.error('[ErrorBoundary]', error, info)
     this.props.onError?.(error)
   }
 
   render() {
-    if (this.state.hasError) return this.props.fallback
+    if (this.state.hasError) {
+      const fb = this.props.fallback
+      return typeof fb === 'function' ? fb(this.state.error) : fb
+    }
     return this.props.children
   }
 }

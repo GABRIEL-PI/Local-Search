@@ -372,7 +372,7 @@ function BatchScrapeTab() {
 
 function GeogridView({ detail }: { detail: GeogridDetail }) {
   return (
-    <ErrorBoundary fallback={<GeogridGridFallback detail={detail} />}>
+    <ErrorBoundary fallback={(err) => <GeogridGridFallback detail={detail} error={err} />}>
       <Suspense fallback={
         <div className="h-96 flex items-center justify-center text-sm text-fg-faint">
           <Loader2 className="w-5 h-5 animate-spin" /> Carregando mapa…
@@ -398,10 +398,30 @@ function GeogridTab() {
   const [spacing, setSpacing] = useState(400)
 
   useEffect(() => {
-    loadSessions()
     loadLeads()
-    const interval = setInterval(loadSessions, 8000)
-    return () => clearInterval(interval)
+  }, [])
+
+  useEffect(() => {
+    let active = true
+    let timeoutId: ReturnType<typeof setTimeout> | null = null
+
+    const tick = async () => {
+      if (!active) return
+      try {
+        const res = await geogridApi.list()
+        if (!active) return
+        setSessions(res.data)
+        setSelectedSessionId((cur) => cur ?? (res.data.length > 0 ? res.data[0].id : null))
+        const anyRunning = (res.data as Geogrid[]).some((s) => s.status === 'rodando')
+        if (anyRunning) {
+          timeoutId = setTimeout(tick, 8000)
+        }
+      } catch {
+        if (active) timeoutId = setTimeout(tick, 15000)
+      }
+    }
+    tick()
+    return () => { active = false; if (timeoutId) clearTimeout(timeoutId) }
   }, [])
 
   useEffect(() => {
@@ -410,17 +430,26 @@ function GeogridTab() {
       return
     }
     let active = true
-    const loadDetail = async () => {
+    let timeoutId: ReturnType<typeof setTimeout> | null = null
+
+    const tick = async () => {
+      if (!active) return
       try {
         const res = await geogridApi.get(selectedSessionId)
-        if (active) setDetail(res.data)
+        if (!active) return
+        setDetail(res.data)
+        if (res.data.status === 'rodando') {
+          timeoutId = setTimeout(tick, 5000)
+        } else {
+          // sessão terminou — atualiza a lista 1x e para
+          geogridApi.list().then((r) => active && setSessions(r.data)).catch(() => {})
+        }
       } catch {
-        if (active) setDetail(null)
+        if (active) timeoutId = setTimeout(tick, 10000)
       }
     }
-    loadDetail()
-    const interval = setInterval(loadDetail, 5000)
-    return () => { active = false; clearInterval(interval) }
+    tick()
+    return () => { active = false; if (timeoutId) clearTimeout(timeoutId) }
   }, [selectedSessionId])
 
   const loadLeads = async () => {

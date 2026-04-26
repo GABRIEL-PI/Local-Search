@@ -13,13 +13,21 @@ function rankLabel(rank: number | null): string {
   return String(rank)
 }
 
-export default function GeogridGridFallback({ detail }: { detail: GeogridDetail }) {
+export default function GeogridGridFallback({ detail, error }: { detail: GeogridDetail; error?: Error | null }) {
   const cellSize = Math.max(40, 320 / detail.grid_size)
   return (
     <div className="space-y-4">
-      <p className="text-xs text-amber-600 dark:text-amber-400">
-        Mapa visual indisponível — mostrando apenas a grade.
-      </p>
+      <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30">
+        <p className="text-xs font-medium text-amber-700 dark:text-amber-300 mb-1">
+          Mapa visual indisponível — mostrando apenas a grade.
+        </p>
+        {error && (
+          <details className="text-[10px] text-amber-600 dark:text-amber-400/80">
+            <summary className="cursor-pointer">ver erro técnico</summary>
+            <pre className="mt-2 whitespace-pre-wrap font-mono">{error.name}: {error.message}{error.stack ? '\n' + error.stack.split('\n').slice(0, 4).join('\n') : ''}</pre>
+          </details>
+        )}
+      </div>
       <div
         className="inline-grid gap-1 p-2 bg-elevated rounded-lg"
         style={{ gridTemplateColumns: `repeat(${detail.grid_size}, ${cellSize}px)` }}
