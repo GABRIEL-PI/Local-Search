@@ -26,7 +26,16 @@ def get_sync_db():
 
 
 @celery_app.task(bind=True, name="app.workers.scraper_tasks.scrape_google_maps", max_retries=2)
-def scrape_google_maps(self, session_id: int, cidade: str, categoria: str, limite: int = 50, estado: Optional[str] = None):
+def scrape_google_maps(
+    self,
+    session_id: int,
+    cidade: str,
+    categoria: str,
+    limite: int = 50,
+    estado: Optional[str] = None,
+    min_rating: Optional[float] = None,
+    only_no_website: bool = False,
+):
     db = get_sync_db()
     try:
         from app.models.lead import SessionScraping, Lead
@@ -46,6 +55,13 @@ def scrape_google_maps(self, session_id: int, cidade: str, categoria: str, limit
 
         saved_count = 0
         for ld in leads_data:
+            if min_rating is not None:
+                rating = ld.get("rating") or 0
+                if rating < min_rating:
+                    continue
+            if only_no_website and ld.get("url_site"):
+                continue
+
             existing = db.query(Lead).filter(
                 Lead.usuario_id == session.usuario_id,
                 Lead.nome == ld["nome"],

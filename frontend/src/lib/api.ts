@@ -125,6 +125,14 @@ export const leadsApi = {
     api.delete(`/leads/${id}`),
   scrape: (data: { cidade: string; estado?: string; categoria: string; limite: number }) =>
     api.post('/leads/scrape', data),
+  scrapeBatch: (data: {
+    cidades: string[]
+    estado?: string
+    categorias: string[]
+    limite: number
+    min_rating?: number
+    only_no_website?: boolean
+  }) => api.post('/leads/scrape-batch', data),
   getNotes: (id: number) =>
     api.get(`/leads/${id}/notes`),
   addNote: (id: number, conteudo: string) =>

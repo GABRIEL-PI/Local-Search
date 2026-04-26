@@ -5,7 +5,7 @@ from app.models.user import User
 from app.services.lead_service import LeadService
 from app.schemas.lead import (
     LeadCreate, LeadUpdate, LeadStatusUpdate, NoteCreate, TagAssign,
-    ScrapeRequest, PaginatedLeads, LeadResponse, NotaResponse
+    ScrapeRequest, ScrapeBatchRequest, PaginatedLeads, LeadResponse, NotaResponse
 )
 
 
@@ -70,6 +70,45 @@ class LeadController:
             "session_id": session_id,
             "task_id": task.id,
             "message": f"Scraping iniciado para '{data.categoria}' em {data.cidade}",
+        }
+
+    async def start_scraping_batch(self, current_user: User, data: ScrapeBatchRequest) -> dict:
+        cidades = [c.strip() for c in data.cidades if c and c.strip()]
+        categorias = [c.strip() for c in data.categorias if c and c.strip()]
+        if not cidades or not categorias:
+            return {"jobs": [], "message": "Informe ao menos uma cidade e uma categoria"}
+
+        limite = max(1, min(int(data.limite or 50), 500))
+
+        from app.workers.scraper_tasks import scrape_google_maps
+        jobs = []
+        for cidade in cidades:
+            for categoria in categorias:
+                session_id = await self.service.start_scraping(
+                    usuario_id=current_user.id,
+                    cidade=cidade,
+                    estado=data.estado,
+                    categoria=categoria,
+                    limite=limite,
+                )
+                task = scrape_google_maps.apply_async(
+                    args=[session_id, cidade, categoria, limite, data.estado],
+                    kwargs={
+                        "min_rating": data.min_rating,
+                        "only_no_website": data.only_no_website,
+                    },
+                    queue="scraping",
+                )
+                jobs.append({
+                    "session_id": session_id,
+                    "task_id": task.id,
+                    "cidade": cidade,
+                    "categoria": categoria,
+                })
+
+        return {
+            "jobs": jobs,
+            "message": f"{len(jobs)} sessão(ões) iniciada(s)",
         }
 
     async def get_notes(self, lead_id: int, current_user: User):

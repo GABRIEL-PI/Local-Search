@@ -8,7 +8,7 @@ from app.models.user import User
 from app.controllers.lead_controller import LeadController
 from app.schemas.lead import (
     LeadCreate, LeadUpdate, LeadStatusUpdate,
-    NoteCreate, TagAssign, ScrapeRequest,
+    NoteCreate, TagAssign, ScrapeRequest, ScrapeBatchRequest,
     PaginatedLeads, LeadResponse, LeadDetailResponse, NotaResponse
 )
 
@@ -87,6 +87,16 @@ async def start_scraping(
 ):
     controller = LeadController(db)
     return await controller.start_scraping(current_user, data)
+
+
+@router.post("/scrape-batch")
+async def start_scraping_batch(
+    data: ScrapeBatchRequest,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    controller = LeadController(db)
+    return await controller.start_scraping_batch(current_user, data)
 
 
 @router.get("/{lead_id}", response_model=LeadDetailResponse)

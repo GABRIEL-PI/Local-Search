@@ -123,6 +123,15 @@ class ScrapeRequest(BaseModel):
     limite: int = 50
 
 
+class ScrapeBatchRequest(BaseModel):
+    cidades: List[str]
+    estado: Optional[str] = None
+    categorias: List[str]
+    limite: int = 50
+    min_rating: Optional[float] = None
+    only_no_website: bool = False
+
+
 class NoteCreate(BaseModel):
     conteudo: str
 
