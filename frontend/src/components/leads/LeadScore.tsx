@@ -27,7 +27,7 @@ export default function LeadScore({ score, size = 'md', showLabel = true }: Lead
         {score}
       </span>
       {showLabel && (
-        <span className="text-xs text-gray-500">{label}</span>
+        <span className="text-xs text-zinc-400">{label}</span>
       )}
     </div>
   )

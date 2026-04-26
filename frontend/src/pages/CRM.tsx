@@ -59,8 +59,8 @@ export default function CRM() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">CRM Kanban</h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <h1 className="text-2xl font-bold text-zinc-100">CRM Kanban</h1>
+          <p className="text-sm text-zinc-400 mt-1">
             {leads.length} leads · Arraste para mover entre colunas
           </p>
         </div>
@@ -79,14 +79,14 @@ export default function CRM() {
 
       {loading && leads.length === 0 ? (
         <div className="flex items-center justify-center py-24">
-          <RefreshCw className="w-6 h-6 text-blue-600 animate-spin" />
-          <span className="ml-2 text-gray-500">Carregando leads...</span>
+          <RefreshCw className="w-6 h-6 text-blue-400 animate-spin" />
+          <span className="ml-2 text-zinc-400">Carregando leads...</span>
         </div>
       ) : leads.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-24 text-center">
-          <Kanban className="w-16 h-16 text-gray-200 mb-4" />
-          <h2 className="text-xl font-semibold text-gray-700">Nenhum lead encontrado</h2>
-          <p className="text-gray-400 mt-2">Ajuste os filtros ou inicie uma nova prospecção</p>
+          <Kanban className="w-16 h-16 text-zinc-700 mb-4" />
+          <h2 className="text-xl font-semibold text-zinc-200">Nenhum lead encontrado</h2>
+          <p className="text-zinc-500 mt-2">Ajuste os filtros ou inicie uma nova prospecção</p>
         </div>
       ) : (
         <div className="overflow-x-auto -mx-6 px-6">

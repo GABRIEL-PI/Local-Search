@@ -87,7 +87,7 @@ export default function LeadDetail() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-24">
-        <RefreshCw className="w-6 h-6 text-blue-600 animate-spin" />
+        <RefreshCw className="w-6 h-6 text-blue-400 animate-spin" />
       </div>
     )
   }
@@ -123,20 +123,20 @@ export default function LeadDetail() {
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between flex-wrap gap-3">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">{lead.nome}</h1>
+              <h1 className="text-2xl font-bold text-zinc-100">{lead.nome}</h1>
               <div className="flex items-center gap-2 mt-1 flex-wrap">
                 {lead.categoria && (
                   <Badge variant="info">{lead.categoria}</Badge>
                 )}
                 {lead.cidade && (
-                  <span className="text-sm text-gray-500">{lead.cidade}{lead.estado ? `, ${lead.estado}` : ''}</span>
+                  <span className="text-sm text-zinc-400">{lead.cidade}{lead.estado ? `, ${lead.estado}` : ''}</span>
                 )}
                 {lead.price_range && (
-                  <span className="text-sm text-green-600 font-medium">{lead.price_range}</span>
+                  <span className="text-sm text-emerald-400 font-medium">{lead.price_range}</span>
                 )}
               </div>
               {extras.description && (
-                <p className="text-sm text-gray-500 mt-1">{extras.description}</p>
+                <p className="text-sm text-zinc-400 mt-1">{extras.description}</p>
               )}
             </div>
             <div className="flex items-center gap-3">
@@ -144,7 +144,7 @@ export default function LeadDetail() {
               <select
                 value={lead.status}
                 onChange={(e) => handleStatusChange(e.target.value)}
-                className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="px-3 py-2 text-sm border border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 {Object.entries(STATUS_LABELS).map(([val, label]) => (
                   <option key={val} value={val}>{label}</option>
@@ -160,7 +160,7 @@ export default function LeadDetail() {
                 <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
                 <span className="text-lg font-bold">{Number(lead.rating).toFixed(1)}</span>
               </div>
-              <span className="text-sm text-gray-500">({lead.reviews_count} avaliacoes)</span>
+              <span className="text-sm text-zinc-400">({lead.reviews_count} avaliacoes)</span>
               {Object.keys(reviewsPerRating).length > 0 && (
                 <div className="flex items-center gap-1">
                   {[5, 4, 3, 2, 1].map((n) => {
@@ -169,8 +169,8 @@ export default function LeadDetail() {
                     const pct = total > 0 ? (count / total) * 100 : 0
                     return (
                       <div key={n} className="flex items-center gap-1 text-xs">
-                        <span className="text-gray-400 w-2">{n}</span>
-                        <div className="w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                        <span className="text-zinc-500 w-2">{n}</span>
+                        <div className="w-16 h-1.5 bg-zinc-800 rounded-full overflow-hidden">
                           <div className="h-full bg-yellow-400 rounded-full" style={{ width: `${pct}%` }} />
                         </div>
                       </div>
@@ -191,7 +191,7 @@ export default function LeadDetail() {
         </Button>
         {(lead.whatsapp || lead.telefone) && (
           <a href={`https://wa.me/${(lead.whatsapp || lead.telefone || '').replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer">
-            <Button variant="outline" size="sm" className="bg-green-50 border-green-200 text-green-700">
+            <Button variant="outline" size="sm" className="bg-emerald-500/10 border-emerald-500/30 text-emerald-300">
               <MessageCircle className="w-4 h-4" />
               WhatsApp
             </Button>
@@ -216,7 +216,7 @@ export default function LeadDetail() {
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-gray-200">
+      <div className="border-b border-zinc-800">
         <div className="flex gap-1 overflow-x-auto">
           {([
             { key: 'info', label: 'Informacoes' },
@@ -231,8 +231,8 @@ export default function LeadDetail() {
               className={cn(
                 'px-4 py-2.5 text-sm font-medium transition-colors border-b-2 -mb-px whitespace-nowrap',
                 activeTab === tab.key
-                  ? 'border-blue-600 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700'
+                  ? 'border-blue-600 text-blue-400'
+                  : 'border-transparent text-zinc-400 hover:text-zinc-200'
               )}
             >
               {tab.label}
@@ -250,28 +250,28 @@ export default function LeadDetail() {
             <CardContent className="space-y-3">
               {lead.telefone && (
                 <div className="flex items-center gap-3">
-                  <Phone className="w-4 h-4 text-gray-400" />
-                  <a href={`tel:${lead.telefone}`} className="text-sm text-blue-600 hover:underline">{lead.telefone}</a>
+                  <Phone className="w-4 h-4 text-zinc-500" />
+                  <a href={`tel:${lead.telefone}`} className="text-sm text-blue-400 hover:underline">{lead.telefone}</a>
                 </div>
               )}
               {lead.email && (
                 <div className="flex items-center gap-3">
-                  <Mail className="w-4 h-4 text-gray-400" />
-                  <a href={`mailto:${lead.email}`} className="text-sm text-blue-600 hover:underline">{lead.email}</a>
+                  <Mail className="w-4 h-4 text-zinc-500" />
+                  <a href={`mailto:${lead.email}`} className="text-sm text-blue-400 hover:underline">{lead.email}</a>
                 </div>
               )}
               {lead.endereco && (
                 <div className="flex items-start gap-3">
-                  <MapPin className="w-4 h-4 text-gray-400 mt-0.5" />
+                  <MapPin className="w-4 h-4 text-zinc-500 mt-0.5" />
                   <span className="text-sm">{lead.endereco}</span>
                 </div>
               )}
               {extras.complete_address?.postal_code && (
-                <div className="text-xs text-gray-400 ml-7">CEP: {extras.complete_address.postal_code}</div>
+                <div className="text-xs text-zinc-500 ml-7">CEP: {extras.complete_address.postal_code}</div>
               )}
               {extras.owner && (
                 <div className="flex items-center gap-3">
-                  <Users className="w-4 h-4 text-gray-400" />
+                  <Users className="w-4 h-4 text-zinc-500" />
                   <span className="text-sm">{extras.owner.name}</span>
                 </div>
               )}
@@ -286,15 +286,15 @@ export default function LeadDetail() {
                 <div className="space-y-1.5">
                   {Object.entries(openHours).map(([day, times]) => (
                     <div key={day} className="flex items-center justify-between text-sm">
-                      <span className="text-gray-600 capitalize">{day}</span>
-                      <span className={cn("font-medium", Array.isArray(times) && times[0] === 'Fechado' ? 'text-red-500' : 'text-gray-900')}>
+                      <span className="text-zinc-300 capitalize">{day}</span>
+                      <span className={cn("font-medium", Array.isArray(times) && times[0] === 'Fechado' ? 'text-red-500' : 'text-zinc-100')}>
                         {Array.isArray(times) ? times.join(', ') : String(times)}
                       </span>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-gray-400">Horario nao disponivel</p>
+                <p className="text-sm text-zinc-500">Horario nao disponivel</p>
               )}
             </CardContent>
           </Card>
@@ -305,7 +305,7 @@ export default function LeadDetail() {
             <CardContent className="space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Globe className="w-4 h-4 text-gray-400" />
+                  <Globe className="w-4 h-4 text-zinc-500" />
                   <span className="text-sm">Site</span>
                 </div>
                 {lead.tem_site ? (
@@ -315,7 +315,7 @@ export default function LeadDetail() {
                 )}
               </div>
               {lead.url_site && (
-                <a href={lead.url_site} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 hover:underline block ml-6 truncate">
+                <a href={lead.url_site} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-400 hover:underline block ml-6 truncate">
                   {lead.url_site}
                 </a>
               )}
@@ -338,8 +338,8 @@ export default function LeadDetail() {
                 </>
               )}
               {lead.dominio_sugerido && (
-                <div className="p-3 bg-blue-50 rounded-lg">
-                  <p className="text-xs text-blue-700">Dominio sugerido:</p>
+                <div className="p-3 bg-blue-500/10 rounded-lg">
+                  <p className="text-xs text-blue-300">Dominio sugerido:</p>
                   <p className="text-sm font-bold text-blue-900">{lead.dominio_sugerido}</p>
                   {lead.dominio_disponivel && <Badge variant="success" className="mt-1">Disponivel!</Badge>}
                 </div>
@@ -354,14 +354,14 @@ export default function LeadDetail() {
               <CardContent className="space-y-4">
                 {about.map((section) => (
                   <div key={section.id}>
-                    <p className="text-xs font-semibold text-gray-500 uppercase mb-1.5">{section.name}</p>
+                    <p className="text-xs font-semibold text-zinc-400 uppercase mb-1.5">{section.name}</p>
                     <div className="flex flex-wrap gap-1.5">
                       {section.options.map((opt, i) => (
                         <span
                           key={i}
                           className={cn(
                             'text-xs px-2 py-0.5 rounded-full',
-                            opt.enabled ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-400 line-through'
+                            opt.enabled ? 'bg-emerald-500/10 text-emerald-300' : 'bg-zinc-800 text-zinc-500 line-through'
                           )}
                         >
                           {opt.name}
@@ -381,14 +381,14 @@ export default function LeadDetail() {
               <CardContent className="space-y-2">
                 {extras.reservations?.map((r, i) => (
                   <a key={`res-${i}`} href={r.link.startsWith('http') ? r.link : `https://google.com${r.link}`} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-sm text-blue-600 hover:underline">
+                    className="flex items-center gap-2 text-sm text-blue-400 hover:underline">
                     <Calendar className="w-4 h-4" />
                     Reserva via {r.source}
                   </a>
                 ))}
                 {extras.order_online?.map((r, i) => (
                   <a key={`order-${i}`} href={r.link.startsWith('http') ? r.link : `https://google.com${r.link}`} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-sm text-blue-600 hover:underline">
+                    className="flex items-center gap-2 text-sm text-blue-400 hover:underline">
                     <ExternalLink className="w-4 h-4" />
                     Pedir online via {r.source}
                   </a>
@@ -404,8 +404,8 @@ export default function LeadDetail() {
         <div>
           {images.length === 0 ? (
             <Card><CardContent className="py-16 text-center">
-              <Image className="w-12 h-12 text-gray-200 mx-auto mb-3" />
-              <p className="text-gray-500">Nenhuma foto disponivel</p>
+              <Image className="w-12 h-12 text-zinc-700 mx-auto mb-3" />
+              <p className="text-zinc-400">Nenhuma foto disponivel</p>
             </CardContent></Card>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
@@ -419,7 +419,7 @@ export default function LeadDetail() {
                   />
                   {img.title && (
                     <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent rounded-b-xl px-3 py-2">
-                      <p className="text-xs text-white font-medium">{img.title}</p>
+                      <p className="text-xs text-zinc-100 font-medium">{img.title}</p>
                     </div>
                   )}
                 </div>
@@ -434,8 +434,8 @@ export default function LeadDetail() {
         <div className="space-y-3">
           {reviews.length === 0 ? (
             <Card><CardContent className="py-16 text-center">
-              <ThumbsUp className="w-12 h-12 text-gray-200 mx-auto mb-3" />
-              <p className="text-gray-500">Nenhuma avaliacao disponivel</p>
+              <ThumbsUp className="w-12 h-12 text-zinc-700 mx-auto mb-3" />
+              <p className="text-zinc-400">Nenhuma avaliacao disponivel</p>
             </CardContent></Card>
           ) : (
             reviews.map((review, i) => (
@@ -447,20 +447,20 @@ export default function LeadDetail() {
                     )}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-medium text-sm text-gray-900">{review.Name}</span>
+                        <span className="font-medium text-sm text-zinc-100">{review.Name}</span>
                         <div className="flex items-center gap-0.5">
                           {[1, 2, 3, 4, 5].map((n) => (
                             <Star
                               key={n}
-                              className={cn('w-3.5 h-3.5', n <= review.Rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-200')}
+                              className={cn('w-3.5 h-3.5', n <= review.Rating ? 'text-yellow-400 fill-yellow-400' : 'text-zinc-700')}
                             />
                           ))}
                         </div>
                         {review.When && (
-                          <span className="text-xs text-gray-400">{review.When}</span>
+                          <span className="text-xs text-zinc-500">{review.When}</span>
                         )}
                       </div>
-                      <p className="text-sm text-gray-700 mt-1.5 whitespace-pre-wrap">{review.Description}</p>
+                      <p className="text-sm text-zinc-200 mt-1.5 whitespace-pre-wrap">{review.Description}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -479,8 +479,8 @@ export default function LeadDetail() {
           </Button>
           {!lead.propostas || lead.propostas.length === 0 ? (
             <Card><CardContent className="py-12 text-center">
-              <FileText className="w-12 h-12 text-gray-200 mx-auto mb-3" />
-              <p className="text-gray-500">Nenhuma proposta gerada ainda</p>
+              <FileText className="w-12 h-12 text-zinc-700 mx-auto mb-3" />
+              <p className="text-zinc-400">Nenhuma proposta gerada ainda</p>
             </CardContent></Card>
           ) : (
             lead.propostas.map((p: Proposal) => (
@@ -489,12 +489,12 @@ export default function LeadDetail() {
                   <div>
                     <div className="flex items-center gap-2">
                       <span className={cn('text-xs px-2 py-0.5 rounded-full font-medium',
-                        p.status === 'aprovada' ? 'bg-green-100 text-green-700' :
-                        p.status === 'recusada' ? 'bg-red-100 text-red-700' :
-                        p.status === 'enviada' ? 'bg-blue-100 text-blue-700' :
-                        'bg-gray-100 text-gray-700'
+                        p.status === 'aprovada' ? 'bg-emerald-500/10 text-emerald-300' :
+                        p.status === 'recusada' ? 'bg-red-500/10 text-red-300' :
+                        p.status === 'enviada' ? 'bg-blue-500/10 text-blue-300' :
+                        'bg-zinc-800 text-zinc-200'
                       )}>{p.status}</span>
-                      <span className="text-xs text-gray-400">{formatDate(p.criado_em)}</span>
+                      <span className="text-xs text-zinc-500">{formatDate(p.criado_em)}</span>
                     </div>
                     <p className="text-sm mt-1">
                       Setup: <strong>{formatCurrency(p.preco_sugerido)}</strong> | Mensal: <strong>{formatCurrency(p.mensalidade_sugerida)}</strong>
@@ -520,7 +520,7 @@ export default function LeadDetail() {
                 onChange={(e) => setNoteText(e.target.value)}
                 placeholder="Adicionar uma nota..."
                 rows={3}
-                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                className="w-full px-3 py-2 text-sm border border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
               />
               <div className="flex justify-end mt-2">
                 <Button size="sm" onClick={handleAddNote} loading={addingNote} disabled={!noteText.trim()}>
@@ -534,13 +534,13 @@ export default function LeadDetail() {
             lead.notas.map((nota: Nota) => (
               <Card key={nota.id}>
                 <CardContent className="p-4">
-                  <p className="text-sm text-gray-700 whitespace-pre-wrap">{nota.conteudo}</p>
-                  <p className="text-xs text-gray-400 mt-2">{formatDate(nota.criado_em)}</p>
+                  <p className="text-sm text-zinc-200 whitespace-pre-wrap">{nota.conteudo}</p>
+                  <p className="text-xs text-zinc-500 mt-2">{formatDate(nota.criado_em)}</p>
                 </CardContent>
               </Card>
             ))
           ) : (
-            <div className="text-center py-8 text-gray-400">
+            <div className="text-center py-8 text-zinc-500">
               <MessageCircle className="w-8 h-8 mx-auto mb-2 opacity-50" />
               <p>Nenhuma nota ainda</p>
             </div>

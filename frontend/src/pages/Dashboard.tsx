@@ -26,28 +26,28 @@ export default function Dashboard() {
       label: 'Total de Leads',
       value: stats?.total_leads ?? 0,
       icon: Users,
-      color: 'text-blue-600 bg-blue-50',
+      color: 'text-blue-400 bg-blue-500/10',
       change: `+${stats?.leads_hoje ?? 0} hoje`,
     },
     {
       label: 'Propostas Pendentes',
       value: stats?.propostas_pendentes ?? 0,
       icon: FileText,
-      color: 'text-purple-600 bg-purple-50',
+      color: 'text-violet-400 bg-violet-500/10',
       change: 'aguardando aprovação',
     },
     {
       label: 'Em Negociação',
       value: stats?.em_negociacao ?? 0,
       icon: TrendingUp,
-      color: 'text-orange-600 bg-orange-50',
+      color: 'text-orange-400 bg-orange-500/10',
       change: 'leads quentes',
     },
     {
       label: 'Taxa de Conversão',
       value: `${stats?.taxa_conversao ?? 0}%`,
       icon: DollarSign,
-      color: 'text-green-600 bg-green-50',
+      color: 'text-emerald-400 bg-emerald-500/10',
       change: `${stats?.fechados ?? 0} fechados`,
     },
   ]
@@ -62,8 +62,8 @@ export default function Dashboard() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-          <p className="text-sm text-gray-500 mt-1">Visão geral da sua prospecção</p>
+          <h1 className="text-2xl font-bold text-zinc-100">Dashboard</h1>
+          <p className="text-sm text-zinc-400 mt-1">Visão geral da sua prospecção</p>
         </div>
         <Link to="/app/prospecting">
           <Button>
@@ -84,13 +84,13 @@ export default function Dashboard() {
                 </div>
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-2xl font-bold text-zinc-100">
                   {loading ? (
-                    <span className="inline-block w-12 h-6 bg-gray-200 rounded animate-pulse" />
+                    <span className="inline-block w-12 h-6 bg-zinc-800 rounded animate-pulse" />
                   ) : stat.value}
                 </p>
-                <p className="text-sm text-gray-500 mt-0.5">{stat.label}</p>
-                <p className="text-xs text-green-600 mt-1">{stat.change}</p>
+                <p className="text-sm text-zinc-400 mt-0.5">{stat.label}</p>
+                <p className="text-xs text-emerald-400 mt-1">{stat.change}</p>
               </div>
             </CardContent>
           </Card>
@@ -100,12 +100,12 @@ export default function Dashboard() {
       {/* Quick Actions */}
       <Card>
         <CardContent className="p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Ações Rápidas</h2>
+          <h2 className="text-lg font-semibold text-zinc-100 mb-4">Ações Rápidas</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {quickActions.map((action) => (
               <Link key={action.to} to={action.to}>
                 <button
-                  className={`w-full flex items-center justify-between px-4 py-3 rounded-lg text-white transition-colors ${action.color}`}
+                  className={`w-full flex items-center justify-between px-4 py-3 rounded-lg text-zinc-100 transition-colors ${action.color}`}
                 >
                   <div className="flex items-center gap-3">
                     <action.icon className="w-5 h-5" />
@@ -122,7 +122,7 @@ export default function Dashboard() {
       {/* Funnel */}
       <Card>
         <CardContent className="p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Funil de Vendas</h2>
+          <h2 className="text-lg font-semibold text-zinc-100 mb-4">Funil de Vendas</h2>
           {stats?.por_status && Object.keys(stats.por_status).length > 0 ? (
             <div className="space-y-3">
               {Object.entries(stats.por_status).map(([status, count]) => {
@@ -140,10 +140,10 @@ export default function Dashboard() {
                 return (
                   <div key={status}>
                     <div className="flex items-center justify-between text-sm mb-1">
-                      <span className="text-gray-600">{labels[status] || status}</span>
-                      <span className="font-medium text-gray-900">{count}</span>
+                      <span className="text-zinc-300">{labels[status] || status}</span>
+                      <span className="font-medium text-zinc-100">{count}</span>
                     </div>
-                    <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
                       <div
                         className="h-full bg-blue-600 rounded-full transition-all"
                         style={{ width: `${pct}%` }}
@@ -155,7 +155,7 @@ export default function Dashboard() {
             </div>
           ) : (
             <div className="text-center py-8">
-              <p className="text-gray-400 text-sm">Nenhum lead ainda.</p>
+              <p className="text-zinc-500 text-sm">Nenhum lead ainda.</p>
               <Link to="/app/prospecting">
                 <Button className="mt-3" size="sm">
                   Iniciar prospecção

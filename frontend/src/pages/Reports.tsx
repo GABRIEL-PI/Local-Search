@@ -42,8 +42,8 @@ export default function Reports() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-24">
-        <RefreshCw className="w-6 h-6 text-blue-600 animate-spin" />
-        <span className="ml-2 text-gray-500">Carregando relatórios...</span>
+        <RefreshCw className="w-6 h-6 text-blue-400 animate-spin" />
+        <span className="ml-2 text-zinc-400">Carregando relatórios...</span>
       </div>
     )
   }
@@ -51,26 +51,26 @@ export default function Reports() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Relatórios</h1>
-        <p className="text-sm text-gray-500 mt-1">Performance e análise do funil de vendas</p>
+        <h1 className="text-2xl font-bold text-zinc-100">Relatórios</h1>
+        <p className="text-sm text-zinc-400 mt-1">Performance e análise do funil de vendas</p>
       </div>
 
       {/* Revenue KPIs */}
       {revenue && (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { label: 'Receita Total', value: formatCurrency(revenue.total_revenue), icon: DollarSign, color: 'text-green-600 bg-green-50' },
-            { label: 'MRR', value: formatCurrency(revenue.mrr), icon: TrendingUp, color: 'text-blue-600 bg-blue-50' },
-            { label: 'ARR', value: formatCurrency(revenue.arr), icon: TrendingUp, color: 'text-purple-600 bg-purple-50' },
-            { label: 'Clientes Ativos', value: revenue.active_clients, icon: Users, color: 'text-orange-600 bg-orange-50' },
+            { label: 'Receita Total', value: formatCurrency(revenue.total_revenue), icon: DollarSign, color: 'text-emerald-400 bg-emerald-500/10' },
+            { label: 'MRR', value: formatCurrency(revenue.mrr), icon: TrendingUp, color: 'text-blue-400 bg-blue-500/10' },
+            { label: 'ARR', value: formatCurrency(revenue.arr), icon: TrendingUp, color: 'text-violet-400 bg-violet-500/10' },
+            { label: 'Clientes Ativos', value: revenue.active_clients, icon: Users, color: 'text-orange-400 bg-orange-500/10' },
           ].map((kpi, i) => (
             <Card key={i}>
               <CardContent className="p-4">
                 <div className={`w-9 h-9 rounded-lg flex items-center justify-center mb-3 ${kpi.color}`}>
                   <kpi.icon className="w-5 h-5" />
                 </div>
-                <p className="text-xl font-bold text-gray-900">{kpi.value}</p>
-                <p className="text-xs text-gray-500 mt-0.5">{kpi.label}</p>
+                <p className="text-xl font-bold text-zinc-100">{kpi.value}</p>
+                <p className="text-xs text-zinc-400 mt-0.5">{kpi.label}</p>
               </CardContent>
             </Card>
           ))}
@@ -84,8 +84,8 @@ export default function Reports() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle>Funil de Vendas</CardTitle>
-                <span className="text-sm text-gray-500">
-                  Conversão: <strong className="text-green-600">{funnel.taxa_conversao}%</strong>
+                <span className="text-sm text-zinc-400">
+                  Conversão: <strong className="text-emerald-400">{funnel.taxa_conversao}%</strong>
                 </span>
               </div>
             </CardHeader>
@@ -97,10 +97,10 @@ export default function Reports() {
                   return (
                     <div key={stage.status}>
                       <div className="flex justify-between text-sm mb-1">
-                        <span className="text-gray-600">{stage.label}</span>
+                        <span className="text-zinc-300">{stage.label}</span>
                         <span className="font-bold">{stage.count}</span>
                       </div>
-                      <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
+                      <div className="h-3 bg-zinc-800 rounded-full overflow-hidden">
                         <div
                           className="h-full rounded-full transition-all"
                           style={{
@@ -144,20 +144,20 @@ export default function Reports() {
             <CardContent>
               <div className="space-y-4">
                 <div className="flex items-center justify-between py-3 border-b">
-                  <span className="text-sm text-gray-600">Total de Leads</span>
-                  <span className="font-bold text-gray-900">{performance.total_leads}</span>
+                  <span className="text-sm text-zinc-300">Total de Leads</span>
+                  <span className="font-bold text-zinc-100">{performance.total_leads}</span>
                 </div>
                 <div className="flex items-center justify-between py-3 border-b">
-                  <span className="text-sm text-gray-600">Mensagens Enviadas</span>
-                  <span className="font-bold text-gray-900">{performance.total_sent}</span>
+                  <span className="text-sm text-zinc-300">Mensagens Enviadas</span>
+                  <span className="font-bold text-zinc-100">{performance.total_sent}</span>
                 </div>
                 <div className="flex items-center justify-between py-3 border-b">
-                  <span className="text-sm text-gray-600">Respostas Recebidas</span>
-                  <span className="font-bold text-gray-900">{performance.total_replied}</span>
+                  <span className="text-sm text-zinc-300">Respostas Recebidas</span>
+                  <span className="font-bold text-zinc-100">{performance.total_replied}</span>
                 </div>
                 <div className="flex items-center justify-between py-3">
-                  <span className="text-sm text-gray-600">Taxa de Resposta</span>
-                  <span className="font-bold text-green-600">{performance.response_rate}%</span>
+                  <span className="text-sm text-zinc-300">Taxa de Resposta</span>
+                  <span className="font-bold text-emerald-400">{performance.response_rate}%</span>
                 </div>
               </div>
             </CardContent>
@@ -174,8 +174,8 @@ export default function Reports() {
                         className="w-3 h-3 rounded-full flex-shrink-0"
                         style={{ backgroundColor: COLORS[i % COLORS.length] }}
                       />
-                      <span className="text-sm text-gray-600 flex-1 truncate">{cat.categoria || 'Sem categoria'}</span>
-                      <span className="font-bold text-sm text-gray-900">{cat.fechados}</span>
+                      <span className="text-sm text-zinc-300 flex-1 truncate">{cat.categoria || 'Sem categoria'}</span>
+                      <span className="font-bold text-sm text-zinc-100">{cat.fechados}</span>
                     </div>
                   ))}
                 </div>

@@ -10,17 +10,17 @@ const icons = {
 }
 
 const styles = {
-  success: 'bg-green-50 border-green-200 text-green-800',
-  error: 'bg-red-50 border-red-200 text-red-800',
-  warning: 'bg-yellow-50 border-yellow-200 text-yellow-800',
-  info: 'bg-blue-50 border-blue-200 text-blue-800',
+  success: 'bg-zinc-900 border-emerald-500/30 text-emerald-100',
+  error: 'bg-zinc-900 border-red-500/30 text-red-100',
+  warning: 'bg-zinc-900 border-amber-500/30 text-amber-100',
+  info: 'bg-zinc-900 border-blue-500/30 text-blue-100',
 }
 
 const iconStyles = {
-  success: 'text-green-500',
-  error: 'text-red-500',
-  warning: 'text-yellow-500',
-  info: 'text-blue-500',
+  success: 'text-emerald-400',
+  error: 'text-red-400',
+  warning: 'text-amber-400',
+  info: 'text-blue-400',
 }
 
 export default function ToastContainer() {
@@ -34,7 +34,7 @@ export default function ToastContainer() {
           <div
             key={toast.id}
             className={cn(
-              'flex items-start gap-3 p-4 rounded-lg border shadow-md animate-in slide-in-from-right-full',
+              'flex items-start gap-3 p-4 rounded-lg border shadow-lg animate-in slide-in-from-right-full',
               styles[toast.type]
             )}
           >
@@ -45,7 +45,7 @@ export default function ToastContainer() {
             </div>
             <button
               onClick={() => removeToast(toast.id)}
-              className="flex-shrink-0 p-0.5 rounded hover:bg-black/10 transition-colors"
+              className="flex-shrink-0 p-0.5 rounded hover:bg-white/10 transition-colors"
             >
               <X className="w-4 h-4" />
             </button>

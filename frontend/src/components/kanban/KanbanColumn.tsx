@@ -11,11 +11,11 @@ interface KanbanColumnProps {
 
 export default function KanbanColumn({ columnId, label, colorClass, leads }: KanbanColumnProps) {
   return (
-    <div className={`flex flex-col w-72 flex-shrink-0 bg-gray-50 rounded-xl border-t-4 ${colorClass}`}>
-      <div className="p-3 border-b border-gray-200">
+    <div className={`flex flex-col w-72 flex-shrink-0 bg-zinc-950 rounded-xl border-t-4 ${colorClass}`}>
+      <div className="p-3 border-b border-zinc-800">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-gray-700">{label}</h3>
-          <span className="text-xs text-gray-500 bg-white border border-gray-200 px-2 py-0.5 rounded-full font-medium">
+          <h3 className="text-sm font-semibold text-zinc-200">{label}</h3>
+          <span className="text-xs text-zinc-400 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded-full font-medium">
             {leads.length}
           </span>
         </div>
@@ -27,7 +27,7 @@ export default function KanbanColumn({ columnId, label, colorClass, leads }: Kan
             ref={provided.innerRef}
             {...provided.droppableProps}
             className={`flex-1 p-3 space-y-2 min-h-32 transition-colors ${
-              snapshot.isDraggingOver ? 'bg-blue-50' : ''
+              snapshot.isDraggingOver ? 'bg-blue-500/10' : ''
             }`}
           >
             {leads.map((lead, index) => (
