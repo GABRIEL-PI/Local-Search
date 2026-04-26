@@ -33,7 +33,7 @@ export default function Login() {
     try {
       if (mode === 'login') {
         await login(form.email, form.senha)
-        navigate('/')
+        navigate('/app')
       } else {
         setSubmitting(true)
         await authApi.register(form.nome, form.email, form.senha)

@@ -39,7 +39,7 @@ export default function LeadDetail() {
       setLead(res.data)
     } catch {
       showError('Lead nao encontrado')
-      navigate('/crm')
+      navigate('/app/crm')
     } finally {
       setLoading(false)
     }
@@ -106,7 +106,7 @@ export default function LeadDetail() {
     <div className="space-y-6">
       {/* Header with thumbnail */}
       <div className="flex items-start gap-4">
-        <Link to="/crm">
+        <Link to="/app/crm">
           <Button variant="ghost" size="sm">
             <ArrowLeft className="w-4 h-4" />
           </Button>

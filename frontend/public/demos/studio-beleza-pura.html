@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio Beleza Pura</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;color:#1a1a1a;overflow-x:hidden;background:#fdf2f8}
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(219,39,119,0.88),rgba(244,63,94,0.75)),url('https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1200&h=800&fit=crop') center/cover;color:#fff;text-align:center;padding:2rem}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,6vw,4.5rem);font-weight:700;margin-bottom:1rem;letter-spacing:1px}
+.hero p{font-size:clamp(1rem,2.5vw,1.2rem);opacity:0.95;max-width:550px;margin:0 auto 2rem;line-height:1.7}
+.badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(255,255,255,0.2);backdrop-filter:blur(10px);padding:0.5rem 1.2rem;border-radius:50px;font-size:0.85rem;font-weight:600;margin-bottom:2rem;border:1px solid rgba(255,255,255,0.3)}
+.cta-btn{display:inline-block;padding:1rem 2.5rem;background:#fff;color:#db2777;font-weight:700;font-size:1.05rem;border-radius:50px;text-decoration:none;transition:all 0.3s}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,0.2)}
+section{padding:5rem 1.5rem}
+.container{max-width:1100px;margin:0 auto}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;text-align:center;margin-bottom:0.5rem}
+.section-sub{text-align:center;color:#888;font-size:1rem;max-width:600px;margin:0 auto 3rem;line-height:1.7}
+.pink{color:#db2777}
+.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem}
+.service{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 2px 15px rgba(0,0,0,0.04);transition:all 0.3s}
+.service:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(219,39,119,0.1)}
+.service img{width:100%;height:200px;object-fit:cover}
+.service-info{padding:1.5rem}
+.service-info h3{font-weight:700;margin-bottom:0.4rem}
+.service-info p{color:#888;font-size:0.9rem;line-height:1.5;margin-bottom:0.8rem}
+.service-info .price{color:#db2777;font-weight:700;font-size:1.1rem}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem}
+.gallery img{width:100%;height:280px;object-fit:cover;border-radius:16px;transition:transform 0.3s}
+.gallery img:hover{transform:scale(1.03)}
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem}
+.feat{text-align:center;padding:2rem}
+.feat-icon{font-size:2.5rem;margin-bottom:1rem}
+.feat h3{font-weight:700;margin-bottom:0.5rem}
+.feat p{color:#666;font-size:0.9rem;line-height:1.6}
+.review-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.review{background:#fff;border-radius:16px;padding:2rem;box-shadow:0 2px 10px rgba(0,0,0,0.04)}
+.review .stars{color:#d4a853;font-size:1rem;display:block;margin-bottom:0.8rem}
+.review p{color:#444;line-height:1.7;font-style:italic;margin-bottom:1rem}
+.review .author{font-weight:700;font-size:0.9rem;color:#db2777}
+.cta-section{background:linear-gradient(135deg,#db2777,#ec4899);color:#fff;text-align:center;padding:5rem 1.5rem}
+.cta-section h2{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:1rem}
+.cta-section p{opacity:0.9;max-width:500px;margin:0 auto 2rem;line-height:1.7}
+.cta-btn-white{display:inline-block;padding:1rem 2.5rem;background:#fff;color:#db2777;font-weight:700;font-size:1.05rem;border-radius:50px;text-decoration:none;transition:all 0.3s}
+footer{background:#fdf2f8;color:#999;text-align:center;padding:2rem;font-size:0.85rem}
+.float-badge{position:fixed;bottom:1.5rem;right:1.5rem;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;padding:0.6rem 1.2rem;border-radius:50px;font-size:0.75rem;font-weight:600;z-index:100;box-shadow:0 4px 15px rgba(37,99,235,0.4);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="float-badge">Gerado por IA com LocalReach</div>
+
+<div class="hero">
+  <div>
+    <div class="badge">&#9733;&#9733;&#9733;&#9733;&#9733; 445 avaliacoes</div>
+    <h1>Studio<br>Beleza Pura</h1>
+    <p>Corte, coloracao, manicure e tratamentos capilares. Profissionais premiados e ambiente sofisticado para voce se sentir especial.</p>
+    <a href="#servicos" class="cta-btn">Agendar Horario</a>
+  </div>
+</div>
+
+<section id="servicos">
+  <div class="container">
+    <h2 class="section-title">Nossos <span class="pink">Servicos</span></h2>
+    <p class="section-sub">Cuidados completos para cabelos, unhas e pele com produtos premium.</p>
+    <div class="services">
+      <div class="service">
+        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=500&h=400&fit=crop" alt="Corte">
+        <div class="service-info">
+          <h3>Corte Feminino</h3>
+          <p>Cortes modernos e classicos com lavagem, finalizacao e tratamento.</p>
+          <div class="price">A partir de R$ 89</div>
+        </div>
+      </div>
+      <div class="service">
+        <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=500&h=400&fit=crop" alt="Coloracao">
+        <div class="service-info">
+          <h3>Coloracao & Mechas</h3>
+          <p>Loiro dos sonhos, mechas, balayage e coloracao com produtos profissionais.</p>
+          <div class="price">A partir de R$ 180</div>
+        </div>
+      </div>
+      <div class="service">
+        <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500&h=400&fit=crop" alt="Manicure">
+        <div class="service-info">
+          <h3>Manicure & Pedicure</h3>
+          <p>Unhas em gel, fibra de vidro, esmaltacao em gel e nail art exclusiva.</p>
+          <div class="price">A partir de R$ 45</div>
+        </div>
+      </div>
+      <div class="service">
+        <img src="https://images.unsplash.com/photo-1519415510236-718bdfcd89c8?w=500&h=400&fit=crop" alt="Tratamento">
+        <div class="service-info">
+          <h3>Tratamento Capilar</h3>
+          <p>Hidratacao profunda, botox capilar, cauterizacao e reconstrucao.</p>
+          <div class="price">A partir de R$ 120</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:#fff">
+  <div class="container">
+    <h2 class="section-title">Nosso Espaco</h2>
+    <p class="section-sub">Ambiente sofisticado projetado para voce relaxar e se cuidar.</p>
+    <div class="gallery">
+      <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=500&h=400&fit=crop" alt="Salao">
+      <img src="https://images.unsplash.com/photo-1633681122956-4be59820e45e?w=500&h=400&fit=crop" alt="Interior">
+      <img src="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=500&h=400&fit=crop" alt="Produtos">
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="section-title">Por que nos escolher?</h2>
+    <p class="section-sub">Mais do que um salao, uma experiencia de beleza completa.</p>
+    <div class="features">
+      <div class="feat">
+        <div class="feat-icon">&#127942;</div>
+        <h3>Profissionais Premiados</h3>
+        <p>Equipe com certificacoes internacionais e participacao em grandes eventos de beleza.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">&#10024;</div>
+        <h3>Produtos Premium</h3>
+        <p>Trabalhamos apenas com marcas renomadas como Kerastase, Wella e OPI.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">&#128149;</div>
+        <h3>Dia da Noiva</h3>
+        <p>Pacotes especiais para noivas com maquiagem, cabelo, manicure e mais.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:#fff">
+  <div class="container">
+    <h2 class="section-title">O que nossas clientes dizem</h2>
+    <p class="section-sub">Beleza que transforma e autoestima que se eleva.</p>
+    <div class="review-grid">
+      <div class="review">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <p>"Melhor salao de SP! Fiz mechas e ficou exatamente como eu queria. A equipe e super atenciosa."</p>
+        <span class="author">Isabella Torres</span>
+      </div>
+      <div class="review">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <p>"Fiz meu dia da noiva aqui e ficou perfeito. Maquiagem durou a festa inteira. Amei!"</p>
+        <span class="author">Carolina Mendes</span>
+      </div>
+      <div class="review">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <p>"Ambiente lindo, cafe delicioso e resultado impecavel. Me sinto em casa toda vez que venho."</p>
+        <span class="author">Vanessa Ribeiro</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>Agende seu horario</h2>
+  <p>Cuide-se com quem entende de beleza. Vagas limitadas.</p>
+  <a href="#" class="cta-btn-white">Agendar Agora</a>
+</section>
+
+<footer>
+  <p>Studio Beleza Pura &mdash; Todos os direitos reservados</p>
+</footer>
+</body>
+</html>

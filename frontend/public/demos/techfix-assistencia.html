@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechFix Assistencia</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;color:#1a1a1a;overflow-x:hidden;background:#faf5ff}
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(109,40,217,0.93),rgba(124,58,237,0.85)),url('https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=1200&h=800&fit=crop') center/cover;color:#fff;text-align:center;padding:2rem}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.5rem,6vw,4rem);font-weight:700;margin-bottom:1rem}
+.hero p{font-size:clamp(1rem,2.5vw,1.2rem);opacity:0.9;max-width:550px;margin:0 auto 2rem;line-height:1.7}
+.purple{color:#c4b5fd}
+.badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(255,255,255,0.12);backdrop-filter:blur(10px);padding:0.5rem 1.2rem;border-radius:50px;font-size:0.85rem;font-weight:600;margin-bottom:2rem;border:1px solid rgba(255,255,255,0.2)}
+.cta-btn{display:inline-block;padding:1rem 2.5rem;background:#fff;color:#7c3aed;font-weight:700;font-size:1.05rem;border-radius:14px;text-decoration:none;transition:all 0.3s}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,0.2)}
+section{padding:5rem 1.5rem}
+.container{max-width:1100px;margin:0 auto}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.8rem,4vw,2.5rem);font-weight:700;text-align:center;margin-bottom:0.5rem}
+.section-sub{text-align:center;color:#888;font-size:1rem;max-width:600px;margin:0 auto 3rem;line-height:1.7}
+.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+.service{background:#fff;border:1px solid #ede9fe;border-radius:16px;padding:2rem;transition:all 0.3s}
+.service:hover{border-color:#7c3aed;transform:translateY(-3px);box-shadow:0 10px 30px rgba(124,58,237,0.1)}
+.service-icon{width:50px;height:50px;background:linear-gradient(135deg,#7c3aed,#a855f7);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;font-size:1.3rem}
+.service h3{font-weight:700;margin-bottom:0.4rem}
+.service p{color:#666;font-size:0.9rem;line-height:1.6}
+.service .price{color:#7c3aed;font-weight:700;font-size:1.1rem;margin-top:0.8rem}
+.process{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2rem;counter-reset:step}
+.step{background:#fff;border-radius:16px;padding:2rem;text-align:center;position:relative;border:1px solid #ede9fe}
+.step::before{counter-increment:step;content:counter(step);width:40px;height:40px;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;margin:0 auto 1rem;font-size:1.1rem}
+.step h3{font-weight:700;margin-bottom:0.4rem}
+.step p{color:#666;font-size:0.9rem;line-height:1.5}
+.brands{display:flex;flex-wrap:wrap;justify-content:center;gap:2rem;padding:2rem 0}
+.brand{background:#fff;border:1px solid #ede9fe;border-radius:12px;padding:1rem 2rem;font-weight:700;font-size:1.1rem;color:#444}
+.review-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.review{background:#fff;border:1px solid #ede9fe;border-radius:16px;padding:2rem}
+.review .stars{color:#d4a853;font-size:1rem;display:block;margin-bottom:0.8rem}
+.review p{color:#444;line-height:1.7;font-style:italic;margin-bottom:1rem}
+.review .author{font-weight:700;font-size:0.9rem;color:#7c3aed}
+.cta-section{background:linear-gradient(135deg,#6d28d9,#7c3aed);color:#fff;text-align:center;padding:5rem 1.5rem}
+.cta-section h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.8rem,4vw,2.5rem);margin-bottom:1rem}
+.cta-section p{opacity:0.9;max-width:500px;margin:0 auto 2rem;line-height:1.7}
+.cta-btn-white{display:inline-block;padding:1rem 2.5rem;background:#fff;color:#7c3aed;font-weight:700;font-size:1.05rem;border-radius:14px;text-decoration:none;transition:all 0.3s}
+footer{background:#faf5ff;color:#999;text-align:center;padding:2rem;font-size:0.85rem}
+.float-badge{position:fixed;bottom:1.5rem;right:1.5rem;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;padding:0.6rem 1.2rem;border-radius:50px;font-size:0.75rem;font-weight:600;z-index:100;box-shadow:0 4px 15px rgba(37,99,235,0.4);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="float-badge">Gerado por IA com LocalReach</div>
+
+<div class="hero">
+  <div>
+    <div class="badge">&#9733;&#9733;&#9733;&#9733;&#9733; 267 avaliacoes | Orcamento Gratis</div>
+    <h1>TechFix<br><span class="purple">Assistencia Tecnica</span></h1>
+    <p>Conserto de celulares, notebooks e tablets. Orcamento gratis em 15 minutos. Pecas originais com garantia de 90 dias.</p>
+    <a href="#servicos" class="cta-btn">Solicitar Orcamento</a>
+  </div>
+</div>
+
+<section id="servicos">
+  <div class="container">
+    <h2 class="section-title">Nossos Servicos</h2>
+    <p class="section-sub">Reparo profissional com pecas originais e garantia em todos os servicos.</p>
+    <div class="services">
+      <div class="service">
+        <div class="service-icon">&#128241;</div>
+        <h3>Troca de Tela</h3>
+        <p>Telas originais para iPhone, Samsung, Motorola e Xiaomi. Troca em ate 1 hora.</p>
+        <div class="price">A partir de R$ 149</div>
+      </div>
+      <div class="service">
+        <div class="service-icon">&#128267;</div>
+        <h3>Troca de Bateria</h3>
+        <p>Baterias originais com garantia. Seu celular voltando a durar o dia inteiro.</p>
+        <div class="price">A partir de R$ 89</div>
+      </div>
+      <div class="service">
+        <div class="service-icon">&#128187;</div>
+        <h3>Reparo de Notebook</h3>
+        <p>Formatacao, troca de HD/SSD, memoria, tela, teclado e placa-mae.</p>
+        <div class="price">A partir de R$ 99</div>
+      </div>
+      <div class="service">
+        <div class="service-icon">&#128248;</div>
+        <h3>Camera e Sensores</h3>
+        <p>Reparo e substituicao de cameras, sensores de proximidade e Face ID.</p>
+        <div class="price">A partir de R$ 129</div>
+      </div>
+      <div class="service">
+        <div class="service-icon">&#128167;</div>
+        <h3>Dano por Liquido</h3>
+        <p>Limpeza ultrassonica e recuperacao de aparelhos com dano por agua.</p>
+        <div class="price">A partir de R$ 179</div>
+      </div>
+      <div class="service">
+        <div class="service-icon">&#128190;</div>
+        <h3>Recuperacao de Dados</h3>
+        <p>Recuperacao de fotos, contatos e dados de dispositivos danificados.</p>
+        <div class="price">A partir de R$ 199</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:#fff">
+  <div class="container">
+    <h2 class="section-title">Como Funciona</h2>
+    <p class="section-sub">Processo simples e transparente do inicio ao fim.</p>
+    <div class="process">
+      <div class="step">
+        <h3>Orcamento Gratis</h3>
+        <p>Traga seu aparelho. Diagnosticamos em ate 15 minutos sem custo.</p>
+      </div>
+      <div class="step">
+        <h3>Aprovacao</h3>
+        <p>Voce aprova o valor e o prazo antes de iniciarmos qualquer reparo.</p>
+      </div>
+      <div class="step">
+        <h3>Reparo</h3>
+        <p>Tecnicos certificados realizam o conserto com pecas originais.</p>
+      </div>
+      <div class="step">
+        <h3>Garantia</h3>
+        <p>Retire seu aparelho funcionando com 90 dias de garantia.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="section-title">Marcas que Atendemos</h2>
+    <div class="brands">
+      <div class="brand">Apple</div>
+      <div class="brand">Samsung</div>
+      <div class="brand">Motorola</div>
+      <div class="brand">Xiaomi</div>
+      <div class="brand">LG</div>
+      <div class="brand">Dell</div>
+      <div class="brand">Lenovo</div>
+      <div class="brand">HP</div>
+    </div>
+  </div>
+</section>
+
+<section style="background:#fff">
+  <div class="container">
+    <h2 class="section-title">Avaliacoes dos Clientes</h2>
+    <p class="section-sub">Mais de 267 avaliacoes positivas no Google.</p>
+    <div class="review-grid">
+      <div class="review">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <p>"Troquei a tela do meu iPhone em 40 minutos. Ficou perfeito e o preco foi justo. Recomendo!"</p>
+        <span class="author">Amanda Vieira</span>
+      </div>
+      <div class="review">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <p>"Meu notebook estava lento demais. Colocaram SSD e ficou voando. Servico rapido e honesto."</p>
+        <span class="author">Felipe Cardoso</span>
+      </div>
+      <div class="review">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <p>"Celular caiu na agua e achei que tinha perdido tudo. Recuperaram minhas fotos e o aparelho voltou a funcionar!"</p>
+        <span class="author">Beatriz Moura</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>Seu aparelho precisa de reparo?</h2>
+  <p>Orcamento gratis e sem compromisso. Traga seu dispositivo e resolva hoje.</p>
+  <a href="#" class="cta-btn-white">Solicitar Orcamento Gratis</a>
+</section>
+
+<footer>
+  <p>TechFix Assistencia &mdash; Todos os direitos reservados</p>
+</footer>
+</body>
+</html>

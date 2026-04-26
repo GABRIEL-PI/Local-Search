@@ -23,7 +23,7 @@ export default function KanbanCard({ lead, index }: KanbanCardProps) {
         >
           <div className="flex items-start justify-between gap-2 mb-2">
             <Link
-              to={`/leads/${lead.id}`}
+              to={`/app/leads/${lead.id}`}
               onClick={(e) => snapshot.isDragging && e.preventDefault()}
               className="text-sm font-medium text-gray-900 hover:text-blue-600 line-clamp-2 leading-tight"
             >

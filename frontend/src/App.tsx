@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { useAuthStore } from '@/stores/authStore'
 import AppLayout from '@/components/layout/AppLayout'
+import LandingPage from '@/pages/LandingPage'
 import Login from '@/pages/auth/Login'
 import Dashboard from '@/pages/Dashboard'
 import Prospecting from '@/pages/Prospecting'
@@ -21,7 +22,8 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
 function PublicRoute({ children }: { children: React.ReactNode }) {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated)
-  return isAuthenticated ? <Navigate to="/" replace /> : <>{children}</>
+  return isAuthenticated ? <Navigate to="/app" replace /> : <>{children}</>
+
 }
 
 export default function App() {
@@ -29,6 +31,9 @@ export default function App() {
     <BrowserRouter>
       <ToastContainer />
       <Routes>
+        {/* Public routes */}
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/landing" element={<LandingPage />} />
         <Route
           path="/login"
           element={
@@ -37,8 +42,10 @@ export default function App() {
             </PublicRoute>
           }
         />
+
+        {/* Protected app routes */}
         <Route
-          path="/"
+          path="/app"
           element={
             <ProtectedRoute>
               <AppLayout />
@@ -56,6 +63,7 @@ export default function App() {
           <Route path="settings" element={<Settings />} />
           <Route path="onboarding" element={<Onboarding />} />
         </Route>
+
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

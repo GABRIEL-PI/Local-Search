@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barbearia Old School</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;color:#1a1a1a;overflow-x:hidden;background:#0a0a0a}
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(120,53,15,0.92),rgba(41,37,36,0.9)),url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1200&h=800&fit=crop') center/cover;color:#fff;text-align:center;padding:2rem}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.5rem,8vw,6rem);letter-spacing:4px;margin-bottom:0.5rem;text-transform:uppercase}
+.hero p{font-size:clamp(1rem,2.5vw,1.2rem);opacity:0.85;max-width:550px;margin:0 auto 2rem;line-height:1.7;color:#d4c5a9}
+.gold{color:#d4a853}
+.badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(212,168,83,0.15);backdrop-filter:blur(10px);padding:0.5rem 1.2rem;border-radius:50px;font-size:0.85rem;font-weight:600;margin-bottom:2rem;border:1px solid rgba(212,168,83,0.4);color:#d4a853}
+.cta-btn{display:inline-block;padding:1rem 2.5rem;background:#d4a853;color:#0a0a0a;font-weight:700;font-size:1.1rem;border-radius:50px;text-decoration:none;transition:all 0.3s;letter-spacing:1px;text-transform:uppercase}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(212,168,83,0.4)}
+section{padding:5rem 1.5rem}
+.container{max-width:1100px;margin:0 auto}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,4vw,3rem);text-align:center;margin-bottom:0.5rem;letter-spacing:3px;color:#fff}
+.section-sub{text-align:center;color:#888;font-size:1rem;max-width:600px;margin:0 auto 3rem;line-height:1.7}
+.dark{background:#0a0a0a;color:#fff}
+.dark-alt{background:#111;color:#fff}
+.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem}
+.service{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:20px;padding:2.5rem 2rem;text-align:center;transition:all 0.3s}
+.service:hover{border-color:#d4a853;transform:translateY(-4px)}
+.service-icon{font-size:2.5rem;margin-bottom:1rem}
+.service h3{font-size:1.15rem;font-weight:700;margin-bottom:0.5rem;color:#fff}
+.service p{color:#888;font-size:0.9rem;line-height:1.6}
+.service .price{color:#d4a853;font-weight:700;font-size:1.3rem;margin-top:1rem}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem}
+.gallery img{width:100%;height:280px;object-fit:cover;border-radius:16px;transition:transform 0.3s;border:2px solid #222}
+.gallery img:hover{transform:scale(1.03);border-color:#d4a853}
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.review{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:16px;padding:2rem}
+.review .stars{color:#d4a853;font-size:1rem;display:block;margin-bottom:0.8rem}
+.review p{color:#ccc;line-height:1.7;font-style:italic;margin-bottom:1rem}
+.review .author{font-weight:700;font-size:0.9rem;color:#d4a853}
+.cta-section{background:linear-gradient(135deg,#92400e,#78350f);color:#fff;text-align:center;padding:5rem 1.5rem}
+.cta-section h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,4vw,3rem);letter-spacing:3px;margin-bottom:1rem}
+.cta-section p{opacity:0.9;max-width:500px;margin:0 auto 2rem;line-height:1.7}
+footer{background:#0a0a0a;color:#555;text-align:center;padding:2rem;font-size:0.85rem;border-top:1px solid #1a1a1a}
+.float-badge{position:fixed;bottom:1.5rem;right:1.5rem;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;padding:0.6rem 1.2rem;border-radius:50px;font-size:0.75rem;font-weight:600;z-index:100;box-shadow:0 4px 15px rgba(37,99,235,0.4);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="float-badge">Gerado por IA com LocalReach</div>
+
+<div class="hero">
+  <div>
+    <div class="badge">&#9733;&#9733;&#9733;&#9733;&#9733; 312 avaliacoes</div>
+    <h1>Barbearia<br><span class="gold">Old School</span></h1>
+    <p>Corte classico e moderno com cerveja artesanal. Ambiente exclusivo masculino com atendimento premium desde 2015.</p>
+    <a href="#servicos" class="cta-btn">Agendar Horario</a>
+  </div>
+</div>
+
+<section class="dark" id="servicos">
+  <div class="container">
+    <h2 class="section-title">Nossos Servicos</h2>
+    <p class="section-sub">Cada servico inclui cerveja artesanal, cafe ou whisky cortesia.</p>
+    <div class="services">
+      <div class="service">
+        <div class="service-icon">&#9986;</div>
+        <h3>Corte Classico</h3>
+        <p>Tesoura e maquina com acabamento perfeito. Inclui lavagem e finalizacao.</p>
+        <div class="price">R$ 55</div>
+      </div>
+      <div class="service">
+        <div class="service-icon">&#129508;</div>
+        <h3>Barba Completa</h3>
+        <p>Toalha quente, navalha e produtos premium para uma barba impecavel.</p>
+        <div class="price">R$ 40</div>
+      </div>
+      <div class="service">
+        <div class="service-icon">&#128142;</div>
+        <h3>Combo VIP</h3>
+        <p>Corte + barba + hidratacao facial + cerveja artesanal. Experiencia completa.</p>
+        <div class="price">R$ 85</div>
+      </div>
+      <div class="service">
+        <div class="service-icon">&#127775;</div>
+        <h3>Platinado / Coloracao</h3>
+        <p>Descoloracao e coloracao com produtos profissionais de primeira linha.</p>
+        <div class="price">A partir de R$ 120</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dark-alt">
+  <div class="container">
+    <h2 class="section-title">Nosso Espaco</h2>
+    <p class="section-sub">Ambiente pensado para voce relaxar enquanto cuida do visual.</p>
+    <div class="gallery">
+      <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=500&h=400&fit=crop" alt="Interior">
+      <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=500&h=400&fit=crop" alt="Cadeira">
+      <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=500&h=400&fit=crop" alt="Detalhes">
+    </div>
+  </div>
+</section>
+
+<section class="dark">
+  <div class="container">
+    <h2 class="section-title">Avaliacoes dos Clientes</h2>
+    <p class="section-sub">A opiniao de quem ja passou pela nossa cadeira.</p>
+    <div class="reviews-grid">
+      <div class="review">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <p>"Melhor barbearia que ja fui. Ambiente incrivel, atendimento top e ainda rola uma cerveja gelada!"</p>
+        <span class="author">Lucas Mendes</span>
+      </div>
+      <div class="review">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <p>"O combo VIP vale cada centavo. Sai de la renovado. Recomendo demais!"</p>
+        <span class="author">Rafael Costa</span>
+      </div>
+      <div class="review">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <p>"Profissionais de verdade. Meu corte fica exatamente como eu peco, toda vez."</p>
+        <span class="author">Diego Santos</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>Agende Seu Horario</h2>
+  <p>Garanta seu lugar e venha viver a experiencia Old School.</p>
+  <a href="#" class="cta-btn">Agendar Agora</a>
+</section>
+
+<footer>
+  <p>Barbearia Old School &mdash; Todos os direitos reservados</p>
+</footer>
+</body>
+</html>

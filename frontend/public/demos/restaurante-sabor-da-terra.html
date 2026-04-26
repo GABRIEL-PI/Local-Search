@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Restaurante Sabor da Terra</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;color:#1a1a1a;overflow-x:hidden}
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(234,88,12,0.9),rgba(220,38,38,0.8)),url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&h=800&fit=crop') center/cover;color:#fff;text-align:center;padding:2rem}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,6vw,4.5rem);font-weight:900;margin-bottom:1rem;text-shadow:0 2px 20px rgba(0,0,0,0.3)}
+.hero p{font-size:clamp(1rem,2.5vw,1.3rem);opacity:0.95;max-width:600px;margin:0 auto 2rem;line-height:1.7}
+.badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(255,255,255,0.2);backdrop-filter:blur(10px);padding:0.5rem 1.2rem;border-radius:50px;font-size:0.85rem;font-weight:600;margin-bottom:2rem;border:1px solid rgba(255,255,255,0.3)}
+.stars{color:#fbbf24;font-size:1.2rem;letter-spacing:2px}
+.cta-btn{display:inline-block;padding:1rem 2.5rem;background:#fff;color:#ea580c;font-weight:700;font-size:1.1rem;border-radius:50px;text-decoration:none;transition:all 0.3s;box-shadow:0 4px 20px rgba(0,0,0,0.2)}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,0.3)}
+section{padding:5rem 1.5rem}
+.container{max-width:1100px;margin:0 auto}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;text-align:center;margin-bottom:1rem}
+.section-sub{text-align:center;color:#666;font-size:1.05rem;max-width:600px;margin:0 auto 3rem;line-height:1.7}
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem}
+.feature{background:#fff;border:1px solid #f0f0f0;border-radius:20px;padding:2.5rem 2rem;text-align:center;transition:all 0.3s;box-shadow:0 2px 10px rgba(0,0,0,0.04)}
+.feature:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(234,88,12,0.1)}
+.feature-icon{width:60px;height:60px;background:linear-gradient(135deg,#ea580c,#dc2626);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 1.2rem;font-size:1.5rem}
+.feature h3{font-size:1.15rem;font-weight:700;margin-bottom:0.5rem}
+.feature p{color:#666;font-size:0.95rem;line-height:1.6}
+.menu-section{background:#fef7f0}
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.menu-card{background:#fff;border-radius:16px;padding:1.5rem;display:flex;gap:1rem;align-items:center;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
+.menu-card img{width:80px;height:80px;border-radius:12px;object-fit:cover}
+.menu-card h4{font-weight:700;margin-bottom:0.3rem}
+.menu-card p{color:#666;font-size:0.85rem;line-height:1.5}
+.menu-card .price{color:#ea580c;font-weight:700;font-size:1.1rem;margin-top:0.3rem}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem}
+.gallery img{width:100%;height:250px;object-fit:cover;border-radius:16px;transition:transform 0.3s}
+.gallery img:hover{transform:scale(1.03)}
+.reviews{background:#fef7f0}
+.review-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.review{background:#fff;border-radius:16px;padding:2rem;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
+.review .stars{font-size:1rem;display:block;margin-bottom:0.8rem}
+.review p{color:#444;line-height:1.7;font-style:italic;margin-bottom:1rem}
+.review .author{font-weight:700;font-size:0.9rem;color:#1a1a1a}
+.cta-section{background:linear-gradient(135deg,#ea580c,#dc2626);color:#fff;text-align:center;padding:5rem 1.5rem}
+.cta-section h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:1rem}
+.cta-section p{opacity:0.9;max-width:500px;margin:0 auto 2rem;font-size:1.05rem;line-height:1.7}
+.cta-btn-white{display:inline-block;padding:1rem 2.5rem;background:#fff;color:#ea580c;font-weight:700;font-size:1.1rem;border-radius:50px;text-decoration:none;transition:all 0.3s;box-shadow:0 4px 20px rgba(0,0,0,0.2)}
+footer{background:#1a1a1a;color:#999;text-align:center;padding:2rem;font-size:0.85rem}
+.float-badge{position:fixed;bottom:1.5rem;right:1.5rem;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;padding:0.6rem 1.2rem;border-radius:50px;font-size:0.75rem;font-weight:600;z-index:100;box-shadow:0 4px 15px rgba(37,99,235,0.4);text-decoration:none;display:flex;align-items:center;gap:0.4rem}
+</style>
+</head>
+<body>
+<div class="float-badge">Gerado por IA com LocalReach</div>
+
+<div class="hero">
+  <div>
+    <div class="badge"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 487 avaliacoes</div>
+    <h1>Restaurante<br>Sabor da Terra</h1>
+    <p>A melhor comida caseira da regiao. Almoco executivo durante a semana e rodizio aos finais de semana em um ambiente familiar e aconchegante.</p>
+    <a href="#cardapio" class="cta-btn">Ver Cardapio</a>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <h2 class="section-title">Por que somos a escolha certa?</h2>
+    <p class="section-sub">Comida de verdade, feita com ingredientes frescos e muito carinho. Tradiao de mais de 15 anos na regiao.</p>
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">&#127858;</div>
+        <h3>Almoco Executivo</h3>
+        <p>De segunda a sexta, prato feito completo com entrada, prato principal, sobremesa e bebida a partir de R$ 29,90.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">&#127860;</div>
+        <h3>Rodizio aos Finais de Semana</h3>
+        <p>Sabado e domingo com rodizio de carnes, massas e comida brasileira. Tudo liberado por um preco unico.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">&#128666;</div>
+        <h3>Delivery Rapido</h3>
+        <p>Entregamos na sua casa em ate 40 minutos. Pedidos pelo iFood, Rappi ou direto pelo nosso WhatsApp.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="menu-section" id="cardapio">
+  <div class="container">
+    <h2 class="section-title">Destaques do Cardapio</h2>
+    <p class="section-sub">Pratos preparados diariamente com ingredientes frescos selecionados.</p>
+    <div class="menu-grid">
+      <div class="menu-card">
+        <img src="https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=200&h=200&fit=crop" alt="Feijoada">
+        <div>
+          <h4>Feijoada Completa</h4>
+          <p>Servida com arroz, couve, farofa, laranja e torresmo crocante.</p>
+          <div class="price">R$ 45,90</div>
+        </div>
+      </div>
+      <div class="menu-card">
+        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=200&h=200&fit=crop" alt="Picanha">
+        <div>
+          <h4>Picanha na Brasa</h4>
+          <p>Picanha grelhada no ponto, acompanhada de arroz, feijao e vinagrete.</p>
+          <div class="price">R$ 59,90</div>
+        </div>
+      </div>
+      <div class="menu-card">
+        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=200&h=200&fit=crop" alt="Lasanha">
+        <div>
+          <h4>Lasanha Artesanal</h4>
+          <p>Massa fresca com molho bolonhesa caseiro e queijo gratinado.</p>
+          <div class="price">R$ 38,90</div>
+        </div>
+      </div>
+      <div class="menu-card">
+        <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?w=200&h=200&fit=crop" alt="Sobremesa">
+        <div>
+          <h4>Pudim de Leite</h4>
+          <p>Receita da vovo com calda de caramelo. O melhor da regiao.</p>
+          <div class="price">R$ 14,90</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="section-title">Nosso Espaco</h2>
+    <p class="section-sub">Ambiente amplo, climatizado e perfeito para todas as ocasioes.</p>
+    <div class="gallery">
+      <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500&h=400&fit=crop" alt="Salao principal">
+      <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500&h=400&fit=crop" alt="Mesa servida">
+      <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=500&h=400&fit=crop" alt="Ambiente externo">
+    </div>
+  </div>
+</section>
+
+<section class="reviews">
+  <div class="container">
+    <h2 class="section-title">O que nossos clientes dizem</h2>
+    <p class="section-sub">Avaliacoes reais de quem ja experimentou nossos pratos.</p>
+    <div class="review-grid">
+      <div class="review">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <p>"Melhor restaurante da regiao! A feijoada de sabado e imperdivel. Ambiente limpo e atendimento nota 10."</p>
+        <span class="author">Maria Silva</span>
+      </div>
+      <div class="review">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <p>"Almoco executivo com otimo custo-beneficio. Venho toda semana com meus colegas de trabalho."</p>
+        <span class="author">Carlos Oliveira</span>
+      </div>
+      <div class="review">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <p>"Fizemos nosso aniversario de casamento aqui. Comida maravilhosa e equipe super atenciosa!"</p>
+        <span class="author">Ana e Pedro Souza</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>Venha nos visitar!</h2>
+  <p>Estamos esperando voce e sua familia para uma experiencia gastronomica inesquecivel.</p>
+  <a href="#" class="cta-btn-white">Fazer Reserva</a>
+</section>
+
+<footer>
+  <p>Restaurante Sabor da Terra &mdash; Todos os direitos reservados</p>
+</footer>
+</body>
+</html>

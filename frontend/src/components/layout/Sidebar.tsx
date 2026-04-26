@@ -18,14 +18,14 @@ import { useAuthStore } from '@/stores/authStore'
 import { cn } from '@/lib/utils'
 
 const navItems = [
-  { to: '/', label: 'Dashboard', icon: LayoutDashboard, exact: true },
-  { to: '/prospecting', label: 'Prospecção', icon: Search },
-  { to: '/queue', label: 'Fila de Aprovação', icon: InboxIcon },
-  { to: '/crm', label: 'CRM Kanban', icon: Kanban },
-  { to: '/outreach', label: 'Disparos', icon: Send },
-  { to: '/reports', label: 'Relatórios', icon: BarChart3 },
-  { to: '/onboarding', label: 'Onboarding', icon: UserCheck },
-  { to: '/settings', label: 'Configurações', icon: Settings },
+  { to: '/app', label: 'Dashboard', icon: LayoutDashboard, exact: true },
+  { to: '/app/prospecting', label: 'Prospecção', icon: Search },
+  { to: '/app/queue', label: 'Fila de Aprovação', icon: InboxIcon },
+  { to: '/app/crm', label: 'CRM Kanban', icon: Kanban },
+  { to: '/app/outreach', label: 'Disparos', icon: Send },
+  { to: '/app/reports', label: 'Relatórios', icon: BarChart3 },
+  { to: '/app/onboarding', label: 'Onboarding', icon: UserCheck },
+  { to: '/app/settings', label: 'Configurações', icon: Settings },
 ]
 
 export default function Sidebar() {

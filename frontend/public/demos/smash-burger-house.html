@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smash Burger House</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;color:#fff;overflow-x:hidden;background:#0a0a0a}
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(185,28,28,0.93),rgba(202,138,4,0.7)),url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=1200&h=800&fit=crop') center/cover;color:#fff;text-align:center;padding:2rem}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.5rem,9vw,7rem);letter-spacing:3px;margin-bottom:0.5rem;line-height:0.95}
+.hero p{font-size:clamp(1rem,2.5vw,1.2rem);opacity:0.9;max-width:500px;margin:0 auto 2rem;line-height:1.7}
+.red{color:#fca5a5}
+.badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);padding:0.5rem 1.2rem;border-radius:50px;font-size:0.85rem;font-weight:600;margin-bottom:2rem;border:1px solid rgba(255,255,255,0.2)}
+.cta-btn{display:inline-block;padding:1rem 2.5rem;background:#dc2626;color:#fff;font-weight:700;font-size:1.1rem;border-radius:50px;text-decoration:none;transition:all 0.3s;text-transform:uppercase;letter-spacing:1px}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(220,38,38,0.5);background:#ef4444}
+section{padding:5rem 1.5rem}
+.container{max-width:1100px;margin:0 auto}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,4vw,3rem);text-align:center;margin-bottom:0.5rem;letter-spacing:2px}
+.section-sub{text-align:center;color:#999;font-size:1rem;max-width:600px;margin:0 auto 3rem;line-height:1.7}
+.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem}
+.menu-item{background:#151515;border:1px solid #222;border-radius:20px;overflow:hidden;transition:all 0.3s}
+.menu-item:hover{transform:translateY(-4px);border-color:#dc2626}
+.menu-item img{width:100%;height:220px;object-fit:cover}
+.menu-item-info{padding:1.5rem}
+.menu-item-info h3{font-size:1.15rem;font-weight:700;margin-bottom:0.4rem}
+.menu-item-info p{color:#888;font-size:0.9rem;line-height:1.5;margin-bottom:1rem}
+.menu-item-info .price{color:#dc2626;font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:1px}
+.numbers{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2rem;text-align:center;padding:3rem 0;background:#151515;border-radius:20px}
+.number h3{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:#dc2626}
+.number p{color:#888;font-size:0.9rem;margin-top:0.3rem}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem}
+.gallery img{width:100%;height:250px;object-fit:cover;transition:transform 0.3s}
+.gallery img:hover{transform:scale(1.05)}
+.review-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.review{background:#151515;border:1px solid #222;border-radius:16px;padding:2rem}
+.review .stars{color:#fbbf24;font-size:1rem;display:block;margin-bottom:0.8rem}
+.review p{color:#ccc;line-height:1.7;font-style:italic;margin-bottom:1rem}
+.review .author{font-weight:700;font-size:0.9rem;color:#dc2626}
+.cta-section{background:linear-gradient(135deg,#dc2626,#b91c1c);text-align:center;padding:5rem 1.5rem}
+.cta-section h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,3.5rem);letter-spacing:3px;margin-bottom:1rem}
+.cta-section p{opacity:0.9;max-width:500px;margin:0 auto 2rem;line-height:1.7}
+.cta-btn-outline{display:inline-block;padding:1rem 2.5rem;border:2px solid #fff;color:#fff;font-weight:700;font-size:1.1rem;border-radius:50px;text-decoration:none;transition:all 0.3s;text-transform:uppercase;letter-spacing:1px}
+.cta-btn-outline:hover{background:#fff;color:#dc2626}
+footer{background:#0a0a0a;color:#555;text-align:center;padding:2rem;font-size:0.85rem;border-top:1px solid #1a1a1a}
+.float-badge{position:fixed;bottom:1.5rem;right:1.5rem;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;padding:0.6rem 1.2rem;border-radius:50px;font-size:0.75rem;font-weight:600;z-index:100;box-shadow:0 4px 15px rgba(37,99,235,0.4);text-decoration:none}
+@media(max-width:640px){.gallery{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="float-badge">Gerado por IA com LocalReach</div>
+
+<div class="hero">
+  <div>
+    <div class="badge">&#9733;&#9733;&#9733;&#9733;&#9733; 892 avaliacoes</div>
+    <h1>SMASH<br>BURGER<br><span class="red">HOUSE</span></h1>
+    <p>Smash burgers artesanais com blend exclusivo de 180g. Batatas rusticas e milkshakes que voce nunca viu.</p>
+    <a href="#cardapio" class="cta-btn">Pedir Agora</a>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="numbers">
+      <div class="number"><h3>892+</h3><p>Avaliacoes 5 estrelas</p></div>
+      <div class="number"><h3>50K+</h3><p>Burgers vendidos</p></div>
+      <div class="number"><h3>180g</h3><p>Blend exclusivo</p></div>
+      <div class="number"><h3>#1</h3><p>iFood da regiao</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="cardapio">
+  <div class="container">
+    <h2 class="section-title">Nosso Cardapio</h2>
+    <p class="section-sub">Cada burger e feito na hora com ingredientes premium.</p>
+    <div class="menu">
+      <div class="menu-item">
+        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&h=400&fit=crop" alt="Classic Smash">
+        <div class="menu-item-info">
+          <h3>Classic Smash</h3>
+          <p>Blend 180g, queijo cheddar, cebola caramelizada, picles e molho especial.</p>
+          <div class="price">R$ 32,90</div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <img src="https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=500&h=400&fit=crop" alt="Double Smash">
+        <div class="menu-item-info">
+          <h3>Double Smash</h3>
+          <p>2x blend 180g, duplo cheddar, bacon crocante, alface e tomate.</p>
+          <div class="price">R$ 42,90</div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <img src="https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=500&h=400&fit=crop" alt="BBQ Bacon">
+        <div class="menu-item-info">
+          <h3>BBQ Bacon Supreme</h3>
+          <p>Blend 180g, bacon, onion rings, queijo pepper jack e molho BBQ defumado.</p>
+          <div class="price">R$ 39,90</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:2rem 0">
+  <div class="gallery">
+    <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=500&h=400&fit=crop" alt="Burger">
+    <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=500&h=400&fit=crop" alt="Batata">
+    <img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&h=400&fit=crop" alt="Milkshake">
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="section-title">O que dizem sobre nos</h2>
+    <p class="section-sub">A nota fala por si so.</p>
+    <div class="review-grid">
+      <div class="review">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <p>"Sem exagero, o melhor smash burger de SP. O blend e suculento e o cheddar derrete perfeitamente."</p>
+        <span class="author">Thiago Martins</span>
+      </div>
+      <div class="review">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <p>"Pedi pelo iFood e chegou quente e perfeito. As batatas rusticas sao viciantes!"</p>
+        <span class="author">Fernanda Lima</span>
+      </div>
+      <div class="review">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <p>"Ambiente top, musica boa e burger insano. Combo completo. Virei cliente fiel."</p>
+        <span class="author">Gustavo Reis</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>Bora de Smash?</h2>
+  <p>Peca agora pelo iFood, Rappi ou venha nos visitar!</p>
+  <a href="#" class="cta-btn-outline">Pedir Agora</a>
+</section>
+
+<footer>
+  <p>Smash Burger House &mdash; Todos os direitos reservados</p>
+</footer>
+</body>
+</html>

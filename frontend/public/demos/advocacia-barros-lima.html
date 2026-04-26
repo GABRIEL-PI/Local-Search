@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advocacia Barros & Lima</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;color:#1a1a1a;overflow-x:hidden}
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;background:linear-gradient(135deg,rgba(30,40,60,0.95),rgba(30,64,175,0.85)),url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1200&h=800&fit=crop') center/cover;color:#fff;padding:2rem}
+.hero-content{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.2fr 0.8fr;gap:4rem;align-items:center}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,5vw,3.8rem);font-weight:700;margin-bottom:1rem;line-height:1.15}
+.hero p{font-size:1.05rem;opacity:0.85;margin-bottom:2rem;line-height:1.8}
+.badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);padding:0.5rem 1.2rem;border-radius:50px;font-size:0.85rem;font-weight:600;margin-bottom:1.5rem;border:1px solid rgba(255,255,255,0.2)}
+.cta-btn{display:inline-block;padding:1rem 2.5rem;background:#fff;color:#1e40af;font-weight:700;font-size:1.05rem;border-radius:12px;text-decoration:none;transition:all 0.3s}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,0.2)}
+.stats-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;background:rgba(255,255,255,0.08);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.15);border-radius:16px;padding:1.5rem}
+.stat{text-align:center}
+.stat h3{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:#93c5fd}
+.stat p{font-size:0.8rem;color:rgba(255,255,255,0.7);margin-top:0.2rem}
+section{padding:5rem 1.5rem}
+.container{max-width:1100px;margin:0 auto}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,2.5rem);font-weight:700;text-align:center;margin-bottom:0.5rem}
+.section-sub{text-align:center;color:#666;font-size:1rem;max-width:600px;margin:0 auto 3rem;line-height:1.7}
+.blue{color:#1e40af}
+.areas{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.area{background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:2rem;transition:all 0.3s}
+.area:hover{border-color:#1e40af;box-shadow:0 10px 30px rgba(30,64,175,0.08);transform:translateY(-3px)}
+.area-icon{width:50px;height:50px;background:linear-gradient(135deg,#1e40af,#3b82f6);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;font-size:1.3rem}
+.area h3{font-size:1.1rem;font-weight:700;margin-bottom:0.5rem}
+.area p{color:#666;font-size:0.9rem;line-height:1.6}
+.diff-section{background:#f8fafc}
+.diffs{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem}
+.diff{text-align:center;padding:2rem}
+.diff-icon{font-size:2.5rem;margin-bottom:1rem}
+.diff h3{font-weight:700;margin-bottom:0.5rem}
+.diff p{color:#666;font-size:0.9rem;line-height:1.6}
+.review-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.review{background:#f8fafc;border:1px solid #e5e7eb;border-radius:16px;padding:2rem}
+.review .stars{color:#d4a853;font-size:1rem;display:block;margin-bottom:0.8rem}
+.review p{color:#444;line-height:1.7;font-style:italic;margin-bottom:1rem}
+.review .author{font-weight:700;font-size:0.9rem;color:#1e40af}
+.cta-section{background:linear-gradient(135deg,#1e3a5f,#1e40af);color:#fff;text-align:center;padding:5rem 1.5rem}
+.cta-section h2{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,2.5rem);margin-bottom:1rem}
+.cta-section p{opacity:0.85;max-width:500px;margin:0 auto 2rem;line-height:1.7}
+.cta-btn-white{display:inline-block;padding:1rem 2.5rem;background:#fff;color:#1e40af;font-weight:700;font-size:1.05rem;border-radius:12px;text-decoration:none;transition:all 0.3s}
+footer{background:#f8fafc;color:#999;text-align:center;padding:2rem;font-size:0.85rem}
+.float-badge{position:fixed;bottom:1.5rem;right:1.5rem;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;padding:0.6rem 1.2rem;border-radius:50px;font-size:0.75rem;font-weight:600;z-index:100;box-shadow:0 4px 15px rgba(37,99,235,0.4);text-decoration:none}
+@media(max-width:768px){.hero-content{grid-template-columns:1fr}.stats-bar{display:none}}
+</style>
+</head>
+<body>
+<div class="float-badge">Gerado por IA com LocalReach</div>
+
+<div class="hero">
+  <div class="hero-content">
+    <div>
+      <div class="badge">&#9733;&#9733;&#9733;&#9733;&#9733; 98 avaliacoes | 20+ anos</div>
+      <h1>Advocacia<br><span style="color:#93c5fd">Barros & Lima</span></h1>
+      <p>Escritorio especializado em direito empresarial, trabalhista e tributario. Mais de 20 anos protegendo os interesses dos nossos clientes com excelencia e dedicacao.</p>
+      <a href="#areas" class="cta-btn">Consulta Gratuita</a>
+    </div>
+    <div class="stats-bar">
+      <div class="stat"><h3>20+</h3><p>Anos de atuacao</p></div>
+      <div class="stat"><h3>1.500+</h3><p>Causas ganhas</p></div>
+      <div class="stat"><h3>98%</h3><p>Satisfacao</p></div>
+    </div>
+  </div>
+</div>
+
+<section id="areas">
+  <div class="container">
+    <h2 class="section-title">Areas de <span class="blue">Atuacao</span></h2>
+    <p class="section-sub">Solucoes juridicas completas para empresas e pessoas fisicas.</p>
+    <div class="areas">
+      <div class="area">
+        <div class="area-icon">&#9878;</div>
+        <h3>Direito Empresarial</h3>
+        <p>Constituicao de empresas, contratos comerciais, fusoes e aquisicoes, compliance e governanca corporativa.</p>
+      </div>
+      <div class="area">
+        <div class="area-icon">&#128188;</div>
+        <h3>Direito Trabalhista</h3>
+        <p>Defesa em reclamatorias, consultoria preventiva, acordos trabalhistas e compliance trabalhista.</p>
+      </div>
+      <div class="area">
+        <div class="area-icon">&#128200;</div>
+        <h3>Direito Tributario</h3>
+        <p>Planejamento tributario, defesa em autuacoes fiscais, recuperacao de creditos e consultoria fiscal.</p>
+      </div>
+      <div class="area">
+        <div class="area-icon">&#128196;</div>
+        <h3>Contratos</h3>
+        <p>Elaboracao e revisao de contratos, due diligence, negociacoes complexas e mediacao empresarial.</p>
+      </div>
+      <div class="area">
+        <div class="area-icon">&#127970;</div>
+        <h3>Direito Imobiliario</h3>
+        <p>Compra e venda de imoveis, locacoes, incorporacoes e regularizacao de propriedades.</p>
+      </div>
+      <div class="area">
+        <div class="area-icon">&#128187;</div>
+        <h3>Consulta Online</h3>
+        <p>Atendimento remoto com a mesma qualidade presencial. Agende sua consulta por videoconferencia.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="diff-section">
+  <div class="container">
+    <h2 class="section-title">Por que nos escolher?</h2>
+    <p class="section-sub">Compromisso com resultados e atendimento personalizado.</p>
+    <div class="diffs">
+      <div class="diff">
+        <div class="diff-icon">&#128161;</div>
+        <h3>Estrategia Personalizada</h3>
+        <p>Cada caso recebe atencao individual com estrategia juridica sob medida.</p>
+      </div>
+      <div class="diff">
+        <div class="diff-icon">&#9201;</div>
+        <h3>Agilidade</h3>
+        <p>Respostas rapidas e acompanhamento constante do andamento processual.</p>
+      </div>
+      <div class="diff">
+        <div class="diff-icon">&#128176;</div>
+        <h3>Transparencia</h3>
+        <p>Honorarios claros desde o inicio. Sem surpresas, sem custos ocultos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="section-title">Depoimentos de Clientes</h2>
+    <p class="section-sub">A confianca dos nossos clientes e nosso maior patrimonio.</p>
+    <div class="review-grid">
+      <div class="review">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <p>"Resolveram uma questao trabalhista complexa da minha empresa com muita competencia. Recomendo fortemente."</p>
+        <span class="author">Eduardo Machado, CEO</span>
+      </div>
+      <div class="review">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <p>"Atendimento excepcional. Sempre disponiveis e explicam tudo de forma clara. Advogados de confianca."</p>
+        <span class="author">Mariana Lopes, Empresaria</span>
+      </div>
+      <div class="review">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <p>"O planejamento tributario que fizeram economizou muito para minha empresa. Profissionais serios."</p>
+        <span class="author">Ricardo Nunes, Diretor Financeiro</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>Precisa de assessoria juridica?</h2>
+  <p>Agende uma consulta gratuita e descubra como podemos ajudar o seu caso.</p>
+  <a href="#" class="cta-btn-white">Agendar Consulta Gratuita</a>
+</section>
+
+<footer>
+  <p>Advocacia Barros & Lima &mdash; OAB/PR 12345 &mdash; Todos os direitos reservados</p>
+</footer>
+</body>
+</html>

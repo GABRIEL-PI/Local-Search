@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clinica Vida Plena</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Plus Jakarta Sans',sans-serif;color:#1a1a1a;overflow-x:hidden}
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;background:linear-gradient(135deg,rgba(13,148,136,0.92),rgba(6,182,212,0.85)),url('https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1200&h=800&fit=crop') center/cover;color:#fff;padding:2rem}
+.hero-content{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.hero h1{font-size:clamp(2.2rem,5vw,3.5rem);font-weight:800;margin-bottom:1rem;line-height:1.15}
+.hero p{font-size:1.1rem;opacity:0.9;margin-bottom:2rem;line-height:1.7}
+.badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);padding:0.5rem 1.2rem;border-radius:50px;font-size:0.85rem;font-weight:600;margin-bottom:1.5rem;border:1px solid rgba(255,255,255,0.25)}
+.cta-btn{display:inline-block;padding:1rem 2.5rem;background:#fff;color:#0d9488;font-weight:700;font-size:1.05rem;border-radius:14px;text-decoration:none;transition:all 0.3s}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,0.2)}
+.hero-img{display:flex;justify-content:center}
+.hero-img img{width:100%;max-width:450px;border-radius:24px;box-shadow:0 20px 50px rgba(0,0,0,0.3)}
+section{padding:5rem 1.5rem}
+.container{max-width:1100px;margin:0 auto}
+.section-title{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:800;text-align:center;margin-bottom:0.5rem}
+.section-sub{text-align:center;color:#666;font-size:1rem;max-width:600px;margin:0 auto 3rem;line-height:1.7}
+.teal{color:#0d9488}
+.specs{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem}
+.spec{background:#f0fdfa;border:1px solid #ccfbf1;border-radius:16px;padding:2rem;text-align:center;transition:all 0.3s}
+.spec:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(13,148,136,0.1)}
+.spec-icon{width:50px;height:50px;background:linear-gradient(135deg,#0d9488,#06b6d4);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.3rem}
+.spec h3{font-size:1.05rem;font-weight:700;margin-bottom:0.4rem}
+.spec p{color:#666;font-size:0.9rem;line-height:1.6}
+.doctors-section{background:#f8fffe}
+.doctors{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem}
+.doctor{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.05);transition:all 0.3s}
+.doctor:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(13,148,136,0.1)}
+.doctor img{width:100%;height:220px;object-fit:cover}
+.doctor-info{padding:1.5rem;text-align:center}
+.doctor-info h3{font-weight:700;margin-bottom:0.3rem}
+.doctor-info p{color:#0d9488;font-size:0.9rem;font-weight:500}
+.numbers{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem;text-align:center;padding:3rem 0}
+.number h3{font-size:2.5rem;font-weight:800;color:#0d9488}
+.number p{color:#666;font-size:0.95rem;margin-top:0.3rem}
+.review-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.review{background:#f0fdfa;border:1px solid #ccfbf1;border-radius:16px;padding:2rem}
+.review .stars{color:#d4a853;font-size:1rem;display:block;margin-bottom:0.8rem}
+.review p{color:#444;line-height:1.7;font-style:italic;margin-bottom:1rem}
+.review .author{font-weight:700;font-size:0.9rem;color:#0d9488}
+.cta-section{background:linear-gradient(135deg,#0d9488,#06b6d4);color:#fff;text-align:center;padding:5rem 1.5rem}
+.cta-section h2{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:800;margin-bottom:1rem}
+.cta-section p{opacity:0.9;max-width:500px;margin:0 auto 2rem;line-height:1.7}
+.cta-btn-white{display:inline-block;padding:1rem 2.5rem;background:#fff;color:#0d9488;font-weight:700;font-size:1.05rem;border-radius:14px;text-decoration:none;transition:all 0.3s}
+footer{background:#f8fffe;color:#999;text-align:center;padding:2rem;font-size:0.85rem}
+.float-badge{position:fixed;bottom:1.5rem;right:1.5rem;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;padding:0.6rem 1.2rem;border-radius:50px;font-size:0.75rem;font-weight:600;z-index:100;box-shadow:0 4px 15px rgba(37,99,235,0.4);text-decoration:none}
+@media(max-width:768px){.hero-content{grid-template-columns:1fr}.hero-img{display:none}}
+</style>
+</head>
+<body>
+<div class="float-badge">Gerado por IA com LocalReach</div>
+
+<div class="hero">
+  <div class="hero-content">
+    <div>
+      <div class="badge">&#9733;&#9733;&#9733;&#9733;&#9733; 203 avaliacoes</div>
+      <h1>Sua saude em<br>boas maos na<br><span style="color:#a7f3d0">Clinica Vida Plena</span></h1>
+      <p>Clinica multidisciplinar com mais de 15 especialidades. Exames, consultas e procedimentos em um so lugar, com tecnologia de ponta.</p>
+      <a href="#especialidades" class="cta-btn">Agendar Consulta</a>
+    </div>
+    <div class="hero-img">
+      <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=500&h=600&fit=crop" alt="Clinica">
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="numbers">
+      <div class="number"><h3>15+</h3><p>Especialidades</p></div>
+      <div class="number"><h3>12.000+</h3><p>Pacientes atendidos</p></div>
+      <div class="number"><h3>8</h3><p>Anos de experiencia</p></div>
+      <div class="number"><h3>98%</h3><p>Satisfacao</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="especialidades" style="background:#f8fffe">
+  <div class="container">
+    <h2 class="section-title">Nossas <span class="teal">Especialidades</span></h2>
+    <p class="section-sub">Cuidado completo para toda a familia, do diagnostico ao tratamento.</p>
+    <div class="specs">
+      <div class="spec">
+        <div class="spec-icon">&#129657;</div>
+        <h3>Cardiologia</h3>
+        <p>Exames de ecocardiograma, eletro e acompanhamento completo.</p>
+      </div>
+      <div class="spec">
+        <div class="spec-icon">&#129504;</div>
+        <h3>Neurologia</h3>
+        <p>Diagnostico e tratamento de doencas neurologicas com especialistas.</p>
+      </div>
+      <div class="spec">
+        <div class="spec-icon">&#128084;</div>
+        <h3>Ortopedia</h3>
+        <p>Fraturas, lesoes esportivas e reabilitacao com fisioterapia.</p>
+      </div>
+      <div class="spec">
+        <div class="spec-icon">&#128118;</div>
+        <h3>Pediatria</h3>
+        <p>Atendimento humanizado para bebes, criancas e adolescentes.</p>
+      </div>
+      <div class="spec">
+        <div class="spec-icon">&#128065;</div>
+        <h3>Oftalmologia</h3>
+        <p>Consultas, exames de vista e cirurgias a laser.</p>
+      </div>
+      <div class="spec">
+        <div class="spec-icon">&#129656;</div>
+        <h3>Telemedicina</h3>
+        <p>Consultas online com a mesma qualidade do atendimento presencial.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="section-title">O que nossos pacientes dizem</h2>
+    <p class="section-sub">Confianca e cuidado que fazem a diferenca.</p>
+    <div class="review-grid">
+      <div class="review">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <p>"Atendimento humanizado e rapido. Fiz todos meus exames em um so dia. Equipe muito profissional."</p>
+        <span class="author">Juliana Ferreira</span>
+      </div>
+      <div class="review">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <p>"Minha familia inteira se consulta aqui. Desde o pediatra da minha filha ate meu cardiologista. Confianca total."</p>
+        <span class="author">Roberto Almeida</span>
+      </div>
+      <div class="review">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <p>"A telemedicina funciona muito bem. Consegui minha receita sem sair de casa. Pratico demais!"</p>
+        <span class="author">Camila Rodrigues</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>Agende sua consulta hoje</h2>
+  <p>Cuidar da saude nao pode esperar. Estamos prontos para atender voce.</p>
+  <a href="#" class="cta-btn-white">Agendar Consulta</a>
+</section>
+
+<footer>
+  <p>Clinica Vida Plena &mdash; Todos os direitos reservados</p>
+</footer>
+</body>
+</html>
