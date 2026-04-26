@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, KeyboardEvent } from 'react'
+import { useState, useEffect, useMemo, KeyboardEvent, lazy, Suspense } from 'react'
 import { leadsApi, geogridApi } from '@/lib/api'
 import { SessionScraping, Geogrid, GeogridDetail, Lead } from '@/types'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
@@ -10,8 +10,10 @@ import {
 } from 'lucide-react'
 import { useUIStore } from '@/stores/uiStore'
 import { formatDate } from '@/lib/utils'
-import { MapContainer, TileLayer, CircleMarker, Marker, Tooltip as LeafletTooltip } from 'react-leaflet'
-import L from 'leaflet'
+import ErrorBoundary from '@/components/ErrorBoundary'
+import GeogridGridFallback from '@/components/geogrid/GeogridGridFallback'
+
+const GeogridMapView = lazy(() => import('@/components/geogrid/GeogridMapView'))
 
 const SUGGESTED_CATEGORIES = [
   'Restaurante', 'Pizzaria', 'Hamburgueria', 'Padaria', 'Lanchonete',
@@ -29,27 +31,6 @@ const SESSION_STATUS_CONFIG: Record<string, { label: string; variant: 'default' 
   concluido: { label: 'Concluído', variant: 'success', icon: CheckCircle },
   erro: { label: 'Erro', variant: 'danger', icon: AlertCircle },
   pausado: { label: 'Pausado', variant: 'warning', icon: Clock },
-}
-
-// Fix Leaflet default icon path issue
-const leadIcon = L.divIcon({
-  html: `<div style="background:#3b82f6;width:14px;height:14px;border-radius:50%;border:3px solid white;box-shadow:0 0 0 1px #3b82f6;"></div>`,
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
-  className: '',
-})
-
-function rankColor(rank: number | null): string {
-  if (rank === null) return '#71717a'
-  if (rank <= 3) return '#10b981'
-  if (rank <= 10) return '#f59e0b'
-  if (rank <= 20) return '#fb923c'
-  return '#ef4444'
-}
-
-function rankLabel(rank: number | null): string {
-  if (rank === null) return '—'
-  return String(rank)
 }
 
 interface ChipInputProps {
@@ -389,93 +370,17 @@ function BatchScrapeTab() {
   )
 }
 
-function GeogridMap({ detail }: { detail: GeogridDetail }) {
-  const cellSize = useMemo(() => {
-    // size of grid cells when shown as a quick HTML grid (fallback if map fails)
-    return Math.max(28, 200 / detail.grid_size)
-  }, [detail.grid_size])
-
+function GeogridView({ detail }: { detail: GeogridDetail }) {
   return (
-    <div className="space-y-4">
-      <div className="h-96 rounded-lg overflow-hidden border border-border">
-        <MapContainer
-          center={[detail.center_lat, detail.center_lng]}
-          zoom={14}
-          scrollWheelZoom
-          style={{ height: '100%', width: '100%' }}
-        >
-          <TileLayer
-            attribution='© OpenStreetMap contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          {detail.points.map((p) => (
-            <CircleMarker
-              key={p.id}
-              center={[p.lat, p.lng]}
-              radius={18}
-              pathOptions={{
-                color: rankColor(p.rank),
-                fillColor: rankColor(p.rank),
-                fillOpacity: p.status === 'concluido' ? 0.65 : 0.25,
-                weight: 2,
-              }}
-            >
-              <LeafletTooltip permanent direction="center" className="rank-tooltip">
-                <span style={{ color: 'white', fontWeight: 700, fontSize: 12 }}>
-                  {p.status === 'rodando' ? '…' : p.status === 'erro' ? '!' : rankLabel(p.rank)}
-                </span>
-              </LeafletTooltip>
-              <LeafletTooltip>
-                {p.status === 'concluido' ? (
-                  p.rank ? `Posição ${p.rank}` : 'Não rankeado (top 21)'
-                ) : p.status}
-              </LeafletTooltip>
-            </CircleMarker>
-          ))}
-          <Marker position={[detail.center_lat, detail.center_lng]} icon={leadIcon}>
-            <LeafletTooltip permanent direction="top" offset={[0, -10]}>
-              <strong>{detail.lead_nome}</strong>
-            </LeafletTooltip>
-          </Marker>
-        </MapContainer>
-      </div>
-
-      <div className="flex flex-wrap items-center gap-4 text-xs text-fg-subtle">
-        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full" style={{ background: '#10b981' }} /> 1-3</span>
-        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full" style={{ background: '#f59e0b' }} /> 4-10</span>
-        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full" style={{ background: '#fb923c' }} /> 11-20</span>
-        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full" style={{ background: '#ef4444' }} /> 21+</span>
-        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full" style={{ background: '#71717a' }} /> não rankeado</span>
-      </div>
-
-      <div>
-        <p className="text-xs text-fg-faint mb-2">Visão em grade ({detail.grid_size}×{detail.grid_size}):</p>
-        <div
-          className="inline-grid gap-1 p-2 bg-elevated rounded-lg"
-          style={{ gridTemplateColumns: `repeat(${detail.grid_size}, ${cellSize}px)` }}
-        >
-          {Array.from({ length: detail.grid_size * detail.grid_size }).map((_, i) => {
-            const p = detail.points.find((pt) => pt.idx === i)
-            return (
-              <div
-                key={i}
-                className="rounded flex items-center justify-center text-xs font-bold"
-                style={{
-                  width: cellSize,
-                  height: cellSize,
-                  background: p ? rankColor(p.rank) : '#71717a',
-                  color: 'white',
-                  opacity: p?.status === 'concluido' ? 1 : 0.4,
-                }}
-                title={p ? (p.rank ? `pos ${p.rank}` : p.status) : ''}
-              >
-                {p ? (p.status === 'rodando' ? '…' : p.status === 'erro' ? '!' : rankLabel(p.rank)) : '?'}
-              </div>
-            )
-          })}
+    <ErrorBoundary fallback={<GeogridGridFallback detail={detail} />}>
+      <Suspense fallback={
+        <div className="h-96 flex items-center justify-center text-sm text-fg-faint">
+          <Loader2 className="w-5 h-5 animate-spin" /> Carregando mapa…
         </div>
-      </div>
-    </div>
+      }>
+        <GeogridMapView detail={detail} />
+      </Suspense>
+    </ErrorBoundary>
   )
 }
 
@@ -714,7 +619,7 @@ function GeogridTab() {
                 <p className="text-fg-subtle">Selecione ou inicie um geogrid</p>
               </div>
             ) : (
-              <GeogridMap detail={detail} />
+              <GeogridView detail={detail} />
             )}
           </CardContent>
         </Card>

@@ -1,8 +1,24 @@
+@import 'leaflet/dist/leaflet.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import 'leaflet/dist/leaflet.css';
+.leaflet-container {
+  background: rgb(var(--elevated));
+  font-family: inherit;
+}
+.leaflet-tooltip {
+  background: rgb(var(--surface));
+  border-color: rgb(var(--border));
+  color: rgb(var(--fg));
+}
+.leaflet-tooltip-top:before,
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+  border-top-color: rgb(var(--surface));
+}
 
 /* ─── Theme tokens ─── */
 :root {
