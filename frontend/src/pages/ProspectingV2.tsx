@@ -1,15 +1,17 @@
 import { useState, useEffect, useMemo, KeyboardEvent } from 'react'
-import { leadsApi } from '@/lib/api'
-import { SessionScraping } from '@/types'
+import { leadsApi, geogridApi } from '@/lib/api'
+import { SessionScraping, Geogrid, GeogridDetail, Lead } from '@/types'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
 import {
   Search, MapPin, Tag as TagIcon, Clock, CheckCircle, AlertCircle,
-  Loader2, X, Plus, Star, Globe, Filter, RotateCcw,
+  Loader2, X, Plus, Star, Globe, Filter, RotateCcw, Map as MapIcon, Target,
 } from 'lucide-react'
 import { useUIStore } from '@/stores/uiStore'
 import { formatDate } from '@/lib/utils'
+import { MapContainer, TileLayer, CircleMarker, Marker, Tooltip as LeafletTooltip } from 'react-leaflet'
+import L from 'leaflet'
 
 const SUGGESTED_CATEGORIES = [
   'Restaurante', 'Pizzaria', 'Hamburgueria', 'Padaria', 'Lanchonete',
@@ -27,6 +29,27 @@ const SESSION_STATUS_CONFIG: Record<string, { label: string; variant: 'default' 
   concluido: { label: 'Concluído', variant: 'success', icon: CheckCircle },
   erro: { label: 'Erro', variant: 'danger', icon: AlertCircle },
   pausado: { label: 'Pausado', variant: 'warning', icon: Clock },
+}
+
+// Fix Leaflet default icon path issue
+const leadIcon = L.divIcon({
+  html: `<div style="background:#3b82f6;width:14px;height:14px;border-radius:50%;border:3px solid white;box-shadow:0 0 0 1px #3b82f6;"></div>`,
+  iconSize: [20, 20],
+  iconAnchor: [10, 10],
+  className: '',
+})
+
+function rankColor(rank: number | null): string {
+  if (rank === null) return '#71717a'
+  if (rank <= 3) return '#10b981'
+  if (rank <= 10) return '#f59e0b'
+  if (rank <= 20) return '#fb923c'
+  return '#ef4444'
+}
+
+function rankLabel(rank: number | null): string {
+  if (rank === null) return '—'
+  return String(rank)
 }
 
 interface ChipInputProps {
@@ -121,7 +144,7 @@ function ChipInput({ values, onChange, placeholder, suggestions }: ChipInputProp
   )
 }
 
-export default function ProspectingV2() {
+function BatchScrapeTab() {
   const { showSuccess, showError } = useUIStore()
   const [loading, setLoading] = useState(false)
   const [sessions, setSessions] = useState<SessionScraping[]>([])
@@ -205,6 +228,505 @@ export default function ProspectingV2() {
   }
 
   return (
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="lg:col-span-1 space-y-4">
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle>Nova Busca</CardTitle>
+              {(cidades.length > 0 || categorias.length > 0) && (
+                <button type="button" onClick={clear} className="text-xs text-fg-faint hover:text-fg-muted flex items-center gap-1">
+                  <RotateCcw className="w-3 h-3" /> limpar
+                </button>
+              )}
+            </div>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-xs font-medium text-fg-muted mb-1 flex items-center gap-1">
+                  <MapPin className="w-3 h-3" /> Cidades
+                </label>
+                <ChipInput values={cidades} onChange={setCidades} placeholder="Digite e Enter (ex: São Paulo)" />
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-fg-muted mb-1">Estado (opcional)</label>
+                <input
+                  type="text"
+                  value={estado}
+                  onChange={(e) => setEstado(e.target.value.toUpperCase().slice(0, 2))}
+                  placeholder="SP"
+                  maxLength={2}
+                  className="w-20 px-3 py-2 text-sm border border-border-strong rounded-lg bg-bg text-fg focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-fg-muted mb-1 flex items-center gap-1">
+                  <TagIcon className="w-3 h-3" /> Categorias
+                </label>
+                <ChipInput values={categorias} onChange={setCategorias} placeholder="Digite ou escolha" suggestions={SUGGESTED_CATEGORIES} />
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-fg-muted mb-1">
+                  Limite por busca: <span className="font-bold text-blue-600 dark:text-blue-400">{limite}</span>
+                </label>
+                <input
+                  type="range"
+                  min={10}
+                  max={500}
+                  step={10}
+                  value={limite}
+                  onChange={(e) => setLimite(Number(e.target.value))}
+                  className="w-full accent-blue-600"
+                />
+              </div>
+
+              <button type="button" onClick={() => setShowFilters((v) => !v)} className="text-xs text-fg-subtle hover:text-fg-muted flex items-center gap-1">
+                <Filter className="w-3 h-3" />
+                {showFilters ? 'Esconder filtros' : 'Filtros'}
+              </button>
+
+              {showFilters && (
+                <div className="space-y-3 p-3 rounded-lg border border-border bg-bg">
+                  <div>
+                    <label className="block text-xs font-medium text-fg-muted mb-1 flex items-center gap-1">
+                      <Star className="w-3 h-3" />
+                      Rating mín.: <span className="font-bold text-amber-600 dark:text-amber-400">{minRating > 0 ? minRating.toFixed(1) : 'qualquer'}</span>
+                    </label>
+                    <input type="range" min={0} max={5} step={0.5} value={minRating} onChange={(e) => setMinRating(Number(e.target.value))} className="w-full accent-amber-500" />
+                  </div>
+                  <label className="flex items-center gap-2 text-xs text-fg-muted cursor-pointer">
+                    <input type="checkbox" checked={onlyNoWebsite} onChange={(e) => setOnlyNoWebsite(e.target.checked)} className="accent-blue-600" />
+                    <Globe className="w-3 h-3" /> Só salvar leads SEM site
+                  </label>
+                </div>
+              )}
+
+              {totalJobs > 0 && (
+                <div className="text-xs text-fg-subtle bg-elevated rounded-md px-3 py-2">
+                  Vai disparar <span className="font-bold text-fg">{totalJobs}</span> sessão(ões)
+                </div>
+              )}
+
+              <Button type="submit" className="w-full" loading={loading} disabled={!totalJobs}>
+                <Search className="w-4 h-4" />
+                {totalJobs > 1 ? `Disparar ${totalJobs} buscas` : 'Iniciar Prospecção'}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+
+        {presets.length > 0 && (
+          <Card>
+            <CardHeader><CardTitle className="text-sm">Buscas recentes</CardTitle></CardHeader>
+            <CardContent className="space-y-2">
+              {presets.map((p, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => applyPreset(p)}
+                  className="w-full flex items-center gap-2 text-left px-3 py-2 rounded-lg border border-border hover:bg-elevated transition-colors text-xs"
+                >
+                  <Plus className="w-3.5 h-3.5 text-fg-faint flex-shrink-0" />
+                  <span className="text-fg">{p.categoria}</span>
+                  <span className="text-fg-faint">em {p.cidade}{p.estado ? `, ${p.estado}` : ''}</span>
+                </button>
+              ))}
+            </CardContent>
+          </Card>
+        )}
+      </div>
+
+      <div className="lg:col-span-2">
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle>Sessões de Prospecção</CardTitle>
+              <span className="text-xs text-fg-faint">{sessions.length} total</span>
+            </div>
+          </CardHeader>
+          <CardContent>
+            {sessions.length === 0 ? (
+              <div className="text-center py-12">
+                <Search className="w-12 h-12 text-fg-faint mx-auto mb-3" />
+                <p className="text-fg-subtle">Nenhuma sessão iniciada</p>
+              </div>
+            ) : (
+              <div className="space-y-3 max-h-[640px] overflow-y-auto">
+                {sessions.map((session) => {
+                  const config = SESSION_STATUS_CONFIG[session.status] || SESSION_STATUS_CONFIG.pausado
+                  const Icon = config.icon
+                  return (
+                    <div key={session.id} className="flex items-center gap-4 p-4 border border-border rounded-xl hover:bg-bg">
+                      <div className="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <Icon className={`w-5 h-5 text-blue-600 dark:text-blue-400 ${session.status === 'rodando' ? 'animate-spin' : ''}`} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <p className="text-sm font-medium text-fg truncate">{session.categoria}</p>
+                          <Badge variant={config.variant} className="text-xs">{config.label}</Badge>
+                        </div>
+                        <p className="text-xs text-fg-subtle">{session.cidade}{session.estado ? `, ${session.estado}` : ''}</p>
+                        <p className="text-xs text-fg-faint mt-0.5">{formatDate(session.iniciado_em)}</p>
+                      </div>
+                      <div className="text-right flex-shrink-0">
+                        <p className="text-lg font-bold text-fg">{session.leads_salvos}</p>
+                        <p className="text-xs text-fg-faint">salvos</p>
+                        <p className="text-xs text-fg-faint">{session.leads_encontrados} encontrados</p>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  )
+}
+
+function GeogridMap({ detail }: { detail: GeogridDetail }) {
+  const cellSize = useMemo(() => {
+    // size of grid cells when shown as a quick HTML grid (fallback if map fails)
+    return Math.max(28, 200 / detail.grid_size)
+  }, [detail.grid_size])
+
+  return (
+    <div className="space-y-4">
+      <div className="h-96 rounded-lg overflow-hidden border border-border">
+        <MapContainer
+          center={[detail.center_lat, detail.center_lng]}
+          zoom={14}
+          scrollWheelZoom
+          style={{ height: '100%', width: '100%' }}
+        >
+          <TileLayer
+            attribution='© OpenStreetMap contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {detail.points.map((p) => (
+            <CircleMarker
+              key={p.id}
+              center={[p.lat, p.lng]}
+              radius={18}
+              pathOptions={{
+                color: rankColor(p.rank),
+                fillColor: rankColor(p.rank),
+                fillOpacity: p.status === 'concluido' ? 0.65 : 0.25,
+                weight: 2,
+              }}
+            >
+              <LeafletTooltip permanent direction="center" className="rank-tooltip">
+                <span style={{ color: 'white', fontWeight: 700, fontSize: 12 }}>
+                  {p.status === 'rodando' ? '…' : p.status === 'erro' ? '!' : rankLabel(p.rank)}
+                </span>
+              </LeafletTooltip>
+              <LeafletTooltip>
+                {p.status === 'concluido' ? (
+                  p.rank ? `Posição ${p.rank}` : 'Não rankeado (top 21)'
+                ) : p.status}
+              </LeafletTooltip>
+            </CircleMarker>
+          ))}
+          <Marker position={[detail.center_lat, detail.center_lng]} icon={leadIcon}>
+            <LeafletTooltip permanent direction="top" offset={[0, -10]}>
+              <strong>{detail.lead_nome}</strong>
+            </LeafletTooltip>
+          </Marker>
+        </MapContainer>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-4 text-xs text-fg-subtle">
+        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full" style={{ background: '#10b981' }} /> 1-3</span>
+        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full" style={{ background: '#f59e0b' }} /> 4-10</span>
+        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full" style={{ background: '#fb923c' }} /> 11-20</span>
+        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full" style={{ background: '#ef4444' }} /> 21+</span>
+        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full" style={{ background: '#71717a' }} /> não rankeado</span>
+      </div>
+
+      <div>
+        <p className="text-xs text-fg-faint mb-2">Visão em grade ({detail.grid_size}×{detail.grid_size}):</p>
+        <div
+          className="inline-grid gap-1 p-2 bg-elevated rounded-lg"
+          style={{ gridTemplateColumns: `repeat(${detail.grid_size}, ${cellSize}px)` }}
+        >
+          {Array.from({ length: detail.grid_size * detail.grid_size }).map((_, i) => {
+            const p = detail.points.find((pt) => pt.idx === i)
+            return (
+              <div
+                key={i}
+                className="rounded flex items-center justify-center text-xs font-bold"
+                style={{
+                  width: cellSize,
+                  height: cellSize,
+                  background: p ? rankColor(p.rank) : '#71717a',
+                  color: 'white',
+                  opacity: p?.status === 'concluido' ? 1 : 0.4,
+                }}
+                title={p ? (p.rank ? `pos ${p.rank}` : p.status) : ''}
+              >
+                {p ? (p.status === 'rodando' ? '…' : p.status === 'erro' ? '!' : rankLabel(p.rank)) : '?'}
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function GeogridTab() {
+  const { showSuccess, showError } = useUIStore()
+  const [leads, setLeads] = useState<Lead[]>([])
+  const [sessions, setSessions] = useState<Geogrid[]>([])
+  const [selectedSessionId, setSelectedSessionId] = useState<number | null>(null)
+  const [detail, setDetail] = useState<GeogridDetail | null>(null)
+  const [loadingStart, setLoadingStart] = useState(false)
+
+  const [leadId, setLeadId] = useState<number | ''>('')
+  const [keyword, setKeyword] = useState('')
+  const [gridSize, setGridSize] = useState(5)
+  const [spacing, setSpacing] = useState(400)
+
+  useEffect(() => {
+    loadSessions()
+    loadLeads()
+    const interval = setInterval(loadSessions, 8000)
+    return () => clearInterval(interval)
+  }, [])
+
+  useEffect(() => {
+    if (!selectedSessionId) {
+      setDetail(null)
+      return
+    }
+    let active = true
+    const loadDetail = async () => {
+      try {
+        const res = await geogridApi.get(selectedSessionId)
+        if (active) setDetail(res.data)
+      } catch {
+        if (active) setDetail(null)
+      }
+    }
+    loadDetail()
+    const interval = setInterval(loadDetail, 5000)
+    return () => { active = false; clearInterval(interval) }
+  }, [selectedSessionId])
+
+  const loadLeads = async () => {
+    try {
+      const res = await leadsApi.list({ limit: 200 })
+      const items: Lead[] = res.data.items || []
+      setLeads(items.filter((l) => l.latitude && l.longitude))
+    } catch {
+      // silent
+    }
+  }
+
+  const loadSessions = async () => {
+    try {
+      const res = await geogridApi.list()
+      setSessions(res.data)
+      if (!selectedSessionId && res.data.length > 0) {
+        setSelectedSessionId(res.data[0].id)
+      }
+    } catch {
+      // silent
+    }
+  }
+
+  const selectedLead = leads.find((l) => l.id === leadId)
+
+  const handleStart = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!leadId) return showError('Selecione um lead com lat/lng')
+    setLoadingStart(true)
+    try {
+      const res = await geogridApi.start({
+        lead_id: Number(leadId),
+        keyword: keyword.trim() || undefined,
+        grid_size: gridSize,
+        spacing_meters: spacing,
+      })
+      if (res.data.error) {
+        showError('Erro', res.data.error)
+      } else {
+        showSuccess('Geogrid iniciado', `${gridSize * gridSize} pontos enfileirados`)
+        loadSessions()
+        setSelectedSessionId(res.data.geogrid_id)
+      }
+    } catch (err: unknown) {
+      const e = err as { response?: { data?: { detail?: string } } }
+      showError('Erro', e?.response?.data?.detail || 'Tente novamente')
+    } finally {
+      setLoadingStart(false)
+    }
+  }
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="lg:col-span-1 space-y-4">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Target className="w-4 h-4" /> Novo Mapa de Calor
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleStart} className="space-y-4">
+              <div>
+                <label className="block text-xs font-medium text-fg-muted mb-1">Lead (precisa ter lat/lng)</label>
+                <select
+                  value={leadId}
+                  onChange={(e) => setLeadId(e.target.value ? Number(e.target.value) : '')}
+                  className="w-full px-3 py-2 text-sm border border-border-strong rounded-lg bg-bg text-fg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                >
+                  <option value="">Selecionar lead...</option>
+                  {leads.map((l) => (
+                    <option key={l.id} value={l.id}>
+                      {l.nome} {l.cidade ? `— ${l.cidade}` : ''}
+                    </option>
+                  ))}
+                </select>
+                {leads.length === 0 && (
+                  <p className="text-xs text-fg-faint mt-1">Nenhum lead com coordenadas. Faça uma prospecção primeiro.</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-fg-muted mb-1">Palavra-chave (default: categoria do lead)</label>
+                <input
+                  type="text"
+                  value={keyword}
+                  onChange={(e) => setKeyword(e.target.value)}
+                  placeholder={selectedLead?.categoria || 'ex: pizzaria'}
+                  className="w-full px-3 py-2 text-sm border border-border-strong rounded-lg bg-bg text-fg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-fg-muted mb-1">
+                  Grade: <span className="font-bold text-violet-600 dark:text-violet-400">{gridSize}×{gridSize}</span> = <span className="font-bold text-fg">{gridSize * gridSize}</span> pontos
+                </label>
+                <input
+                  type="range"
+                  min={3}
+                  max={9}
+                  step={2}
+                  value={gridSize}
+                  onChange={(e) => setGridSize(Number(e.target.value))}
+                  className="w-full accent-violet-600"
+                />
+                <div className="flex justify-between text-xs text-fg-faint mt-1">
+                  <span>3×3</span><span>5×5</span><span>7×7</span><span>9×9</span>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-fg-muted mb-1">
+                  Espaçamento entre pontos: <span className="font-bold text-violet-600 dark:text-violet-400">{spacing}m</span>
+                </label>
+                <input
+                  type="range"
+                  min={100}
+                  max={2000}
+                  step={100}
+                  value={spacing}
+                  onChange={(e) => setSpacing(Number(e.target.value))}
+                  className="w-full accent-violet-600"
+                />
+                <div className="flex justify-between text-xs text-fg-faint mt-1">
+                  <span>100m</span><span>2km</span>
+                </div>
+              </div>
+
+              <div className="text-xs text-fg-subtle bg-elevated rounded-md px-3 py-2">
+                Cobertura: <span className="font-bold text-fg">~{((gridSize - 1) * spacing / 1000).toFixed(1)} km</span> de lado.
+                Cada ponto = 1 chamada ao scraper. <span className="text-amber-600 dark:text-amber-400">Pode levar alguns minutos.</span>
+              </div>
+
+              <Button type="submit" className="w-full" loading={loadingStart} disabled={!leadId}>
+                <Target className="w-4 h-4" />
+                Iniciar Geogrid
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader><CardTitle className="text-sm">Sessões anteriores</CardTitle></CardHeader>
+          <CardContent>
+            {sessions.length === 0 ? (
+              <p className="text-xs text-fg-faint text-center py-4">Nenhuma ainda</p>
+            ) : (
+              <div className="space-y-1 max-h-80 overflow-y-auto">
+                {sessions.map((s) => {
+                  const config = SESSION_STATUS_CONFIG[s.status] || SESSION_STATUS_CONFIG.pausado
+                  const Icon = config.icon
+                  const isSelected = s.id === selectedSessionId
+                  const pct = s.total_pontos > 0 ? Math.round((s.pontos_concluidos / s.total_pontos) * 100) : 0
+                  return (
+                    <button
+                      key={s.id}
+                      onClick={() => setSelectedSessionId(s.id)}
+                      className={`w-full text-left p-3 rounded-lg border transition-colors ${
+                        isSelected ? 'border-violet-500/50 bg-violet-500/5' : 'border-border hover:bg-elevated'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2 mb-1">
+                        <Icon className={`w-3.5 h-3.5 ${config.variant === 'info' ? 'text-blue-500 animate-spin' : config.variant === 'success' ? 'text-emerald-500' : 'text-red-500'}`} />
+                        <span className="text-xs font-medium text-fg truncate flex-1">{s.keyword}</span>
+                        <span className="text-[10px] text-fg-faint">{s.grid_size}×{s.grid_size}</span>
+                      </div>
+                      <div className="h-1 bg-bg rounded overflow-hidden">
+                        <div className="h-full bg-violet-500 transition-all" style={{ width: `${pct}%` }} />
+                      </div>
+                      <p className="text-[10px] text-fg-faint mt-1">
+                        {s.pontos_concluidos}/{s.total_pontos} pontos · {formatDate(s.iniciado_em)}
+                      </p>
+                    </button>
+                  )
+                })}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="lg:col-span-2">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <MapIcon className="w-4 h-4" />
+              {detail ? `${detail.lead_nome} — "${detail.keyword}"` : 'Mapa de calor'}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {!detail ? (
+              <div className="text-center py-16">
+                <MapIcon className="w-16 h-16 text-fg-faint mx-auto mb-3" />
+                <p className="text-fg-subtle">Selecione ou inicie um geogrid</p>
+              </div>
+            ) : (
+              <GeogridMap detail={detail} />
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  )
+}
+
+export default function ProspectingV2() {
+  const [tab, setTab] = useState<'batch' | 'geogrid'>('batch')
+
+  return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
         <div>
@@ -214,216 +736,34 @@ export default function ProspectingV2() {
               v2 BETA
             </span>
           </div>
-          <p className="text-sm text-fg-subtle mt-1">Versão experimental — geogrid e mais features em desenvolvimento</p>
+          <p className="text-sm text-fg-subtle mt-1">Versão experimental — busca em lote + mapa de calor de ranking</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Form */}
-        <div className="lg:col-span-1 space-y-4">
-          <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle>Nova Busca</CardTitle>
-                {(cidades.length > 0 || categorias.length > 0) && (
-                  <button
-                    type="button"
-                    onClick={clear}
-                    className="text-xs text-fg-faint hover:text-fg-muted flex items-center gap-1"
-                  >
-                    <RotateCcw className="w-3 h-3" />
-                    limpar
-                  </button>
-                )}
-              </div>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label className="block text-xs font-medium text-fg-muted mb-1 flex items-center gap-1">
-                    <MapPin className="w-3 h-3" /> Cidades
-                  </label>
-                  <ChipInput
-                    values={cidades}
-                    onChange={setCidades}
-                    placeholder="Digite e Enter (ex: São Paulo)"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-medium text-fg-muted mb-1">Estado (opcional, aplicado a todas)</label>
-                  <input
-                    type="text"
-                    value={estado}
-                    onChange={(e) => setEstado(e.target.value.toUpperCase().slice(0, 2))}
-                    placeholder="SP"
-                    maxLength={2}
-                    className="w-20 px-3 py-2 text-sm border border-border-strong rounded-lg bg-bg text-fg focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-medium text-fg-muted mb-1 flex items-center gap-1">
-                    <TagIcon className="w-3 h-3" /> Categorias
-                  </label>
-                  <ChipInput
-                    values={categorias}
-                    onChange={setCategorias}
-                    placeholder="Digite ou escolha"
-                    suggestions={SUGGESTED_CATEGORIES}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-medium text-fg-muted mb-1">
-                    Limite por busca: <span className="font-bold text-blue-600 dark:text-blue-400">{limite}</span>
-                  </label>
-                  <input
-                    type="range"
-                    min={10}
-                    max={500}
-                    step={10}
-                    value={limite}
-                    onChange={(e) => setLimite(Number(e.target.value))}
-                    className="w-full accent-blue-600"
-                  />
-                  <div className="flex justify-between text-xs text-fg-faint mt-1">
-                    <span>10</span><span>500</span>
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => setShowFilters((v) => !v)}
-                  className="text-xs text-fg-subtle hover:text-fg-muted flex items-center gap-1"
-                >
-                  <Filter className="w-3 h-3" />
-                  {showFilters ? 'Esconder filtros' : 'Filtros (rating mínimo, sem site)'}
-                </button>
-
-                {showFilters && (
-                  <div className="space-y-3 p-3 rounded-lg border border-border bg-bg">
-                    <div>
-                      <label className="block text-xs font-medium text-fg-muted mb-1 flex items-center gap-1">
-                        <Star className="w-3 h-3" />
-                        Rating mínimo: <span className="font-bold text-amber-600 dark:text-amber-400">{minRating > 0 ? minRating.toFixed(1) : 'qualquer'}</span>
-                      </label>
-                      <input
-                        type="range"
-                        min={0}
-                        max={5}
-                        step={0.5}
-                        value={minRating}
-                        onChange={(e) => setMinRating(Number(e.target.value))}
-                        className="w-full accent-amber-500"
-                      />
-                    </div>
-                    <label className="flex items-center gap-2 text-xs text-fg-muted cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={onlyNoWebsite}
-                        onChange={(e) => setOnlyNoWebsite(e.target.checked)}
-                        className="accent-blue-600"
-                      />
-                      <Globe className="w-3 h-3" />
-                      Só salvar leads SEM site (oportunidade direta)
-                    </label>
-                  </div>
-                )}
-
-                {totalJobs > 0 && (
-                  <div className="text-xs text-fg-subtle bg-elevated rounded-md px-3 py-2">
-                    Vai disparar <span className="font-bold text-fg">{totalJobs}</span> sessão(ões){' '}
-                    <span className="text-fg-faint">({cidades.length} cidade × {categorias.length} categoria, até {limite} cada)</span>
-                  </div>
-                )}
-
-                <Button type="submit" className="w-full" loading={loading} disabled={!totalJobs}>
-                  <Search className="w-4 h-4" />
-                  {totalJobs > 1 ? `Disparar ${totalJobs} buscas` : 'Iniciar Prospecção'}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
-
-          {presets.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-sm">Buscas recentes</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                {presets.map((p, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={() => applyPreset(p)}
-                    className="w-full flex items-center gap-2 text-left px-3 py-2 rounded-lg border border-border hover:bg-elevated transition-colors text-xs"
-                  >
-                    <Plus className="w-3.5 h-3.5 text-fg-faint flex-shrink-0" />
-                    <span className="text-fg">{p.categoria}</span>
-                    <span className="text-fg-faint">em {p.cidade}{p.estado ? `, ${p.estado}` : ''}</span>
-                  </button>
-                ))}
-              </CardContent>
-            </Card>
-          )}
-        </div>
-
-        {/* Sessions */}
-        <div className="lg:col-span-2">
-          <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle>Sessões de Prospecção</CardTitle>
-                <span className="text-xs text-fg-faint">{sessions.length} total</span>
-              </div>
-            </CardHeader>
-            <CardContent>
-              {sessions.length === 0 ? (
-                <div className="text-center py-12">
-                  <Search className="w-12 h-12 text-fg-faint mx-auto mb-3" />
-                  <p className="text-fg-subtle">Nenhuma sessão iniciada ainda</p>
-                  <p className="text-xs text-fg-faint mt-1">Inicie sua primeira prospecção</p>
-                </div>
-              ) : (
-                <div className="space-y-3 max-h-[640px] overflow-y-auto">
-                  {sessions.map((session) => {
-                    const config = SESSION_STATUS_CONFIG[session.status] || SESSION_STATUS_CONFIG.pausado
-                    const Icon = config.icon
-                    return (
-                      <div
-                        key={session.id}
-                        className="flex items-center gap-4 p-4 border border-border rounded-xl hover:bg-bg"
-                      >
-                        <div className="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                          <Icon className={`w-5 h-5 text-blue-600 dark:text-blue-400 ${session.status === 'rodando' ? 'animate-spin' : ''}`} />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <p className="text-sm font-medium text-fg truncate">{session.categoria}</p>
-                            <Badge variant={config.variant} className="text-xs">{config.label}</Badge>
-                          </div>
-                          <p className="text-xs text-fg-subtle">
-                            {session.cidade}{session.estado ? `, ${session.estado}` : ''}
-                          </p>
-                          <p className="text-xs text-fg-faint mt-0.5">
-                            {formatDate(session.iniciado_em)}
-                          </p>
-                        </div>
-                        <div className="text-right flex-shrink-0">
-                          <p className="text-lg font-bold text-fg">{session.leads_salvos}</p>
-                          <p className="text-xs text-fg-faint">salvos</p>
-                          <p className="text-xs text-fg-faint">{session.leads_encontrados} encontrados</p>
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
+      <div className="border-b border-border">
+        <nav className="flex gap-6">
+          <button
+            onClick={() => setTab('batch')}
+            className={`pb-3 text-sm font-medium transition-colors border-b-2 -mb-px flex items-center gap-2 ${
+              tab === 'batch' ? 'border-blue-500 text-fg' : 'border-transparent text-fg-faint hover:text-fg-muted'
+            }`}
+          >
+            <Search className="w-4 h-4" />
+            Buscar leads
+          </button>
+          <button
+            onClick={() => setTab('geogrid')}
+            className={`pb-3 text-sm font-medium transition-colors border-b-2 -mb-px flex items-center gap-2 ${
+              tab === 'geogrid' ? 'border-violet-500 text-fg' : 'border-transparent text-fg-faint hover:text-fg-muted'
+            }`}
+          >
+            <Target className="w-4 h-4" />
+            Mapa de calor
+          </button>
+        </nav>
       </div>
+
+      {tab === 'batch' ? <BatchScrapeTab /> : <GeogridTab />}
     </div>
   )
 }

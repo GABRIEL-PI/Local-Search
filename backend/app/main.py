@@ -8,7 +8,7 @@ from fastapi.responses import JSONResponse
 from app.core.config import settings
 from app.core.database import create_tables
 from app.core.ws_manager import manager
-from app.routes import auth, leads, proposals, outreach, reports, webhooks
+from app.routes import auth, leads, proposals, outreach, reports, webhooks, geogrid
 from app.routes.settings_route import router as settings_router
 
 
@@ -51,6 +51,7 @@ app.include_router(outreach.router, prefix=API_PREFIX)
 app.include_router(reports.router, prefix=API_PREFIX)
 app.include_router(webhooks.router, prefix=API_PREFIX)
 app.include_router(settings_router, prefix=API_PREFIX)
+app.include_router(geogrid.router, prefix=API_PREFIX)
 
 
 # WebSocket endpoint

@@ -183,6 +183,21 @@ export const reportsApi = {
     api.get('/reports/performance'),
 }
 
+// Geogrid endpoints
+export const geogridApi = {
+  start: (data: {
+    lead_id: number
+    keyword?: string
+    grid_size?: number
+    spacing_meters?: number
+    zoom?: number
+    radius?: number
+  }) => api.post('/geogrid/start', data),
+  list: () => api.get('/geogrid'),
+  byLead: (lead_id: number) => api.get(`/geogrid/by-lead/${lead_id}`),
+  get: (id: number) => api.get(`/geogrid/${id}`),
+}
+
 // Settings endpoints
 export const settingsApi = {
   get: () =>

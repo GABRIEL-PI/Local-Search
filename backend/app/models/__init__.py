@@ -3,6 +3,7 @@ from app.models.lead import Lead, LeadStatusHistory, Tag, LeadTag, Nota, Session
 from app.models.proposal import Proposta
 from app.models.outreach import Disparo, Followup, WhatsAppConta
 from app.models.payment import Cliente, Pagamento, ConfiguracaoUsuario
+from app.models.geogrid import Geogrid, GeogridPoint
 
 __all__ = [
     "User",
@@ -19,4 +20,6 @@ __all__ = [
     "Cliente",
     "Pagamento",
     "ConfiguracaoUsuario",
+    "Geogrid",
+    "GeogridPoint",
 ]

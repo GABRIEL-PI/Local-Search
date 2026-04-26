@@ -182,6 +182,49 @@ export interface DashboardExtra {
   score_distribution: Array<{ bucket: string; count: number }>
 }
 
+export interface GeogridPoint {
+  id: number
+  idx: number
+  row: number
+  col: number
+  lat: number
+  lng: number
+  rank: number | null
+  competitors: Array<{
+    rank: number
+    title: string | null
+    place_id: string | null
+    rating: number | null
+    reviews: number | null
+  }> | null
+  status: 'pendente' | 'rodando' | 'concluido' | 'erro'
+  erro_descricao: string | null
+}
+
+export interface Geogrid {
+  id: number
+  usuario_id: number
+  lead_id: number
+  keyword: string
+  center_lat: number
+  center_lng: number
+  grid_size: number
+  spacing_meters: number
+  zoom: number
+  radius: number
+  total_pontos: number
+  pontos_concluidos: number
+  status: 'rodando' | 'concluido' | 'erro' | 'pausado'
+  erro_descricao: string | null
+  iniciado_em: string
+  finalizado_em: string | null
+}
+
+export interface GeogridDetail extends Geogrid {
+  points: GeogridPoint[]
+  lead_nome: string | null
+}
+
 export interface FunnelReport {
   funnel: Array<{ status: string; label: string; count: number }>
   total: number

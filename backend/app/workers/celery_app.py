@@ -11,6 +11,7 @@ celery_app = Celery(
         "app.workers.scraper_tasks",
         "app.workers.outreach_tasks",
         "app.workers.followup_tasks",
+        "app.workers.geogrid_tasks",
     ],
 )
 
@@ -27,6 +28,7 @@ celery_app.conf.update(
         "app.workers.scraper_tasks.*": {"queue": "scraping"},
         "app.workers.outreach_tasks.*": {"queue": "outreach"},
         "app.workers.followup_tasks.*": {"queue": "followups"},
+        "app.workers.geogrid_tasks.*": {"queue": "geogrid"},
     },
     beat_schedule={
         "process-followups-every-5-min": {
