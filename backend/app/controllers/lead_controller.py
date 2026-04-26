@@ -84,5 +84,8 @@ class LeadController:
     async def get_dashboard_stats(self, current_user: User) -> dict:
         return await self.service.get_dashboard_stats(current_user.id)
 
+    async def get_dashboard_extra(self, current_user: User) -> dict:
+        return await self.service.get_dashboard_extra(current_user.id)
+
     async def get_scraping_sessions(self, current_user: User):
         return await self.service.get_scraping_sessions(current_user.id)

@@ -137,7 +137,7 @@ export default function Settings() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-24">
-        <RefreshCw className="w-6 h-6 text-blue-400 animate-spin" />
+        <RefreshCw className="w-6 h-6 text-blue-600 dark:text-blue-400 animate-spin" />
       </div>
     )
   }
@@ -145,8 +145,8 @@ export default function Settings() {
   return (
     <div className="space-y-6 max-w-3xl">
       <div>
-        <h1 className="text-2xl font-bold text-zinc-100">Configurações</h1>
-        <p className="text-sm text-zinc-400 mt-1">Gerencie as integrações e limites da plataforma</p>
+        <h1 className="text-2xl font-bold text-fg">Configurações</h1>
+        <p className="text-sm text-fg-subtle mt-1">Gerencie as integrações e limites da plataforma</p>
       </div>
 
       {/* Admin - Pending Users */}
@@ -155,7 +155,7 @@ export default function Settings() {
           <CardHeader>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Shield className="w-5 h-5 text-violet-400" />
+                <Shield className="w-5 h-5 text-violet-600 dark:text-violet-400" />
                 <CardTitle>Aprovacao de Usuarios</CardTitle>
               </div>
               {pendingUsers.length > 0 && (
@@ -168,17 +168,17 @@ export default function Settings() {
           <CardContent>
             {pendingUsers.length === 0 ? (
               <div className="text-center py-8">
-                <Users className="w-10 h-10 text-zinc-700 mx-auto mb-2" />
-                <p className="text-sm text-zinc-400">Nenhuma solicitacao pendente</p>
+                <Users className="w-10 h-10 text-fg-faint mx-auto mb-2" />
+                <p className="text-sm text-fg-subtle">Nenhuma solicitacao pendente</p>
               </div>
             ) : (
               <div className="space-y-3">
                 {pendingUsers.map((user) => (
-                  <div key={user.id} className="flex items-center justify-between p-4 bg-zinc-950 rounded-xl">
+                  <div key={user.id} className="flex items-center justify-between p-4 bg-bg rounded-xl">
                     <div>
-                      <p className="font-medium text-zinc-100">{user.nome}</p>
-                      <p className="text-sm text-zinc-400">{user.email}</p>
-                      <p className="text-xs text-zinc-500 mt-0.5">Solicitado em {new Date(user.criado_em).toLocaleDateString('pt-BR')}</p>
+                      <p className="font-medium text-fg">{user.nome}</p>
+                      <p className="text-sm text-fg-subtle">{user.email}</p>
+                      <p className="text-xs text-fg-faint mt-0.5">Solicitado em {new Date(user.criado_em).toLocaleDateString('pt-BR')}</p>
                     </div>
                     <div className="flex items-center gap-2">
                       <Button
@@ -209,26 +209,26 @@ export default function Settings() {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-2">
-            <MessageCircle className="w-5 h-5 text-emerald-400" />
+            <MessageCircle className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
             <CardTitle>Contas WhatsApp</CardTitle>
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
           {accounts.length === 0 ? (
-            <p className="text-sm text-zinc-400">Nenhuma conta conectada</p>
+            <p className="text-sm text-fg-subtle">Nenhuma conta conectada</p>
           ) : (
             <div className="space-y-2">
               {accounts.map((acc) => (
-                <div key={acc.id} className="flex items-center justify-between p-3 bg-zinc-950 rounded-lg">
+                <div key={acc.id} className="flex items-center justify-between p-3 bg-bg rounded-lg">
                   <div className="flex items-center gap-3">
-                    <Smartphone className="w-4 h-4 text-zinc-500" />
+                    <Smartphone className="w-4 h-4 text-fg-faint" />
                     <div>
-                      <p className="text-sm font-medium text-zinc-100">{acc.nome}</p>
-                      <p className="text-xs text-zinc-400">ID: {acc.instancia_id}</p>
+                      <p className="text-sm font-medium text-fg">{acc.nome}</p>
+                      <p className="text-xs text-fg-subtle">ID: {acc.instancia_id}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="text-xs text-zinc-500">{acc.disparos_hoje} hoje</span>
+                    <span className="text-xs text-fg-faint">{acc.disparos_hoje} hoje</span>
                     <Badge
                       variant={
                         acc.status === 'conectado' ? 'success' :
@@ -243,8 +243,8 @@ export default function Settings() {
             </div>
           )}
 
-          <div className="border-t border-zinc-800 pt-4">
-            <p className="text-sm font-medium text-zinc-200 mb-3">Adicionar Nova Conta</p>
+          <div className="border-t border-border pt-4">
+            <p className="text-sm font-medium text-fg mb-3">Adicionar Nova Conta</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <Input
                 label="Nome da conta"
@@ -277,7 +277,7 @@ export default function Settings() {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-2">
-            <Key className="w-5 h-5 text-blue-400" />
+            <Key className="w-5 h-5 text-blue-600 dark:text-blue-400" />
             <CardTitle>Integrações API</CardTitle>
           </div>
         </CardHeader>
@@ -294,7 +294,7 @@ export default function Settings() {
             {config?.has_claude_key && (
               <div className="flex items-center gap-1 mt-1">
                 <Check className="w-3 h-3 text-green-500" />
-                <span className="text-xs text-emerald-400">Chave configurada</span>
+                <span className="text-xs text-emerald-600 dark:text-emerald-400">Chave configurada</span>
               </div>
             )}
           </div>
@@ -322,14 +322,14 @@ export default function Settings() {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-2">
-            <Clock className="w-5 h-5 text-orange-400" />
+            <Clock className="w-5 h-5 text-orange-600 dark:text-orange-400" />
             <CardTitle>Limites e Horários</CardTitle>
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-zinc-200 mb-1">
-              Limite de disparos por dia: <strong className="text-blue-400">{form.limite_disparos_dia}</strong>
+            <label className="block text-sm font-medium text-fg mb-1">
+              Limite de disparos por dia: <strong className="text-blue-600 dark:text-blue-400">{form.limite_disparos_dia}</strong>
             </label>
             <input
               type="range"
@@ -340,28 +340,28 @@ export default function Settings() {
               onChange={(e) => setForm({ ...form, limite_disparos_dia: Number(e.target.value) })}
               className="w-full accent-blue-600"
             />
-            <div className="flex justify-between text-xs text-zinc-500 mt-1">
+            <div className="flex justify-between text-xs text-fg-faint mt-1">
               <span>10</span><span>200</span>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-zinc-200 mb-1">Horário início</label>
+              <label className="block text-sm font-medium text-fg mb-1">Horário início</label>
               <input
                 type="time"
                 value={form.horario_inicio}
                 onChange={(e) => setForm({ ...form, horario_inicio: e.target.value })}
-                className="w-full px-3 py-2 text-sm border border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 text-sm border border-border-strong rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-zinc-200 mb-1">Horário fim</label>
+              <label className="block text-sm font-medium text-fg mb-1">Horário fim</label>
               <input
                 type="time"
                 value={form.horario_fim}
                 onChange={(e) => setForm({ ...form, horario_fim: e.target.value })}
-                className="w-full px-3 py-2 text-sm border border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 text-sm border border-border-strong rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </div>

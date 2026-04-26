@@ -51,7 +51,7 @@ export default function AppLayout() {
   }, [])
 
   return (
-    <div className="flex h-screen bg-zinc-950 overflow-hidden">
+    <div className="flex h-screen bg-bg overflow-hidden">
       <Sidebar />
       <div
         className={`flex flex-col flex-1 overflow-hidden transition-all duration-300 ${

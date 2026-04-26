@@ -42,7 +42,8 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    const status = error.response?.status
+    if ((status === 401 || status === 403) && !originalRequest._retry) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject })
@@ -132,6 +133,8 @@ export const leadsApi = {
     api.post(`/leads/${id}/tags`, { tag_ids }),
   getDashboardStats: () =>
     api.get('/leads/dashboard-stats'),
+  getDashboardExtra: () =>
+    api.get('/leads/dashboard-extra'),
   getScrapingSessions: () =>
     api.get('/leads/scraping-sessions'),
 }

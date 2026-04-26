@@ -87,7 +87,7 @@ export default function ProposalBuilder() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-24">
-        <RefreshCw className="w-6 h-6 text-blue-400 animate-spin" />
+        <RefreshCw className="w-6 h-6 text-blue-600 dark:text-blue-400 animate-spin" />
       </div>
     )
   }
@@ -105,10 +105,10 @@ export default function ProposalBuilder() {
             </Button>
           </Link>
           <div>
-            <h1 className="text-xl font-bold text-zinc-100">
+            <h1 className="text-xl font-bold text-fg">
               {lead?.nome || `Proposta #${proposal.id}`}
             </h1>
-            <p className="text-sm text-zinc-400">
+            <p className="text-sm text-fg-subtle">
               Criada em {formatDate(proposal.criado_em)} · Status: <strong>{proposal.status}</strong>
             </p>
           </div>
@@ -137,23 +137,23 @@ export default function ProposalBuilder() {
       <div className="grid grid-cols-2 gap-4">
         <Card>
           <CardContent className="p-4">
-            <p className="text-xs text-zinc-400 mb-1">Valor de Setup</p>
+            <p className="text-xs text-fg-subtle mb-1">Valor de Setup</p>
             <input
               type="number"
               value={edits.preco_sugerido || ''}
               onChange={(e) => setEdits({ ...edits, preco_sugerido: Number(e.target.value) })}
-              className="w-full text-2xl font-bold text-zinc-100 border-b border-zinc-800 focus:outline-none focus:border-blue-500 pb-1"
+              className="w-full text-2xl font-bold text-fg border-b border-border focus:outline-none focus:border-blue-500 pb-1"
             />
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4">
-            <p className="text-xs text-zinc-400 mb-1">Mensalidade</p>
+            <p className="text-xs text-fg-subtle mb-1">Mensalidade</p>
             <input
               type="number"
               value={edits.mensalidade_sugerida || ''}
               onChange={(e) => setEdits({ ...edits, mensalidade_sugerida: Number(e.target.value) })}
-              className="w-full text-2xl font-bold text-emerald-400 border-b border-zinc-800 focus:outline-none focus:border-blue-500 pb-1"
+              className="w-full text-2xl font-bold text-emerald-600 dark:text-emerald-400 border-b border-border focus:outline-none focus:border-blue-500 pb-1"
             />
           </CardContent>
         </Card>
@@ -167,7 +167,7 @@ export default function ProposalBuilder() {
             value={edits.argumento_venda || ''}
             onChange={(e) => setEdits({ ...edits, argumento_venda: e.target.value })}
             rows={6}
-            className="w-full px-3 py-2 text-sm border border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+            className="w-full px-3 py-2 text-sm border border-border-strong rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
             placeholder="Argumento de venda personalizado..."
           />
         </CardContent>
@@ -183,15 +183,15 @@ export default function ProposalBuilder() {
             { key: 'mensagem_urgencia', label: 'Mensagem de Urgência', placeholder: 'Última chance...' },
           ].map(({ key, label, placeholder }) => (
             <div key={key}>
-              <label className="block text-sm font-medium text-zinc-200 mb-1">{label}</label>
+              <label className="block text-sm font-medium text-fg mb-1">{label}</label>
               <textarea
                 value={(edits as Record<string, unknown>)[key] as string || ''}
                 onChange={(e) => setEdits({ ...edits, [key]: e.target.value })}
                 rows={3}
-                className="w-full px-3 py-2 text-sm border border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                className="w-full px-3 py-2 text-sm border border-border-strong rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                 placeholder={placeholder}
               />
-              <p className="text-xs text-zinc-500 mt-0.5">
+              <p className="text-xs text-fg-faint mt-0.5">
                 {((edits as Record<string, unknown>)[key] as string || '').length} caracteres
               </p>
             </div>

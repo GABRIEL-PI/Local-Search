@@ -112,8 +112,8 @@ export default function Outreach() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-24">
-        <RefreshCw className="w-6 h-6 text-blue-400 animate-spin" />
-        <span className="ml-2 text-zinc-400">Carregando disparos...</span>
+        <RefreshCw className="w-6 h-6 text-blue-600 dark:text-blue-400 animate-spin" />
+        <span className="ml-2 text-fg-subtle">Carregando disparos...</span>
       </div>
     )
   }
@@ -123,8 +123,8 @@ export default function Outreach() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-zinc-100">Disparos</h1>
-          <p className="text-sm text-zinc-400 mt-1">Gerencie mensagens WhatsApp e emails enviados aos leads</p>
+          <h1 className="text-2xl font-bold text-fg">Disparos</h1>
+          <p className="text-sm text-fg-subtle mt-1">Gerencie mensagens WhatsApp e emails enviados aos leads</p>
         </div>
         <div className="flex items-center gap-3">
           <Button variant="outline" size="sm" onClick={loadQueue}>
@@ -142,32 +142,32 @@ export default function Outreach() {
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
         <Card>
           <CardContent className="p-4 text-center">
-            <p className="text-2xl font-bold text-zinc-100">{stats.total}</p>
-            <p className="text-xs text-zinc-400">Total</p>
+            <p className="text-2xl font-bold text-fg">{stats.total}</p>
+            <p className="text-xs text-fg-subtle">Total</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4 text-center">
-            <p className="text-2xl font-bold text-amber-400">{stats.pendentes}</p>
-            <p className="text-xs text-zinc-400">Pendentes</p>
+            <p className="text-2xl font-bold text-amber-600 dark:text-amber-400">{stats.pendentes}</p>
+            <p className="text-xs text-fg-subtle">Pendentes</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4 text-center">
-            <p className="text-2xl font-bold text-blue-400">{stats.enviados}</p>
-            <p className="text-xs text-zinc-400">Enviados</p>
+            <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">{stats.enviados}</p>
+            <p className="text-xs text-fg-subtle">Enviados</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4 text-center">
-            <p className="text-2xl font-bold text-emerald-400">{stats.respondidos}</p>
-            <p className="text-xs text-zinc-400">Respondidos</p>
+            <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{stats.respondidos}</p>
+            <p className="text-xs text-fg-subtle">Respondidos</p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4 text-center">
-            <p className="text-2xl font-bold text-red-400">{stats.erros}</p>
-            <p className="text-xs text-zinc-400">Erros</p>
+            <p className="text-2xl font-bold text-red-600 dark:text-red-400">{stats.erros}</p>
+            <p className="text-xs text-fg-subtle">Erros</p>
           </CardContent>
         </Card>
       </div>
@@ -175,13 +175,13 @@ export default function Outreach() {
       {/* Filters */}
       <div className="flex items-center gap-3">
         <div className="relative flex-1 max-w-xs">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-fg-faint" />
           <input
             type="text"
             placeholder="Buscar por nome do lead..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-9 pr-4 py-2 text-sm bg-zinc-950 border border-zinc-800 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="pl-9 pr-4 py-2 text-sm bg-bg border border-border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <div className="flex gap-1">
@@ -197,8 +197,8 @@ export default function Outreach() {
               onClick={() => setFilter(f.key)}
               className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
                 filter === f.key
-                  ? 'bg-blue-600 text-zinc-100'
-                  : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-800'
+                  ? 'bg-blue-600 text-fg'
+                  : 'bg-elevated text-fg-muted hover:bg-elevated'
               }`}
             >
               {f.label}
@@ -211,9 +211,9 @@ export default function Outreach() {
       {filteredItems.length === 0 ? (
         <Card>
           <CardContent className="py-24 text-center">
-            <Send className="w-16 h-16 text-zinc-700 mx-auto mb-4" />
-            <h2 className="text-xl font-semibold text-zinc-200">Nenhum disparo encontrado</h2>
-            <p className="text-zinc-500 mt-2">
+            <Send className="w-16 h-16 text-fg-faint mx-auto mb-4" />
+            <h2 className="text-xl font-semibold text-fg">Nenhum disparo encontrado</h2>
+            <p className="text-fg-faint mt-2">
               {filter !== 'all'
                 ? 'Nenhum disparo com esse filtro'
                 : 'Aprove propostas para gerar follow-ups automaticos ou envie mensagens manualmente'}
@@ -234,27 +234,27 @@ export default function Outreach() {
                         item.disparo.canal === 'whatsapp' ? 'bg-emerald-500/10' : 'bg-blue-500/10'
                       }`}>
                         {item.disparo.canal === 'whatsapp' ? (
-                          <Phone className="w-5 h-5 text-emerald-400" />
+                          <Phone className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                         ) : (
-                          <Mail className="w-5 h-5 text-blue-400" />
+                          <Mail className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                         )}
                       </div>
 
                       {/* Info */}
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2">
-                          <p className="font-medium text-zinc-100 truncate">
+                          <p className="font-medium text-fg truncate">
                             {item.lead?.nome || `Lead #${item.disparo.lead_id}`}
                           </p>
                           <Badge variant={st.variant} className="text-xs flex-shrink-0">
                             {st.label}
                           </Badge>
                         </div>
-                        <p className="text-xs text-zinc-400 truncate mt-0.5">
+                        <p className="text-xs text-fg-subtle truncate mt-0.5">
                           {item.disparo.mensagem_enviada?.substring(0, 80)}
                           {(item.disparo.mensagem_enviada?.length || 0) > 80 ? '...' : ''}
                         </p>
-                        <div className="flex items-center gap-3 mt-1 text-xs text-zinc-500">
+                        <div className="flex items-center gap-3 mt-1 text-xs text-fg-faint">
                           <span className="capitalize">{item.disparo.canal}</span>
                           <span>{formatDate(item.disparo.criado_em)}</span>
                           {item.disparo.tentativas > 1 && (
@@ -267,13 +267,13 @@ export default function Outreach() {
                     {/* Actions */}
                     <div className="flex items-center gap-2 flex-shrink-0 ml-4">
                       {item.disparo.status === 'respondido' && item.disparo.resposta_recebida && (
-                        <div className="hidden md:flex items-center gap-1 bg-emerald-500/10 text-emerald-300 px-2 py-1 rounded-lg text-xs max-w-[200px]">
+                        <div className="hidden md:flex items-center gap-1 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 px-2 py-1 rounded-lg text-xs max-w-[200px]">
                           <MessageCircle className="w-3 h-3 flex-shrink-0" />
                           <span className="truncate">{item.disparo.resposta_recebida}</span>
                         </div>
                       )}
                       {item.disparo.status === 'erro' && (
-                        <div className="hidden md:flex items-center gap-1 bg-red-500/10 text-red-400 px-2 py-1 rounded-lg text-xs max-w-[200px]">
+                        <div className="hidden md:flex items-center gap-1 bg-red-500/10 text-red-600 dark:text-red-400 px-2 py-1 rounded-lg text-xs max-w-[200px]">
                           <AlertCircle className="w-3 h-3 flex-shrink-0" />
                           <span className="truncate">{item.disparo.erro_descricao || 'Erro no envio'}</span>
                         </div>
@@ -300,31 +300,31 @@ export default function Outreach() {
         {selectedItem && (
           <div className="p-6 space-y-5">
             {/* Lead info */}
-            <div className="flex items-center gap-3 pb-4 border-b border-zinc-800">
+            <div className="flex items-center gap-3 pb-4 border-b border-border">
               <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
                 selectedItem.disparo.canal === 'whatsapp' ? 'bg-emerald-500/10' : 'bg-blue-500/10'
               }`}>
                 {selectedItem.disparo.canal === 'whatsapp' ? (
-                  <Phone className="w-6 h-6 text-emerald-400" />
+                  <Phone className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
                 ) : (
-                  <Mail className="w-6 h-6 text-blue-400" />
+                  <Mail className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                 )}
               </div>
               <div>
-                <p className="font-semibold text-zinc-100">{selectedItem.lead?.nome}</p>
+                <p className="font-semibold text-fg">{selectedItem.lead?.nome}</p>
                 <div className="flex items-center gap-2 mt-0.5">
                   <Badge variant={STATUS_MAP[selectedItem.disparo.status]?.variant || 'gray'}>
                     {STATUS_MAP[selectedItem.disparo.status]?.label || selectedItem.disparo.status}
                   </Badge>
-                  <span className="text-xs text-zinc-500 capitalize">{selectedItem.disparo.canal}</span>
+                  <span className="text-xs text-fg-faint capitalize">{selectedItem.disparo.canal}</span>
                 </div>
               </div>
             </div>
 
             {/* Message sent */}
             <div>
-              <h4 className="text-sm font-semibold text-zinc-200 mb-2">Mensagem Enviada</h4>
-              <div className="bg-zinc-950 rounded-xl p-4 text-sm text-zinc-200 whitespace-pre-wrap">
+              <h4 className="text-sm font-semibold text-fg mb-2">Mensagem Enviada</h4>
+              <div className="bg-bg rounded-xl p-4 text-sm text-fg whitespace-pre-wrap">
                 {selectedItem.disparo.mensagem_enviada || 'Nenhuma mensagem'}
               </div>
             </div>
@@ -332,8 +332,8 @@ export default function Outreach() {
             {/* Response */}
             {selectedItem.disparo.resposta_recebida && (
               <div>
-                <h4 className="text-sm font-semibold text-emerald-300 mb-2">Resposta Recebida</h4>
-                <div className="bg-emerald-500/10 border border-green-100 rounded-xl p-4 text-sm text-zinc-200 whitespace-pre-wrap">
+                <h4 className="text-sm font-semibold text-emerald-700 dark:text-emerald-300 mb-2">Resposta Recebida</h4>
+                <div className="bg-emerald-500/10 border border-green-100 rounded-xl p-4 text-sm text-fg whitespace-pre-wrap">
                   {selectedItem.disparo.resposta_recebida}
                 </div>
               </div>
@@ -342,8 +342,8 @@ export default function Outreach() {
             {/* Error */}
             {selectedItem.disparo.erro_descricao && (
               <div>
-                <h4 className="text-sm font-semibold text-red-300 mb-2">Erro</h4>
-                <div className="bg-red-500/10 border border-red-100 rounded-xl p-4 text-sm text-red-300">
+                <h4 className="text-sm font-semibold text-red-700 dark:text-red-300 mb-2">Erro</h4>
+                <div className="bg-red-500/10 border border-red-100 rounded-xl p-4 text-sm text-red-700 dark:text-red-300">
                   {selectedItem.disparo.erro_descricao}
                 </div>
               </div>
@@ -351,7 +351,7 @@ export default function Outreach() {
 
             {/* Timeline */}
             <div>
-              <h4 className="text-sm font-semibold text-zinc-200 mb-3">Timeline</h4>
+              <h4 className="text-sm font-semibold text-fg mb-3">Timeline</h4>
               <div className="space-y-3">
                 <TimelineItem label="Criado" date={selectedItem.disparo.criado_em} icon={<Clock className="w-4 h-4" />} />
                 {selectedItem.disparo.agendado_para && (
@@ -389,14 +389,14 @@ export default function Outreach() {
           />
 
           <div>
-            <label className="block text-sm font-medium text-zinc-200 mb-1">Canal</label>
+            <label className="block text-sm font-medium text-fg mb-1">Canal</label>
             <div className="flex gap-2">
               <button
                 onClick={() => setSendForm((f) => ({ ...f, canal: 'whatsapp' }))}
                 className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-lg border-2 transition-colors ${
                   sendForm.canal === 'whatsapp'
-                    ? 'border-green-500 bg-emerald-500/10 text-emerald-300'
-                    : 'border-zinc-800 text-zinc-400 hover:border-zinc-700'
+                    ? 'border-green-500 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300'
+                    : 'border-border text-fg-subtle hover:border-border-strong'
                 }`}
               >
                 <Phone className="w-5 h-5" />
@@ -406,8 +406,8 @@ export default function Outreach() {
                 onClick={() => setSendForm((f) => ({ ...f, canal: 'email' }))}
                 className={`flex-1 flex items-center justify-center gap-2 p-3 rounded-lg border-2 transition-colors ${
                   sendForm.canal === 'email'
-                    ? 'border-blue-500 bg-blue-500/10 text-blue-300'
-                    : 'border-zinc-800 text-zinc-400 hover:border-zinc-700'
+                    ? 'border-blue-500 bg-blue-500/10 text-blue-700 dark:text-blue-300'
+                    : 'border-border text-fg-subtle hover:border-border-strong'
                 }`}
               >
                 <Mail className="w-5 h-5" />
@@ -417,13 +417,13 @@ export default function Outreach() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-zinc-200 mb-1">Mensagem</label>
+            <label className="block text-sm font-medium text-fg mb-1">Mensagem</label>
             <textarea
               rows={5}
               value={sendForm.mensagem}
               onChange={(e) => setSendForm((f) => ({ ...f, mensagem: e.target.value }))}
               placeholder="Digite a mensagem a ser enviada..."
-              className="w-full px-3 py-2 text-sm border border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+              className="w-full px-3 py-2 text-sm border border-border-strong rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
             />
           </div>
 
@@ -448,13 +448,13 @@ function TimelineItem({ label, date, icon, active, success }: {
   return (
     <div className="flex items-center gap-3">
       <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-        success ? 'bg-emerald-500/10 text-emerald-400' : active ? 'bg-blue-500/10 text-blue-400' : 'bg-zinc-800 text-zinc-500'
+        success ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : active ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400' : 'bg-elevated text-fg-faint'
       }`}>
         {icon}
       </div>
       <div>
-        <p className="text-sm font-medium text-zinc-200">{label}</p>
-        <p className="text-xs text-zinc-500">{formatDate(date)}</p>
+        <p className="text-sm font-medium text-fg">{label}</p>
+        <p className="text-xs text-fg-faint">{formatDate(date)}</p>
       </div>
     </div>
   )

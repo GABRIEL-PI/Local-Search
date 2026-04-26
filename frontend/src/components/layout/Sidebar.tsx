@@ -41,32 +41,32 @@ export default function Sidebar() {
   return (
     <aside
       className={cn(
-        'fixed left-0 top-0 h-full bg-zinc-950 border-r border-zinc-800 z-30 flex flex-col transition-all duration-300',
+        'fixed left-0 top-0 h-full bg-bg border-r border-border z-30 flex flex-col transition-all duration-300',
         sidebarCollapsed ? 'w-16' : 'w-64'
       )}
     >
       {/* Logo */}
-      <div className="flex items-center justify-between p-4 border-b border-zinc-800">
+      <div className="flex items-center justify-between p-4 border-b border-border">
         {!sidebarCollapsed && (
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-zinc-100 rounded-lg flex items-center justify-center">
-              <Zap className="w-5 h-5 text-zinc-900" />
+            <div className="w-8 h-8 bg-fg rounded-lg flex items-center justify-center">
+              <Zap className="w-5 h-5 text-bg" />
             </div>
             <div>
-              <p className="text-sm font-bold text-zinc-100">LocalReach</p>
-              <p className="text-xs text-zinc-500 font-medium">AI</p>
+              <p className="text-sm font-bold text-fg">LocalReach</p>
+              <p className="text-xs text-fg-faint font-medium">AI</p>
             </div>
           </div>
         )}
         {sidebarCollapsed && (
-          <div className="w-8 h-8 bg-zinc-100 rounded-lg flex items-center justify-center mx-auto">
-            <Zap className="w-5 h-5 text-zinc-900" />
+          <div className="w-8 h-8 bg-fg rounded-lg flex items-center justify-center mx-auto">
+            <Zap className="w-5 h-5 text-bg" />
           </div>
         )}
         <button
           onClick={toggleSidebar}
           className={cn(
-            'p-1 rounded-lg hover:bg-zinc-900 text-zinc-500 hover:text-zinc-200 transition-colors',
+            'p-1 rounded-lg hover:bg-surface text-fg-faint hover:text-fg transition-colors',
             sidebarCollapsed && 'hidden'
           )}
         >
@@ -78,7 +78,7 @@ export default function Sidebar() {
       {sidebarCollapsed && (
         <button
           onClick={toggleSidebar}
-          className="p-2 mx-auto mt-2 rounded-lg hover:bg-zinc-900 text-zinc-500 hover:text-zinc-200 transition-colors"
+          className="p-2 mx-auto mt-2 rounded-lg hover:bg-surface text-fg-faint hover:text-fg transition-colors"
         >
           <ChevronRight className="w-4 h-4" />
         </button>
@@ -107,12 +107,12 @@ export default function Sidebar() {
       </nav>
 
       {/* User */}
-      <div className="p-3 border-t border-zinc-800">
+      <div className="p-3 border-t border-border">
         {!sidebarCollapsed && user && (
           <div className="mb-2 px-3 py-2">
-            <p className="text-sm font-medium text-zinc-100 truncate">{user.nome}</p>
-            <p className="text-xs text-zinc-500 truncate">{user.email}</p>
-            <span className="inline-block mt-1 px-2 py-0.5 text-xs bg-blue-500/10 text-blue-300 border border-blue-500/20 rounded-full capitalize">
+            <p className="text-sm font-medium text-fg truncate">{user.nome}</p>
+            <p className="text-xs text-fg-faint truncate">{user.email}</p>
+            <span className="inline-block mt-1 px-2 py-0.5 text-xs bg-blue-500/10 text-blue-700 dark:text-blue-300 border border-blue-500/20 rounded-full capitalize">
               {user.plano}
             </span>
           </div>
@@ -120,7 +120,7 @@ export default function Sidebar() {
         <button
           onClick={handleLogout}
           className={cn(
-            'w-full text-left sidebar-item text-red-400 hover:bg-red-500/10 hover:text-red-300',
+            'w-full text-left sidebar-item text-red-600 dark:text-red-400 hover:bg-red-500/10 hover:text-red-700 dark:text-red-300',
             sidebarCollapsed && 'justify-center px-2'
           )}
           title={sidebarCollapsed ? 'Sair' : undefined}

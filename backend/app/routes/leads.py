@@ -61,6 +61,15 @@ async def get_dashboard_stats(
     return await controller.get_dashboard_stats(current_user)
 
 
+@router.get("/dashboard-extra")
+async def get_dashboard_extra(
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    controller = LeadController(db)
+    return await controller.get_dashboard_extra(current_user)
+
+
 @router.get("/scraping-sessions")
 async def get_scraping_sessions(
     current_user: User = Depends(get_current_user),

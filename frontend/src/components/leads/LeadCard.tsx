@@ -19,12 +19,12 @@ export default function LeadCard({ lead, onGenerateProposal }: LeadCardProps) {
           <div className="flex-1 min-w-0">
             <Link
               to={`/leads/${lead.id}`}
-              className="text-sm font-semibold text-zinc-100 hover:text-blue-400 transition-colors line-clamp-1"
+              className="text-sm font-semibold text-fg hover:text-blue-600 dark:text-blue-400 transition-colors line-clamp-1"
             >
               {lead.nome}
             </Link>
             {lead.categoria && (
-              <p className="text-xs text-zinc-400 mt-0.5">{lead.categoria}</p>
+              <p className="text-xs text-fg-subtle mt-0.5">{lead.categoria}</p>
             )}
           </div>
           <LeadScore score={lead.lead_score} size="sm" showLabel={false} />
@@ -32,19 +32,19 @@ export default function LeadCard({ lead, onGenerateProposal }: LeadCardProps) {
 
         <div className="space-y-1.5 mb-3">
           {lead.cidade && (
-            <div className="flex items-center gap-1.5 text-xs text-zinc-400">
+            <div className="flex items-center gap-1.5 text-xs text-fg-subtle">
               <MapPin className="w-3.5 h-3.5 flex-shrink-0" />
               <span className="truncate">{lead.cidade}{lead.estado ? `, ${lead.estado}` : ''}</span>
             </div>
           )}
           {(lead.telefone || lead.whatsapp) && (
-            <div className="flex items-center gap-1.5 text-xs text-zinc-400">
+            <div className="flex items-center gap-1.5 text-xs text-fg-subtle">
               <Phone className="w-3.5 h-3.5 flex-shrink-0" />
               <span>{lead.whatsapp || lead.telefone}</span>
             </div>
           )}
           {lead.rating && (
-            <div className="flex items-center gap-1.5 text-xs text-zinc-400">
+            <div className="flex items-center gap-1.5 text-xs text-fg-subtle">
               <Star className="w-3.5 h-3.5 flex-shrink-0 text-yellow-400" />
               <span>{lead.rating} ({lead.reviews_count} avaliações)</span>
             </div>
@@ -53,13 +53,13 @@ export default function LeadCard({ lead, onGenerateProposal }: LeadCardProps) {
 
         <div className="flex flex-wrap gap-1.5 mb-3">
           {!lead.tem_site && (
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-500/10 text-red-400 text-xs rounded-full font-medium">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-500/10 text-red-600 dark:text-red-400 text-xs rounded-full font-medium">
               <Globe className="w-3 h-3" />
               Sem site
             </span>
           )}
           {lead.whatsapp && (
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-emerald-500/10 text-emerald-400 text-xs rounded-full font-medium">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs rounded-full font-medium">
               <MessageCircle className="w-3 h-3" />
               WhatsApp
             </span>
@@ -73,7 +73,7 @@ export default function LeadCard({ lead, onGenerateProposal }: LeadCardProps) {
           {lead.status === 'prospectado' && onGenerateProposal && (
             <button
               onClick={() => onGenerateProposal(lead)}
-              className="text-xs text-blue-400 hover:text-blue-200 font-medium"
+              className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-200 font-medium"
             >
               Gerar Proposta
             </button>

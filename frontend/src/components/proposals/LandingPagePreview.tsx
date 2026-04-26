@@ -20,22 +20,22 @@ export default function LandingPagePreview({ html, onEditHtml }: LandingPagePrev
 
   if (!html) {
     return (
-      <div className="flex items-center justify-center h-64 bg-zinc-950 rounded-xl border-2 border-dashed border-zinc-800">
-        <p className="text-zinc-500 text-sm">Landing page não gerada ainda</p>
+      <div className="flex items-center justify-center h-64 bg-bg rounded-xl border-2 border-dashed border-border">
+        <p className="text-fg-faint text-sm">Landing page não gerada ainda</p>
       </div>
     )
   }
 
   return (
-    <div className="border border-zinc-800 rounded-xl overflow-hidden">
-      <div className="flex items-center justify-between px-4 py-2 bg-zinc-950 border-b border-zinc-800">
+    <div className="border border-border rounded-xl overflow-hidden">
+      <div className="flex items-center justify-between px-4 py-2 bg-bg border-b border-border">
         <div className="flex gap-1">
           <button
             onClick={() => setActiveTab('preview')}
             className={`flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg transition-colors ${
               activeTab === 'preview'
-                ? 'bg-zinc-900 text-zinc-100 shadow-sm border border-zinc-800'
-                : 'text-zinc-400 hover:text-zinc-200'
+                ? 'bg-surface text-fg shadow-sm border border-border'
+                : 'text-fg-subtle hover:text-fg'
             }`}
           >
             <Eye className="w-3.5 h-3.5" />
@@ -45,8 +45,8 @@ export default function LandingPagePreview({ html, onEditHtml }: LandingPagePrev
             onClick={() => setActiveTab('code')}
             className={`flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg transition-colors ${
               activeTab === 'code'
-                ? 'bg-zinc-900 text-zinc-100 shadow-sm border border-zinc-800'
-                : 'text-zinc-400 hover:text-zinc-200'
+                ? 'bg-surface text-fg shadow-sm border border-border'
+                : 'text-fg-subtle hover:text-fg'
             }`}
           >
             <Code className="w-3.5 h-3.5" />

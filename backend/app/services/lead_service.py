@@ -181,3 +181,15 @@ class LeadService:
             "taxa_conversao": round(conversion_rate, 1),
             "por_status": status_counts,
         }
+
+    async def get_dashboard_extra(self, usuario_id: int) -> dict:
+        timeseries = await self.lead_repo.timeseries_for_user(usuario_id, days=30)
+        top_categorias = await self.lead_repo.top_categories_for_user(usuario_id, limit=5)
+        top_cidades = await self.lead_repo.top_cities_for_user(usuario_id, limit=5)
+        score_distribution = await self.lead_repo.score_distribution_for_user(usuario_id)
+        return {
+            "timeseries": timeseries,
+            "top_categorias": top_categorias,
+            "top_cidades": top_cidades,
+            "score_distribution": score_distribution,
+        }

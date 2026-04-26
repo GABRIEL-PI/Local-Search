@@ -10,17 +10,17 @@ const icons = {
 }
 
 const styles = {
-  success: 'bg-zinc-900 border-emerald-500/30 text-emerald-100',
-  error: 'bg-zinc-900 border-red-500/30 text-red-100',
-  warning: 'bg-zinc-900 border-amber-500/30 text-amber-100',
-  info: 'bg-zinc-900 border-blue-500/30 text-blue-100',
+  success: 'bg-surface border-emerald-500/30 text-fg',
+  error: 'bg-surface border-red-500/30 text-fg',
+  warning: 'bg-surface border-amber-500/30 text-fg',
+  info: 'bg-surface border-blue-500/30 text-fg',
 }
 
 const iconStyles = {
-  success: 'text-emerald-400',
-  error: 'text-red-400',
-  warning: 'text-amber-400',
-  info: 'text-blue-400',
+  success: 'text-emerald-600 dark:text-emerald-400',
+  error: 'text-red-600 dark:text-red-400',
+  warning: 'text-amber-600 dark:text-amber-400',
+  info: 'text-blue-600 dark:text-blue-400',
 }
 
 export default function ToastContainer() {

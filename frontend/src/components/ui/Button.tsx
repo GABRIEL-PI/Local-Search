@@ -9,14 +9,14 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = 'primary', size = 'md', loading, disabled, children, ...props }, ref) => {
-    const baseStyles = 'inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-950 disabled:opacity-50 disabled:cursor-not-allowed'
+    const baseStyles = 'inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-bg disabled:opacity-50 disabled:cursor-not-allowed'
 
     const variants = {
-      primary: 'bg-zinc-100 text-zinc-900 hover:bg-white focus:ring-zinc-400',
-      secondary: 'bg-zinc-800 text-zinc-100 hover:bg-zinc-700 focus:ring-zinc-600',
-      ghost: 'text-zinc-400 hover:bg-zinc-900 hover:text-zinc-100 focus:ring-zinc-700',
+      primary: 'bg-fg text-bg hover:opacity-90 focus:ring-fg-subtle',
+      secondary: 'bg-elevated text-fg hover:bg-border focus:ring-border-strong',
+      ghost: 'text-fg-subtle hover:bg-surface hover:text-fg focus:ring-border-strong',
       danger: 'bg-red-500/90 text-white hover:bg-red-500 focus:ring-red-500',
-      outline: 'border border-zinc-800 text-zinc-200 hover:bg-zinc-900 hover:border-zinc-700 focus:ring-zinc-600',
+      outline: 'border border-border text-fg hover:bg-surface hover:border-border-strong focus:ring-border-strong',
     }
 
     const sizes = {

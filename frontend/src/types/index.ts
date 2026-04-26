@@ -175,6 +175,13 @@ export interface DashboardStats {
   por_status: Record<string, number>
 }
 
+export interface DashboardExtra {
+  timeseries: Array<{ day: string; count: number }>
+  top_categorias: Array<{ categoria: string; count: number }>
+  top_cidades: Array<{ cidade: string; count: number }>
+  score_distribution: Array<{ bucket: string; count: number }>
+}
+
 export interface FunnelReport {
   funnel: Array<{ status: string; label: string; count: number }>
   total: number

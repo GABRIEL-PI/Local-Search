@@ -82,8 +82,8 @@ export default function Prospecting() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-zinc-100">Prospecção</h1>
-        <p className="text-sm text-zinc-400 mt-1">Encontre novos leads no Google Maps</p>
+        <h1 className="text-2xl font-bold text-fg">Prospecção</h1>
+        <p className="text-sm text-fg-subtle mt-1">Encontre novos leads no Google Maps</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -97,38 +97,38 @@ export default function Prospecting() {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="flex gap-2">
                   <div className="flex-1">
-                    <label className="block text-xs font-medium text-zinc-300 mb-1">Cidade *</label>
+                    <label className="block text-xs font-medium text-fg-muted mb-1">Cidade *</label>
                     <div className="relative">
-                      <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+                      <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-fg-faint" />
                       <input
                         type="text"
                         value={form.cidade}
                         onChange={(e) => setForm({ ...form, cidade: e.target.value })}
                         placeholder="Ex: São Paulo"
-                        className="pl-9 pr-3 py-2 text-sm border border-zinc-700 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="pl-9 pr-3 py-2 text-sm border border-border-strong rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required
                       />
                     </div>
                   </div>
                   <div className="w-20">
-                    <label className="block text-xs font-medium text-zinc-300 mb-1">Estado</label>
+                    <label className="block text-xs font-medium text-fg-muted mb-1">Estado</label>
                     <input
                       type="text"
                       value={form.estado}
                       onChange={(e) => setForm({ ...form, estado: e.target.value.toUpperCase().slice(0, 2) })}
                       placeholder="SP"
                       maxLength={2}
-                      className="px-3 py-2 text-sm border border-zinc-700 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
+                      className="px-3 py-2 text-sm border border-border-strong rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-zinc-300 mb-1">Categoria *</label>
+                  <label className="block text-xs font-medium text-fg-muted mb-1">Categoria *</label>
                   <select
                     value={form.categoria}
                     onChange={(e) => setForm({ ...form, categoria: e.target.value })}
-                    className="w-full px-3 py-2 text-sm border border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 text-sm border border-border-strong rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   >
                     <option value="">Selecionar categoria</option>
@@ -150,8 +150,8 @@ export default function Prospecting() {
                 )}
 
                 <div>
-                  <label className="block text-xs font-medium text-zinc-300 mb-1">
-                    Limite de leads: <span className="font-bold text-blue-400">{form.limite}</span>
+                  <label className="block text-xs font-medium text-fg-muted mb-1">
+                    Limite de leads: <span className="font-bold text-blue-600 dark:text-blue-400">{form.limite}</span>
                   </label>
                   <input
                     type="range"
@@ -162,7 +162,7 @@ export default function Prospecting() {
                     onChange={(e) => setForm({ ...form, limite: Number(e.target.value) })}
                     className="w-full accent-blue-600"
                   />
-                  <div className="flex justify-between text-xs text-zinc-500 mt-1">
+                  <div className="flex justify-between text-xs text-fg-faint mt-1">
                     <span>10</span><span>200</span>
                   </div>
                 </div>
@@ -185,9 +185,9 @@ export default function Prospecting() {
             <CardContent>
               {sessions.length === 0 ? (
                 <div className="text-center py-12">
-                  <Search className="w-12 h-12 text-zinc-600 mx-auto mb-3" />
-                  <p className="text-zinc-400">Nenhuma sessão iniciada ainda</p>
-                  <p className="text-xs text-zinc-500 mt-1">Inicie sua primeira prospecção</p>
+                  <Search className="w-12 h-12 text-fg-faint mx-auto mb-3" />
+                  <p className="text-fg-subtle">Nenhuma sessão iniciada ainda</p>
+                  <p className="text-xs text-fg-faint mt-1">Inicie sua primeira prospecção</p>
                 </div>
               ) : (
                 <div className="space-y-3">
@@ -197,27 +197,27 @@ export default function Prospecting() {
                     return (
                       <div
                         key={session.id}
-                        className="flex items-center gap-4 p-4 border border-zinc-800 rounded-xl hover:bg-zinc-950"
+                        className="flex items-center gap-4 p-4 border border-border rounded-xl hover:bg-bg"
                       >
                         <div className="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                          <Icon className={`w-5 h-5 text-blue-400 ${session.status === 'rodando' ? 'animate-spin' : ''}`} />
+                          <Icon className={`w-5 h-5 text-blue-600 dark:text-blue-400 ${session.status === 'rodando' ? 'animate-spin' : ''}`} />
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
-                            <p className="text-sm font-medium text-zinc-100">{session.categoria}</p>
+                            <p className="text-sm font-medium text-fg">{session.categoria}</p>
                             <Badge variant={config.variant} className="text-xs">{config.label}</Badge>
                           </div>
-                          <p className="text-xs text-zinc-400">
+                          <p className="text-xs text-fg-subtle">
                             {session.cidade}{session.estado ? `, ${session.estado}` : ''}
                           </p>
-                          <p className="text-xs text-zinc-500 mt-0.5">
+                          <p className="text-xs text-fg-faint mt-0.5">
                             {formatDate(session.iniciado_em)}
                           </p>
                         </div>
                         <div className="text-right flex-shrink-0">
-                          <p className="text-lg font-bold text-zinc-100">{session.leads_salvos}</p>
-                          <p className="text-xs text-zinc-500">salvos</p>
-                          <p className="text-xs text-zinc-600">{session.leads_encontrados} encontrados</p>
+                          <p className="text-lg font-bold text-fg">{session.leads_salvos}</p>
+                          <p className="text-xs text-fg-faint">salvos</p>
+                          <p className="text-xs text-fg-faint">{session.leads_encontrados} encontrados</p>
                         </div>
                       </div>
                     )

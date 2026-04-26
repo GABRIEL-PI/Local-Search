@@ -1,5 +1,7 @@
 import { create } from 'zustand'
 
+type Theme = 'light' | 'dark'
+
 interface Toast {
   id: string
   type: 'success' | 'error' | 'warning' | 'info'
@@ -10,9 +12,12 @@ interface Toast {
 interface UIState {
   sidebarCollapsed: boolean
   toasts: Toast[]
+  theme: Theme
 
   toggleSidebar: () => void
   setSidebarCollapsed: (collapsed: boolean) => void
+  setTheme: (theme: Theme) => void
+  toggleTheme: () => void
   addToast: (toast: Omit<Toast, 'id'>) => void
   removeToast: (id: string) => void
   showSuccess: (title: string, message?: string) => void
@@ -21,15 +26,41 @@ interface UIState {
   showInfo: (title: string, message?: string) => void
 }
 
+const getInitialTheme = (): Theme => {
+  if (typeof window === 'undefined') return 'dark'
+  const stored = localStorage.getItem('theme') as Theme | null
+  if (stored === 'light' || stored === 'dark') return stored
+  return window.matchMedia?.('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
+}
+
+const applyTheme = (theme: Theme) => {
+  if (typeof document === 'undefined') return
+  document.documentElement.classList.toggle('dark', theme === 'dark')
+}
+
 export const useUIStore = create<UIState>((set, get) => ({
   sidebarCollapsed: false,
   toasts: [],
+  theme: getInitialTheme(),
 
   toggleSidebar: () =>
     set((state) => ({ sidebarCollapsed: !state.sidebarCollapsed })),
 
   setSidebarCollapsed: (collapsed: boolean) =>
     set({ sidebarCollapsed: collapsed }),
+
+  setTheme: (theme) => {
+    localStorage.setItem('theme', theme)
+    applyTheme(theme)
+    set({ theme })
+  },
+
+  toggleTheme: () => {
+    const next: Theme = get().theme === 'dark' ? 'light' : 'dark'
+    localStorage.setItem('theme', next)
+    applyTheme(next)
+    set({ theme: next })
+  },
 
   addToast: (toast) => {
     const id = Math.random().toString(36).slice(2)
@@ -53,3 +84,7 @@ export const useUIStore = create<UIState>((set, get) => ({
   showInfo: (title, message) =>
     get().addToast({ type: 'info', title, message }),
 }))
+
+if (typeof document !== 'undefined') {
+  applyTheme(getInitialTheme())
+}

@@ -105,6 +105,73 @@ class LeadRepository(BaseRepository[Lead]):
         )
         return result.scalar_one()
 
+    async def timeseries_for_user(self, usuario_id: int, days: int = 30) -> List[dict]:
+        from datetime import date, timedelta
+        start = date.today() - timedelta(days=days - 1)
+        result = await self.db.execute(
+            select(
+                func.date(Lead.data_coleta).label("day"),
+                func.count(Lead.id).label("count"),
+            )
+            .where(
+                and_(
+                    Lead.usuario_id == usuario_id,
+                    func.date(Lead.data_coleta) >= start,
+                )
+            )
+            .group_by(func.date(Lead.data_coleta))
+            .order_by(func.date(Lead.data_coleta))
+        )
+        rows = {row[0].isoformat() if hasattr(row[0], "isoformat") else str(row[0]): row[1] for row in result.all()}
+        out = []
+        for i in range(days):
+            d = (start + timedelta(days=i)).isoformat()
+            out.append({"day": d, "count": int(rows.get(d, 0))})
+        return out
+
+    async def top_categories_for_user(self, usuario_id: int, limit: int = 5) -> List[dict]:
+        result = await self.db.execute(
+            select(Lead.categoria, func.count(Lead.id).label("count"))
+            .where(and_(Lead.usuario_id == usuario_id, Lead.categoria.isnot(None)))
+            .group_by(Lead.categoria)
+            .order_by(func.count(Lead.id).desc())
+            .limit(limit)
+        )
+        return [{"categoria": row[0] or "Sem categoria", "count": int(row[1])} for row in result.all()]
+
+    async def top_cities_for_user(self, usuario_id: int, limit: int = 5) -> List[dict]:
+        result = await self.db.execute(
+            select(Lead.cidade, func.count(Lead.id).label("count"))
+            .where(and_(Lead.usuario_id == usuario_id, Lead.cidade.isnot(None)))
+            .group_by(Lead.cidade)
+            .order_by(func.count(Lead.id).desc())
+            .limit(limit)
+        )
+        return [{"cidade": row[0] or "Desconhecida", "count": int(row[1])} for row in result.all()]
+
+    async def score_distribution_for_user(self, usuario_id: int) -> List[dict]:
+        buckets = [
+            ("0-20", 0, 20),
+            ("21-40", 21, 40),
+            ("41-60", 41, 60),
+            ("61-80", 61, 80),
+            ("81-100", 81, 100),
+        ]
+        out = []
+        for label, low, high in buckets:
+            result = await self.db.execute(
+                select(func.count(Lead.id))
+                .where(
+                    and_(
+                        Lead.usuario_id == usuario_id,
+                        Lead.lead_score >= low,
+                        Lead.lead_score <= high,
+                    )
+                )
+            )
+            out.append({"bucket": label, "count": int(result.scalar_one() or 0)})
+        return out
+
 
 class NotaRepository(BaseRepository[Nota]):
     def __init__(self, db: AsyncSession):

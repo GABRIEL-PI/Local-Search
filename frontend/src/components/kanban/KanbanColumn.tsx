@@ -11,11 +11,11 @@ interface KanbanColumnProps {
 
 export default function KanbanColumn({ columnId, label, colorClass, leads }: KanbanColumnProps) {
   return (
-    <div className={`flex flex-col w-72 flex-shrink-0 bg-zinc-950 rounded-xl border-t-4 ${colorClass}`}>
-      <div className="p-3 border-b border-zinc-800">
+    <div className={`flex flex-col w-72 flex-shrink-0 bg-bg rounded-xl border-t-4 ${colorClass}`}>
+      <div className="p-3 border-b border-border">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-zinc-200">{label}</h3>
-          <span className="text-xs text-zinc-400 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded-full font-medium">
+          <h3 className="text-sm font-semibold text-fg">{label}</h3>
+          <span className="text-xs text-fg-subtle bg-surface border border-border px-2 py-0.5 rounded-full font-medium">
             {leads.length}
           </span>
         </div>

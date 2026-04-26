@@ -34,11 +34,11 @@ export default function ProposalCard({ proposal, lead, onApprove, onReject, onSe
       <CardContent className="p-4">
         <div className="flex items-start justify-between mb-3">
           <div>
-            <p className="font-semibold text-zinc-100">
+            <p className="font-semibold text-fg">
               {lead?.nome || `Proposta #${proposal.id}`}
             </p>
             {lead?.categoria && (
-              <p className="text-xs text-zinc-400">{lead.categoria}</p>
+              <p className="text-xs text-fg-subtle">{lead.categoria}</p>
             )}
           </div>
           <Badge variant={statusVariants[proposal.status]}>
@@ -47,23 +47,23 @@ export default function ProposalCard({ proposal, lead, onApprove, onReject, onSe
         </div>
 
         {proposal.argumento_venda && (
-          <p className="text-sm text-zinc-300 line-clamp-3 mb-3">
+          <p className="text-sm text-fg-muted line-clamp-3 mb-3">
             {proposal.argumento_venda}
           </p>
         )}
 
         <div className="grid grid-cols-2 gap-3 text-sm">
-          <div className="bg-zinc-950 rounded-lg p-3">
-            <p className="text-xs text-zinc-400">Setup</p>
-            <p className="font-bold text-zinc-100">{formatCurrency(proposal.preco_sugerido)}</p>
+          <div className="bg-bg rounded-lg p-3">
+            <p className="text-xs text-fg-subtle">Setup</p>
+            <p className="font-bold text-fg">{formatCurrency(proposal.preco_sugerido)}</p>
           </div>
           <div className="bg-emerald-500/10 rounded-lg p-3">
-            <p className="text-xs text-zinc-400">Mensalidade</p>
-            <p className="font-bold text-emerald-300">{formatCurrency(proposal.mensalidade_sugerida)}</p>
+            <p className="text-xs text-fg-subtle">Mensalidade</p>
+            <p className="font-bold text-emerald-700 dark:text-emerald-300">{formatCurrency(proposal.mensalidade_sugerida)}</p>
           </div>
         </div>
 
-        <p className="text-xs text-zinc-500 mt-3">
+        <p className="text-xs text-fg-faint mt-3">
           Criado em {formatDate(proposal.criado_em)}
         </p>
       </CardContent>
@@ -105,7 +105,7 @@ export default function ProposalCard({ proposal, lead, onApprove, onReject, onSe
           <Button
             size="sm"
             onClick={() => onSend(proposal)}
-            className="flex-1 bg-green-600 hover:bg-green-700 text-zinc-100"
+            className="flex-1 bg-green-600 hover:bg-green-700 text-fg"
           >
             <Send className="w-4 h-4" />
             Enviar
