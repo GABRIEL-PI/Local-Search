@@ -12,6 +12,7 @@ import {
   ChevronRight,
   Zap,
   Send,
+  Sparkles,
 } from 'lucide-react'
 import { useUIStore } from '@/stores/uiStore'
 import { useAuthStore } from '@/stores/authStore'
@@ -20,6 +21,7 @@ import { cn } from '@/lib/utils'
 const navItems = [
   { to: '/app', label: 'Dashboard', icon: LayoutDashboard, exact: true },
   { to: '/app/prospecting', label: 'Prospecção', icon: Search },
+  { to: '/app/prospecting-v2', label: 'Prospecção v2', icon: Sparkles, beta: true },
   { to: '/app/queue', label: 'Fila de Aprovação', icon: InboxIcon },
   { to: '/app/crm', label: 'CRM Kanban', icon: Kanban },
   { to: '/app/outreach', label: 'Disparos', icon: Send },
@@ -101,7 +103,16 @@ export default function Sidebar() {
             title={sidebarCollapsed ? item.label : undefined}
           >
             <item.icon className="w-5 h-5 flex-shrink-0" />
-            {!sidebarCollapsed && <span>{item.label}</span>}
+            {!sidebarCollapsed && (
+              <span className="flex items-center gap-1.5">
+                {item.label}
+                {item.beta && (
+                  <span className="px-1.5 py-0.5 text-[9px] font-bold bg-violet-500/10 text-violet-700 dark:text-violet-300 border border-violet-500/30 rounded uppercase tracking-wide">
+                    beta
+                  </span>
+                )}
+              </span>
+            )}
           </NavLink>
         ))}
       </nav>
