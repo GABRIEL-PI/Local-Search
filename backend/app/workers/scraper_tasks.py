@@ -8,6 +8,7 @@ from typing import Optional
 
 import logging
 from celery import shared_task
+from celery.exceptions import Retry
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 
@@ -43,7 +44,8 @@ def scrape_google_maps(
 
         session = db.query(SessionScraping).filter(SessionScraping.id == session_id).first()
         if not session:
-            return {"error": "session not found"}
+            # Defesa contra race com o commit do request: tenta de novo até o INSERT ficar visível.
+            raise self.retry(exc=Exception(f"session {session_id} not yet visible"), countdown=2, max_retries=5)
 
         session.status = "rodando"
         db.commit()
@@ -115,6 +117,8 @@ def scrape_google_maps(
 
         return {"session_id": session_id, "leads_found": len(leads_data), "leads_saved": saved_count}
 
+    except Retry:
+        raise
     except Exception as exc:
         db.rollback()
         session = db.query(SessionScraping).filter(SessionScraping.id == session_id).first()

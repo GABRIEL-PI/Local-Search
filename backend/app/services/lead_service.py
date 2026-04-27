@@ -159,6 +159,8 @@ class LeadService:
             "leads_salvos": 0,
             "iniciado_em": datetime.now(timezone.utc),
         })
+        # Commit antes do dispatch Celery — worker síncrono precisa enxergar a linha.
+        await self.db.commit()
         return session.id
 
     async def get_scraping_sessions(self, usuario_id: int):
