@@ -13,6 +13,7 @@ import {
   Zap,
   Send,
   Sparkles,
+  Building2,
 } from 'lucide-react'
 import { useUIStore } from '@/stores/uiStore'
 import { useAuthStore } from '@/stores/authStore'
@@ -22,6 +23,7 @@ const navItems = [
   { to: '/app', label: 'Dashboard', icon: LayoutDashboard, exact: true },
   { to: '/app/prospecting', label: 'Prospecção', icon: Search },
   { to: '/app/prospecting-v2', label: 'Prospecção v2', icon: Sparkles, beta: true },
+  { to: '/app/prospecting-receita', label: 'Prospecção Receita', icon: Building2, beta: true },
   { to: '/app/queue', label: 'Fila de Aprovação', icon: InboxIcon },
   { to: '/app/crm', label: 'CRM Kanban', icon: Kanban },
   { to: '/app/outreach', label: 'Disparos', icon: Send },

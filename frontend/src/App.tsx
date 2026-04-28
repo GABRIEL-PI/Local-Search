@@ -6,6 +6,7 @@ import Login from '@/pages/auth/Login'
 import Dashboard from '@/pages/Dashboard'
 import Prospecting from '@/pages/Prospecting'
 import ProspectingV2 from '@/pages/ProspectingV2'
+import ProspectingReceita from '@/pages/ProspectingReceita'
 import Queue from '@/pages/Queue'
 import CRM from '@/pages/CRM'
 import LeadDetail from '@/pages/LeadDetail'
@@ -56,6 +57,7 @@ export default function App() {
           <Route index element={<Dashboard />} />
           <Route path="prospecting" element={<Prospecting />} />
           <Route path="prospecting-v2" element={<ProspectingV2 />} />
+          <Route path="prospecting-receita" element={<ProspectingReceita />} />
           <Route path="queue" element={<Queue />} />
           <Route path="crm" element={<CRM />} />
           <Route path="leads/:id" element={<LeadDetail />} />

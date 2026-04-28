@@ -198,6 +198,31 @@ export const geogridApi = {
   get: (id: number) => api.get(`/geogrid/${id}`),
 }
 
+// Receita Federal endpoints
+export const receitaApi = {
+  search: (filters: {
+    uf: string
+    municipio?: number
+    municipio_nome?: string
+    cnaes?: number[]
+    cnae_prefixo?: string
+    aberto_desde?: string
+    aberto_ate?: string
+    com_telefone?: boolean
+    com_email?: boolean
+    porte?: string[]
+    apenas_mei?: boolean | null
+    capital_min?: number
+    limit?: number
+  }) => api.post('/receita/search', filters),
+  importLeads: (cnpjs: string[], categoria_padrao?: string) =>
+    api.post('/receita/import', { cnpjs, categoria_padrao }),
+  sync: (data?: { ano_mes?: string; only?: string[] }) =>
+    api.post('/receita/sync', data ?? {}),
+  status: (ano_mes?: string) =>
+    api.get('/receita/status', { params: ano_mes ? { ano_mes } : {} }),
+}
+
 // Settings endpoints
 export const settingsApi = {
   get: () =>
