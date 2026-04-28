@@ -4,6 +4,10 @@ from app.models.proposal import Proposta
 from app.models.outreach import Disparo, Followup, WhatsAppConta
 from app.models.payment import Cliente, Pagamento, ConfiguracaoUsuario
 from app.models.geogrid import Geogrid, GeogridPoint
+from app.models.receita import (
+    ReceitaMeta, ReceitaEmpresa, ReceitaEstabelecimento, ReceitaSimples,
+    ReceitaCnae, ReceitaMunicipio, ReceitaNatureza, ReceitaQualificacao,
+)
 
 __all__ = [
     "User",
@@ -22,4 +26,12 @@ __all__ = [
     "ConfiguracaoUsuario",
     "Geogrid",
     "GeogridPoint",
+    "ReceitaMeta",
+    "ReceitaEmpresa",
+    "ReceitaEstabelecimento",
+    "ReceitaSimples",
+    "ReceitaCnae",
+    "ReceitaMunicipio",
+    "ReceitaNatureza",
+    "ReceitaQualificacao",
 ]

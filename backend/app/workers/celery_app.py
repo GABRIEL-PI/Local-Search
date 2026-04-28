@@ -12,6 +12,7 @@ celery_app = Celery(
         "app.workers.outreach_tasks",
         "app.workers.followup_tasks",
         "app.workers.geogrid_tasks",
+        "app.workers.receita_tasks",
     ],
 )
 
@@ -29,6 +30,9 @@ celery_app.conf.update(
         "app.workers.outreach_tasks.*": {"queue": "outreach"},
         "app.workers.followup_tasks.*": {"queue": "followups"},
         "app.workers.geogrid_tasks.*": {"queue": "geogrid"},
+        "app.workers.receita_tasks.sync_receita_dump": {"queue": "receita"},
+        "app.workers.receita_tasks.download_receita_zip": {"queue": "receita"},
+        "app.workers.receita_tasks.ingest_receita_zip": {"queue": "receita_ingest"},
     },
     beat_schedule={
         "process-followups-every-5-min": {

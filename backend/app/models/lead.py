@@ -48,6 +48,8 @@ class Lead(Base):
     place_id: Mapped[Optional[str]] = mapped_column(String(255))
     price_range: Mapped[Optional[str]] = mapped_column(String(50))
     dados_extras: Mapped[Optional[dict]] = mapped_column(JSON)
+    fonte: Mapped[Optional[str]] = mapped_column(String(20), index=True)
+    cnpj: Mapped[Optional[str]] = mapped_column(String(14), index=True)
     cidade: Mapped[Optional[str]] = mapped_column(String(150))
     estado: Mapped[Optional[str]] = mapped_column(String(2))
     data_coleta: Mapped[Optional[datetime]] = mapped_column(DateTime)

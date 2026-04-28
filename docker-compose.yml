@@ -16,6 +16,11 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
       - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    command:
+      - --innodb-buffer-pool-size=1G
+      - --innodb-redo-log-capacity=1G
+      - --local-infile=1
+      - --max-allowed-packet=256M
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "localreach", "-plocalreach_pass"]
       interval: 10s
@@ -87,11 +92,39 @@ services:
       CELERY_RESULT_BACKEND: redis://redis:6379/1
     volumes:
       - ./backend:/app
+      - ./receita_data:/data/receita
     depends_on:
       - backend
       - redis
       - mysql
     command: celery -A app.workers.celery_app worker --loglevel=info -Q scraping,outreach,followups,geogrid --concurrency=4
+    networks:
+      - localreach_net
+
+  # Celery worker dedicado pra ingestao Receita (IO-pesado, concorrencia 1)
+  celery-receita:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: localreach_celery_receita
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    environment:
+      DATABASE_URL: mysql+aiomysql://localreach:localreach_pass@mysql:3306/localreach_db
+      SYNC_DATABASE_URL: mysql+pymysql://localreach:localreach_pass@mysql:3306/localreach_db
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/1
+      RECEITA_DATA_DIR: /data/receita
+    volumes:
+      - ./backend:/app
+      - ./receita_data:/data/receita
+    depends_on:
+      - backend
+      - redis
+      - mysql
+    command: celery -A app.workers.celery_app worker --loglevel=info -Q receita,receita_ingest -n receita@%h --concurrency=1
     networks:
       - localreach_net
 
